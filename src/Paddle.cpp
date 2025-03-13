@@ -5,8 +5,8 @@ Paddle::Paddle()
 {
     mPosX = 300;
     mPosY = SCREEN_HEIGHT * 0.9;
-    mWidth = 100;
-    mHeight = 30;
+    mWidth = M_PADDLE_WIDTH;
+    mHeight = M_PADDLE_HEIGHT;
 }
 
 

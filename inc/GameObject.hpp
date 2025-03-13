@@ -15,12 +15,12 @@ public:
     void setObjectTexture(MyTexture* texture);
 
     [[nodiscard]] bool isCollidedWithOther(const GameObject& other) const;
-    [[nodiscard]] int getPosX() const;
-    [[nodiscard]] int getPosY() const;
+    [[nodiscard]] double getPosX() const;
+    [[nodiscard]] double getPosY() const;
     [[nodiscard]] int getWidth() const;
     [[nodiscard]] int getHeight() const;
 protected:
-    int mPosX = 0, mPosY = 0;
+    double mPosX = 0, mPosY = 0;
     int mWidth = 0, mHeight = 0;
     MyTexture* mObjectTexture = nullptr;
 };

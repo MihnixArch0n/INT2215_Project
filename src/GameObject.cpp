@@ -26,7 +26,7 @@ bool GameObject::isCollidedWithOther(const GameObject& other) const
 
 MyTexture* GameObject::getObjectTexture() const {return mObjectTexture;}
 void GameObject::setObjectTexture(MyTexture* texture) {mObjectTexture = texture;}
-int GameObject::getPosX() const {return mPosX;}
-int GameObject::getPosY() const {return mPosY;}
+double GameObject::getPosX() const {return mPosX;}
+double GameObject::getPosY() const {return mPosY;}
 int GameObject::getWidth() const {return mWidth;}
 int GameObject::getHeight() const {return mHeight;}

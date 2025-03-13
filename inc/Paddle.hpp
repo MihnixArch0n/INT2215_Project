@@ -15,6 +15,9 @@ public:
 
     void handleEvent(const SDL_Event& e);
     void update();
+
+    constexpr static int M_PADDLE_WIDTH = 100;
+    constexpr static int M_PADDLE_HEIGHT = 30;
 private:
     int mVel = 0;
 };
