@@ -25,6 +25,7 @@ public:
 private:
     bool finished = false;
     int mLives = 3;
+    int lastUpdateTime, currentTime;
     RenderWindow* mRenderWindow;
     Paddle mPaddle;
     Ball mBall;

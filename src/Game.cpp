@@ -4,6 +4,7 @@
 
 Game::Game(RenderWindow* renderWindow) : mRenderWindow(renderWindow)
 {
+    lastUpdateTime = currentTime = 0;
     mBricksList.resize(5);
 }
 
@@ -16,6 +17,7 @@ void Game::init(MyTexture* paddleTexture, MyTexture* ballTexture, MyTexture* bri
     {
         mBricksList[i].setObjectTexture(brickTexture);
     }
+    lastUpdateTime = SDL_GetTicks();
 }
 
 
@@ -35,8 +37,10 @@ void Game::handleEvent()
 
 void Game::update()
 {
-    mPaddle.update();
-    mBall.update(mPaddle, mBricksList);
+    currentTime = SDL_GetTicks();
+    int deltaTime = currentTime - lastUpdateTime;
+    mPaddle.update(deltaTime);
+    mBall.update(deltaTime, mPaddle, mBricksList);
     int bricksLeft = mBricksList.size();
     for (int i = bricksLeft-1; i >= 0; --i)
     {
@@ -50,6 +54,7 @@ void Game::update()
     }
 
     if (hasFinished()) finished = true;
+    lastUpdateTime = currentTime;
     // SDL_Delay(10);
 }
 

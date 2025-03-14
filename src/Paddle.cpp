@@ -17,10 +17,10 @@ void Paddle::handleEvent(const SDL_Event& e)
         switch (e.key.keysym.sym)
         {
             case SDLK_LEFT:
-                mVel -= M_SPEED;
+                mVel -= M_PADDLE_SPEED;
                 break;
             case SDLK_RIGHT:
-                mVel += M_SPEED;
+                mVel += M_PADDLE_SPEED;
                 break;
             default: break;
         }
@@ -30,19 +30,19 @@ void Paddle::handleEvent(const SDL_Event& e)
         switch (e.key.keysym.sym)
         {
             case SDLK_LEFT:
-                mVel += M_SPEED;
+                mVel += M_PADDLE_SPEED;
             break;
             case SDLK_RIGHT:
-                mVel -= M_SPEED;
+                mVel -= M_PADDLE_SPEED;
             break;
             default: break;
         }
     }
 }
 
-void Paddle::update()
+void Paddle::update(int deltaTime)
 {
-    mPosX += mVel;
+    mPosX += mVel * deltaTime / 1000.0;
     if (mPosX < 0) mPosX = 0;
     if (mPosX + mWidth > SCREEN_WIDTH) mPosX = SCREEN_WIDTH - mWidth;
 }

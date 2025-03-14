@@ -24,16 +24,16 @@ public:
     ~Ball() override = default;
 
     void handleEvent(const SDL_Event& event);
-    void update(const Paddle& paddle, const std::vector<Brick>& bricksList);
+    void update(int deltaTime, const Paddle& paddle, const std::vector<Brick>& bricksList);
 
-    void handleCollision(const Paddle& paddle, const std::vector<Brick>& bricksList);
-    void handleCollisionWithPaddle(const Paddle& paddle);
-    void handleCollisionWithBricks(const std::vector<Brick>& bricksList);
+    void handleCollision(int deltaTime, const Paddle& paddle, const std::vector<Brick>& bricksList);
+    void handleCollisionWithPaddle(int deltaTime, const Paddle& paddle);
+    void handleCollisionWithBricks(int deltaTime, const std::vector<Brick>& bricksList);
 
     [[nodiscard]] BallState getState() const;
     void setState(BallState state);
 
-    constexpr static int M_BALL_SPEED = 5;
+    constexpr static int M_BALL_SPEED = 450;
     constexpr static int M_BALL_WIDTH = 32;
     constexpr static int M_BALL_HEIGHT = 32;
 private:
