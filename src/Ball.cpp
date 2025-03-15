@@ -144,11 +144,6 @@ void Ball::handleCollision(int deltaTime, const Paddle& paddle, const std::vecto
         mPosY = 0;
         mVelY = -mVelY;
     }
-    if (mPosY + mHeight > SCREEN_HEIGHT)
-    {
-        mPosY = SCREEN_HEIGHT - mHeight;
-        mVelY = -mVelY;
-    }
     handleCollisionWithPaddle(deltaTime, paddle);
     handleCollisionWithBricks(deltaTime, bricksList);
 }
