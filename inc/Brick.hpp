@@ -12,8 +12,11 @@ public:
     Brick();
     ~Brick() override = default;
 
-    void update(const Ball& ball);
     [[nodiscard]] bool isAlive() const;
+
+    [[nodiscard]] ObjectType getType() const override {return ObjectType::BRICK;}
+    void onCollision(GameObject &other, int deltaTime) override;
+
     constexpr static int BRICK_WIDTH = 40;
     constexpr static int BRICK_HEIGHT = 20;
 private:

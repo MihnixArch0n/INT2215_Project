@@ -15,14 +15,6 @@ void GameObject::render(int x, int y, SDL_Renderer *renderer) const
     mObjectTexture->render(renderer, &dst);
 }
 
-bool GameObject::isCollidedWithOther(const GameObject& other) const
-{
-    if (mPosX + mWidth < other.mPosX) return false;
-    if (mPosX > other.mPosX + other.mWidth) return false;
-    if (mPosY + mHeight < other.mPosY) return false;
-    if (mPosY > other.mPosY + other.mHeight) return false;
-    return true;
-}
 
 MyTexture* GameObject::getObjectTexture() const {return mObjectTexture;}
 void GameObject::setObjectTexture(MyTexture* texture) {mObjectTexture = texture;}

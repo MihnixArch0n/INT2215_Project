@@ -4,6 +4,15 @@
 #include <SDL.h>
 #include "MyTexture.hpp"
 
+
+enum class ObjectType
+{
+    BALL,
+    PADDLE,
+    BRICK
+};
+
+
 class GameObject
 {
 public:
@@ -14,11 +23,13 @@ public:
     [[nodiscard]] MyTexture* getObjectTexture() const;
     void setObjectTexture(MyTexture* texture);
 
-    [[nodiscard]] bool isCollidedWithOther(const GameObject& other) const;
     [[nodiscard]] double getPosX() const;
     [[nodiscard]] double getPosY() const;
     [[nodiscard]] int getWidth() const;
     [[nodiscard]] int getHeight() const;
+    [[nodiscard]] virtual ObjectType getType() const = 0;
+
+    virtual void onCollision(GameObject& other, int deltaTime) = 0;
 protected:
     double mPosX = 0, mPosY = 0;
     int mWidth = 0, mHeight = 0;

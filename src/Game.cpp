@@ -1,6 +1,8 @@
 #include <iostream>
 #include "Game.hpp"
 
+#include <CollisionManager.hpp>
+
 
 Game::Game(RenderWindow* renderWindow) : mRenderWindow(renderWindow)
 {
@@ -40,11 +42,12 @@ void Game::update()
     currentTime = SDL_GetTicks();
     int deltaTime = currentTime - lastUpdateTime;
     mPaddle.update(deltaTime);
-    mBall.update(deltaTime, mPaddle, mBricksList);
+    mBall.update(deltaTime, mPaddle);
+    CollisionManager::handleCollision(mBall, mPaddle, deltaTime);
     int bricksLeft = mBricksList.size();
     for (int i = bricksLeft-1; i >= 0; --i)
     {
-        mBricksList[i].update(mBall);
+        CollisionManager::handleCollision(mBall, mBricksList[i], deltaTime);
         if (!mBricksList[i].isAlive()) mBricksList.erase(mBricksList.begin() + i);
     }
     if (mBall.getState() == DEAD)

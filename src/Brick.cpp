@@ -13,8 +13,7 @@ Brick::Brick()
 
 bool Brick::isAlive() const {return alive;}
 
-void Brick::update(const Ball& ball)
+void Brick::onCollision(GameObject &other, int deltaTime)
 {
-    if (isCollidedWithOther(ball)) alive = false;
+    if (other.getType() == ObjectType::BALL) alive = false;
 }
-

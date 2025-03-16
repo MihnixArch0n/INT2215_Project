@@ -33,7 +33,7 @@ void Ball::handleEvent(const SDL_Event &event)
 }
 
 
-void Ball::update(int deltaTime, const Paddle& paddle, const std::vector<Brick>& bricksList)
+void Ball::update(int deltaTime, const Paddle& paddle)
 {
     if (mState == START)
     {
@@ -44,109 +44,93 @@ void Ball::update(int deltaTime, const Paddle& paddle, const std::vector<Brick>&
     {
         mPosX += mVelX * deltaTime / 1000.0;
         mPosY += mVelY * deltaTime / 1000.0;
-        handleCollision(deltaTime, paddle, bricksList);
+
+        if (mPosX < 0)
+        {
+            mPosX = 0;
+            mVelX = -mVelX;
+        }
+        if (mPosX + mWidth > SCREEN_WIDTH)
+        {
+            mPosX = SCREEN_WIDTH - mWidth;
+            mVelX = -mVelX;
+        }
+        if (mPosY < 0)
+        {
+            mPosY = 0;
+            mVelY = -mVelY;
+        }
+
         if (mPosY > SCREEN_HEIGHT) mState = DEAD;
     }
 }
 
 
-void Ball::handleCollisionWithPaddle(int deltaTime, const Paddle &paddle)
+void Ball::onCollision(GameObject& other, int deltaTime)
 {
-    if (isCollidedWithOther(paddle))
+    double checkPosY = mPosY - mVelY * deltaTime / 1000.0;
+    double checkPosX = mPosX - mVelX * deltaTime / 1000.0;
+
+    if (other.getType() == ObjectType::PADDLE)
     {
-        double checkPosY = mPosY - mVelY * deltaTime / 1000.0;
-        double checkPosX = mPosX - mVelX * deltaTime / 1000.0;
-
         double ballCenterX = mPosX + mWidth / 2.0;
-        double paddleCenterX = paddle.getPosX() + paddle.getWidth() / 2.0;
+        double paddleCenterX = other.getPosX() + other.getWidth() / 2.0;
 
-        if (checkPosY + mHeight < paddle.getPosY())
+        if (checkPosY + mHeight < other.getPosY())
         {
-            mPosY = paddle.getPosY() - mHeight;
+            mPosY = other.getPosY() - mHeight;
             double angle = (ballCenterX - paddleCenterX - HIT_POS_START)
                 / (HIT_POS_END - HIT_POS_START);
             angle = angle * (RAD_ANGLE_END - RAD_ANGLE_START) + RAD_ANGLE_START;
             mVelX = M_BALL_SPEED * cos(angle);
             mVelY = -M_BALL_SPEED * sin(angle);
         }
-        else if (checkPosY > paddle.getPosY() + paddle.getHeight())
+        else if (checkPosY > other.getPosY() + other.getHeight())
         {
-            mPosY = paddle.getPosY() + paddle.getHeight();
+            mPosY = other.getPosY() + other.getHeight();
             double angle = (ballCenterX - paddleCenterX - HIT_POS_START)
                 / (HIT_POS_END - HIT_POS_START);
             angle = angle * (RAD_ANGLE_END - RAD_ANGLE_START) + RAD_ANGLE_START;
             mVelX = M_BALL_SPEED * cos(angle);
             mVelY = M_BALL_SPEED * sin(angle);
         }
-        else if (checkPosX + mWidth < paddle.getPosX())
+        else if (checkPosX + mWidth < other.getPosX())
         {
-            mPosX = paddle.getPosX() - mWidth;
+            mPosX = other.getPosX() - mWidth;
             mVelX = -mVelX;
         }
         else
         {
-            mPosX = paddle.getPosX() + paddle.getWidth();
+            mPosX = other.getPosX() + other.getWidth();
+            mVelX = -mVelX;
+        }
+    }
+
+    if (other.getType() == ObjectType::BRICK)
+    {
+        if (checkPosY + mHeight < other.getPosY())
+        {
+            mPosY = other.getPosY() - mHeight;
+            mVelY = -mVelY;
+        }
+        else if (checkPosY > other.getPosY() + other.getHeight())
+        {
+            mPosY = other.getPosY() + other.getHeight();
+            mVelY = -mVelY;
+        }
+        else if (checkPosX + mWidth < other.getPosX())
+        {
+            mPosX = other.getPosX() - mWidth;
+            mVelX = -mVelX;
+        }
+        else
+        {
+            mPosX = other.getPosX() + other.getWidth();
             mVelX = -mVelX;
         }
     }
 }
 
-
-void Ball::handleCollisionWithBricks(int deltaTime, const std::vector<Brick>& bricksList)
-{
-    for (const auto& brick : bricksList)
-    {
-        if (isCollidedWithOther(brick))
-        {
-            double checkPosY = mPosY - mVelY * deltaTime / 1000.0;
-            double checkPosX = mPosX - mVelX * deltaTime / 1000.0;
-
-            if (checkPosY + mHeight < brick.getPosY())
-            {
-                mPosY = brick.getPosY() - mHeight;
-                mVelY = -mVelY;
-            }
-            else if (checkPosY > brick.getPosY() + brick.getHeight())
-            {
-                mPosY = brick.getPosY() + brick.getHeight();
-                mVelY = -mVelY;
-            }
-            else if (checkPosX + mWidth < brick.getPosX())
-            {
-                mPosX = brick.getPosX() - mWidth;
-                mVelX = -mVelX;
-            }
-            else
-            {
-                mPosX = brick.getPosX() + brick.getWidth();
-                mVelX = -mVelX;
-            }
-        }
-    }
-}
-
-
-
-void Ball::handleCollision(int deltaTime, const Paddle& paddle, const std::vector<Brick>& bricksList)
-{
-    if (mPosX < 0)
-    {
-        mPosX = 0;
-        mVelX = -mVelX;
-    }
-    if (mPosX + mWidth > SCREEN_WIDTH)
-    {
-        mPosX = SCREEN_WIDTH - mWidth;
-        mVelX = -mVelX;
-    }
-    if (mPosY < 0)
-    {
-        mPosY = 0;
-        mVelY = -mVelY;
-    }
-    handleCollisionWithPaddle(deltaTime, paddle);
-    handleCollisionWithBricks(deltaTime, bricksList);
-}
 
 BallState Ball::getState() const {return mState;}
 void Ball::setState(BallState state) {mState = state;}

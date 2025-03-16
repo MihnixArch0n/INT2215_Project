@@ -82,17 +82,17 @@ bool loadMedia(const Game& myGame)
 {
     SDL_Renderer* renderer = gWindow.getRenderer();
     bool success = true;
-    if (!gPaddleTexture.loadFromFile(renderer, "assets/paddles/Paddle_1.png"))
+    if (!gPaddleTexture.loadFromFile(renderer, "assets/img/paddles/Paddle_1.png"))
     {
         std::cerr << "Failed to load paddle texture" << std::endl;
         success = false;
     }
-    if (!gBallTexture.loadFromFile(renderer, "assets/balls/Ball_1.png"))
+    if (!gBallTexture.loadFromFile(renderer, "assets/img/balls/Ball_1.png"))
     {
         std::cerr << "Failed to load ball texture" << std::endl;
         success = false;
     }
-    if (!gBrickTexture.loadFromFile(renderer, "assets/bricks/Brick_1.png"))
+    if (!gBrickTexture.loadFromFile(renderer, "assets/img/bricks/Brick_1.png"))
     {
         std::cerr << "Failed to load brick texture" << std::endl;
         success = false;
