@@ -1,7 +1,8 @@
 #include <iostream>
-#include "Game.hpp"
 
-#include <CollisionManager.hpp>
+#include "Game.hpp"
+#include "CollisionManager.hpp"
+#include "AudioManager.hpp"
 
 
 Game::Game(RenderWindow* renderWindow) : mRenderWindow(renderWindow)
@@ -20,6 +21,8 @@ void Game::init(MyTexture* paddleTexture, MyTexture* ballTexture, MyTexture* bri
         mBricksList[i].setObjectTexture(brickTexture);
     }
     lastUpdateTime = SDL_GetTicks();
+
+    AudioManager::getInstance().getMusic().play();
 }
 
 

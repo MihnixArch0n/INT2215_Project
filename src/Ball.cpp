@@ -1,7 +1,9 @@
 #include <cmath>
+
 #include "defs.hpp"
 #include "Ball.hpp"
 #include "Brick.hpp"
+#include "AudioManager.hpp"
 
 /**
  * Linear mapping to radian angle based on hit position.
@@ -104,6 +106,8 @@ void Ball::onCollision(GameObject& other, int deltaTime)
             mPosX = other.getPosX() + other.getWidth();
             mVelX = -mVelX;
         }
+
+        AudioManager::getInstance().getSound().play();
     }
 
     if (other.getType() == ObjectType::BRICK)
@@ -128,6 +132,8 @@ void Ball::onCollision(GameObject& other, int deltaTime)
             mPosX = other.getPosX() + other.getWidth();
             mVelX = -mVelX;
         }
+
+        AudioManager::getInstance().getSound().play();
     }
 }
 
