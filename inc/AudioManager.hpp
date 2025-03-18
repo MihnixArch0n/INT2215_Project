@@ -13,14 +13,14 @@ public:
     AudioManager& operator=(const AudioManager&) = delete;
 
     static AudioManager& getInstance();
-    void init(GameMusic* music, GameSound* sound);
+    void init(const GameMusic& music, const GameSound& sound);
 
     [[nodiscard]] const GameMusic& getMusic() const {return *gMusic;}
     [[nodiscard]] const GameSound& getSound() const {return *gSound;}
 private:
     AudioManager() = default;
-    GameMusic* gMusic = nullptr;
-    GameSound* gSound = nullptr;
+    const GameMusic* gMusic = nullptr;
+    const GameSound* gSound = nullptr;
 };
 
 

@@ -1,4 +1,6 @@
+#include <iostream>
 #include "RenderWindow.hpp"
+
 
 bool RenderWindow::create(const char* title, int width, int height)
 {

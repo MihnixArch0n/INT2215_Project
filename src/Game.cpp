@@ -1,32 +1,46 @@
 #include <iostream>
 
+#include "defs.hpp"
 #include "Game.hpp"
+#include "ResourceManager.hpp"
 #include "CollisionManager.hpp"
 #include "AudioManager.hpp"
 
 
-Game::Game(RenderWindow* renderWindow) : mRenderWindow(renderWindow)
+Game::Game()
 {
     lastUpdateTime = currentTime = 0;
     mBricksList.resize(5);
 }
 
 
-void Game::init(MyTexture* paddleTexture, MyTexture* ballTexture, MyTexture* brickTexture)
+bool Game::init()
 {
-    mPaddle.setObjectTexture(paddleTexture);
-    mBall.setObjectTexture(ballTexture);
+    if (!mRenderWindow.create(WINDOW_TITLE, SCREEN_WIDTH, SCREEN_HEIGHT))
+    {
+        std::cerr << "Failed to create window" << std::endl;
+        return false;
+    }
+    SDL_SetRenderDrawColor(mRenderWindow.getRenderer(), 255, 255, 255, 255);
+
+
+    if (!mResourceManager.loadResource(mRenderWindow.getRenderer()))
+    {
+        std::cerr << "Failed to load resource " << std::endl;
+        return false;
+    }
+
+    AudioManager::getInstance().init(mResourceManager.getMusic(),
+        mResourceManager.getSound());
+    mPaddle.setObjectTexture(mResourceManager.getPaddleTexture());
+    mBall.setObjectTexture(mResourceManager.getBallTexture());
     for (int i = 0; i < 5; i++)
     {
-        mBricksList[i].setObjectTexture(brickTexture);
+        mBricksList[i].setObjectTexture(mResourceManager.getBrickTexture());
     }
     lastUpdateTime = SDL_GetTicks();
-
-    AudioManager::getInstance().getMusic().play();
+    return true;
 }
-
-
-SDL_Renderer* Game::getRenderer() const {return mRenderWindow->getRenderer();}
 
 
 void Game::handleEvent()
@@ -66,17 +80,46 @@ void Game::update()
 
 void Game::render() const
 {
-    SDL_Renderer* renderer = mRenderWindow->getRenderer();
+    SDL_Renderer* renderer = mRenderWindow.getRenderer();
     SDL_RenderClear(renderer);
-    mPaddle.render(renderer);
-    mBall.render(renderer);
-    for (const auto &it : mBricksList)
+    if (hasWon())
     {
-        it.render(renderer);
+        mResourceManager.getWonTexture().render(0, 0, mRenderWindow.getRenderer());
+        std::cout << "You won" << std::endl;
+        SDL_RenderPresent(renderer);
+        SDL_Delay(1000);
     }
-    SDL_RenderPresent(renderer);
-    if (hasWon()) std::cout << "You won" << std::endl;
-    if (hasLost()) std::cout << "You lost" << std::endl;
+    else if (hasLost())
+    {
+        mResourceManager.getLostTexture().render(0, 0, mRenderWindow.getRenderer());
+        std::cout << "You lost" << std::endl;
+        SDL_RenderPresent(renderer);
+        SDL_Delay(1000);
+    }
+    else
+    {
+        mPaddle.render(renderer);
+        mBall.render(renderer);
+        for (const auto &it : mBricksList)
+        {
+            it.render(renderer);
+        }
+        SDL_RenderPresent(renderer);
+    }
+}
+
+void Game::loop()
+{
+    if (init())
+    {
+        while (!hasFinished())
+        {
+            handleEvent();
+            update();
+            render();
+        }
+    }
+    else std::cerr << "Failed to init game" << std::endl;
 }
 
 bool Game::hasLost() const {return mLives <= 0;}

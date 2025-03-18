@@ -8,28 +8,30 @@
 #include "Ball.hpp"
 #include "Paddle.hpp"
 #include "Brick.hpp"
+#include "ResourceManager.hpp"
 
 class Game
 {
 public:
-    explicit Game(RenderWindow* renderWindow);
-    [[nodiscard]] SDL_Renderer* getRenderer() const;
+    Game();
 
     [[nodiscard]] bool hasFinished() const;
     [[nodiscard]] bool hasLost() const;
     [[nodiscard]] bool hasWon() const;
-    void init(MyTexture* paddleTexture, MyTexture* ballTexture, MyTexture* brickTexture);
+    bool init();
     void handleEvent();
     void update();
     void render() const;
+    void loop();
 private:
     bool finished = false;
     int mLives = 3;
     int lastUpdateTime, currentTime;
-    RenderWindow* mRenderWindow;
+    RenderWindow mRenderWindow;
     Paddle mPaddle;
     Ball mBall;
     std::vector<Brick> mBricksList;
+    ResourceManager mResourceManager;
 };
 
 #endif //GAME_HPP

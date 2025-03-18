@@ -1,7 +1,6 @@
 #include "MyFont.hpp"
 
 #include <iostream>
-#include <ostream>
 
 
 MyFont::~MyFont()

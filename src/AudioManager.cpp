@@ -1,9 +1,9 @@
 #include "AudioManager.hpp"
 
-void AudioManager::init(GameMusic* music, GameSound* sound)
+void AudioManager::init(const GameMusic& music, const GameSound& sound)
 {
-    gMusic = music;
-    gSound = sound;
+    gMusic = &music;
+    gSound = &sound;
 }
 
 AudioManager& AudioManager::getInstance()

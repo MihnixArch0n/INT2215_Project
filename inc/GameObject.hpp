@@ -20,8 +20,7 @@ public:
     void render(SDL_Renderer* renderer) const;
     void render(int x, int y, SDL_Renderer* renderer) const;
 
-    [[nodiscard]] MyTexture* getObjectTexture() const;
-    void setObjectTexture(MyTexture* texture);
+    void setObjectTexture(const MyTexture& texture) {mObjectTexture = &texture;}
 
     [[nodiscard]] double getPosX() const;
     [[nodiscard]] double getPosY() const;
@@ -33,7 +32,7 @@ public:
 protected:
     double mPosX = 0, mPosY = 0;
     int mWidth = 0, mHeight = 0;
-    MyTexture* mObjectTexture = nullptr;
+    const MyTexture* mObjectTexture = nullptr;
 };
 
 
