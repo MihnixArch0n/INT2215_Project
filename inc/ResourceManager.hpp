@@ -2,30 +2,31 @@
 #define RESOURCEMANAGER_HPP
 
 #include <SDL.h>
+#include <vector>
+#include <variant>
 
+#include "defs.hpp"
 #include "MyFont.hpp"
 #include "MyTexture.hpp"
 #include "GameSound.hpp"
 #include "GameMusic.hpp"
 
 
+using SubType = std::variant<BallType, PaddleType, BrickType>;
+
 class ResourceManager
 {
 public:
     bool loadResource(SDL_Renderer* renderer);
 
-    [[nodiscard]] const MyTexture& getPaddleTexture() const {return mPaddleTexture;}
-    [[nodiscard]] const MyTexture& getBallTexture() const {return mBallTexture;}
-    [[nodiscard]] const MyTexture& getBrickTexture() const {return mBrickTexture;}
     [[nodiscard]] const MyTexture& getWonTexture() const {return mWonTexture;}
     [[nodiscard]] const MyTexture& getLostTexture() const {return mLostTexture;}
     [[nodiscard]] const MyFont& getFont() const {return mFont;}
     [[nodiscard]] const GameMusic& getMusic() const {return mMusic;}
     [[nodiscard]] const GameSound& getSound() const {return mSound;}
+    [[nodiscard]] const MyTexture& getTexture(ObjectType type, SubType subType) const;
 private:
-    MyTexture mPaddleTexture;
-    MyTexture mBallTexture;
-    MyTexture mBrickTexture;
+    std::vector<std::vector<MyTexture>> mTextureList;
     MyTexture mWonTexture;
     MyTexture mLostTexture;
 

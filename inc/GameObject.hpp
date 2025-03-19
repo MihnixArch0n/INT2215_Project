@@ -3,14 +3,7 @@
 
 #include <SDL.h>
 #include "MyTexture.hpp"
-
-
-enum class ObjectType
-{
-    BALL,
-    PADDLE,
-    BRICK
-};
+#include "defs.hpp"
 
 
 class GameObject

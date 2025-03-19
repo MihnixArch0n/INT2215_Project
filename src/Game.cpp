@@ -32,11 +32,14 @@ bool Game::init()
 
     AudioManager::getInstance().init(mResourceManager.getMusic(),
         mResourceManager.getSound());
-    mPaddle.setObjectTexture(mResourceManager.getPaddleTexture());
-    mBall.setObjectTexture(mResourceManager.getBallTexture());
+    mPaddle.setObjectTexture(mResourceManager.getTexture(ObjectType::PADDLE,
+        PaddleType::NORMAL));
+    mBall.setObjectTexture(mResourceManager.getTexture(ObjectType::BALL,
+        BallType::NORMAL));
     for (int i = 0; i < 5; i++)
     {
-        mBricksList[i].setObjectTexture(mResourceManager.getBrickTexture());
+        mBricksList[i].setObjectTexture(mResourceManager.getTexture(ObjectType::BRICK,
+            BrickType::NORMAL));
     }
     lastUpdateTime = SDL_GetTicks();
     return true;
