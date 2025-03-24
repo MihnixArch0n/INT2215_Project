@@ -25,6 +25,8 @@ public:
 
     [[nodiscard]] const std::vector<Ball>& getBallList() const {return mBallList;}
     void addBall(const Ball& ball, double x = 0, double y = 0);
+    void makeFireBall(int index);
+    void makeNormalBall(int index);
 
     [[nodiscard]] bool ballListEmpty() const {return mBallList.empty();}
     [[nodiscard]] bool brickListEmpty() const {return mBricksList.empty();}

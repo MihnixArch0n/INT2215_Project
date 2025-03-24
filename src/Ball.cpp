@@ -133,25 +133,28 @@ void Ball::onCollision(GameObject& other, int deltaTime)
 
     if (other.getType() == ObjectType::BRICK)
     {
-        if (checkPosY + mHeight < other.getPosY())
+        if (std::get<BallType>(mSubType) != BallType::FIRE)
         {
-            mPosY = other.getPosY() - mHeight;
-            mVelY = -mVelY;
-        }
-        else if (checkPosY > other.getPosY() + other.getHeight())
-        {
-            mPosY = other.getPosY() + other.getHeight();
-            mVelY = -mVelY;
-        }
-        else if (checkPosX + mWidth < other.getPosX())
-        {
-            mPosX = other.getPosX() - mWidth;
-            mVelX = -mVelX;
-        }
-        else
-        {
-            mPosX = other.getPosX() + other.getWidth();
-            mVelX = -mVelX;
+            if (checkPosY + mHeight < other.getPosY())
+            {
+                mPosY = other.getPosY() - mHeight;
+                mVelY = -mVelY;
+            }
+            else if (checkPosY > other.getPosY() + other.getHeight())
+            {
+                mPosY = other.getPosY() + other.getHeight();
+                mVelY = -mVelY;
+            }
+            else if (checkPosX + mWidth < other.getPosX())
+            {
+                mPosX = other.getPosX() - mWidth;
+                mVelX = -mVelX;
+            }
+            else
+            {
+                mPosX = other.getPosX() + other.getWidth();
+                mVelX = -mVelX;
+            }
         }
 
         AudioManager::getInstance().getSound().play();

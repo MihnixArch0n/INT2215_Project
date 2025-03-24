@@ -1,19 +1,17 @@
 #include "PowerUp.hpp"
 
-
-void PowerUp::activate()
+PowerUp::PowerUp(PowerUpDropType type)
 {
-    mStatus = PowerUpStatus::ACTIVATED;
-    mStartTime = SDL_GetTicks();
-}
-
-void PowerUp::deactivate()
-{
-    mStatus = PowerUpStatus::DEACTIVATED;
+    mType = type;
+    if (type == PowerUpDropType::MULTI_BALL) mDuration = -1;
+    else if (type == PowerUpDropType::FIRE_BALL) mDuration = 900 * 1000;
 }
 
 void PowerUp::update()
 {
-    Uint32 currentTime = SDL_GetTicks();
-    if (currentTime - mStartTime > mDuration) deactivate();
+    if (mStatus == PowerUpStatus::ACTIVATED)
+    {
+        Uint32 currentTime = SDL_GetTicks();
+        if (currentTime - mStartTime > mDuration) mStatus = PowerUpStatus::DEACTIVATED;
+    }
 }

@@ -17,13 +17,13 @@ enum class PowerUpStatus
 class PowerUp
 {
 public:
-    explicit PowerUp(PowerUpDropType type) : mType(type) {}
-    void activate();
-    void deactivate();
+    explicit PowerUp(PowerUpDropType type);
     void update();
 
     [[nodiscard]] PowerUpDropType getType() const {return mType;}
     [[nodiscard]] PowerUpStatus getStatus() const {return mStatus;}
+    void setType(PowerUpDropType type) {mType = type;}
+    void setStatus(PowerUpStatus status) {mStatus = status;}
 protected:
     double mDuration = 0;
     Uint32 mStartTime = 0;

@@ -59,6 +59,7 @@ void Game::update()
     {
         --mLives;
         mGameObjectManager.resetBallList();
+        mPowerUpManager.reset();
     }
 
     if (hasFinished()) finished = true;

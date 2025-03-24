@@ -20,6 +20,7 @@ enum class ObjectType
 enum class BallType
 {
     NORMAL,
+    FIRE,
     TOTAL
 };
 

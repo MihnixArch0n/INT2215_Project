@@ -7,24 +7,38 @@ void PowerUpManager::init(Mediator* mediator) {pMediator = mediator;}
 
 void PowerUpManager::addPowerUp(PowerUpDropType type)
 {
-    mPowerUpList.emplace_back(type);
+    if (type == PowerUpDropType::MULTI_BALL)
+    {
+        delete mMultiBallPowerUp;
+        mMultiBallPowerUp = new PowerUp(type);
+    }
+    else
+    {
+        delete mCurrentPowerUp;
+        mCurrentPowerUp = new PowerUp(type);
+    }
 }
 
 void PowerUpManager::update()
 {
-    for (int i = mPowerUpList.size() - 1; i >= 0; --i)
+    if (mCurrentPowerUp != nullptr)
     {
-        if (mPowerUpList[i].getStatus() == PowerUpStatus::INACTIVE)
-        {
-            mPowerUpList[i].activate();
-            applyEffect(mPowerUpList[i].getType());
-        }
-        else if (mPowerUpList[i].getStatus() == PowerUpStatus::DEACTIVATED)
-        {
-            mPowerUpList[i].deactivate();
-            removeEffect(mPowerUpList[i].getType());
-        }
-        else mPowerUpList[i].update();
+        if (mCurrentPowerUp->getStatus() == PowerUpStatus::INACTIVE)
+            activate(mCurrentPowerUp->getType());
+        else if (mCurrentPowerUp->getStatus() == PowerUpStatus::ACTIVATED)
+            mCurrentPowerUp->update();
+        else if (mCurrentPowerUp->getStatus() == PowerUpStatus::DEACTIVATED)
+            deactivate(mCurrentPowerUp->getType());
+    }
+
+    if (mMultiBallPowerUp != nullptr)
+    {
+        if (mMultiBallPowerUp->getStatus() == PowerUpStatus::INACTIVE)
+            activate(PowerUpDropType::MULTI_BALL);
+        else if (mMultiBallPowerUp->getStatus() == PowerUpStatus::ACTIVATED)
+            mMultiBallPowerUp->update();
+        else if (mMultiBallPowerUp->getStatus() == PowerUpStatus::DEACTIVATED)
+            deactivate(PowerUpDropType::MULTI_BALL);
     }
 }
 
@@ -36,4 +50,43 @@ void PowerUpManager::applyEffect(PowerUpDropType type) const
 void PowerUpManager::removeEffect(PowerUpDropType type) const
 {
     pMediator->notify(type, "deactivate");
+}
+
+void PowerUpManager::activate(PowerUpDropType type)
+{
+    if (type == PowerUpDropType::MULTI_BALL)
+    {
+        mMultiBallPowerUp->setStatus(PowerUpStatus::ACTIVATED);
+        mMultiBallPowerUp->setType(PowerUpDropType::MULTI_BALL);
+        applyEffect(PowerUpDropType::MULTI_BALL);
+    }
+    else
+    {
+        mCurrentPowerUp->setStatus(PowerUpStatus::ACTIVATED);
+        mCurrentPowerUp->setType(type);
+        applyEffect(type);
+    }
+}
+
+void PowerUpManager::deactivate(PowerUpDropType type)
+{
+    removeEffect(type);
+    if (type != PowerUpDropType::MULTI_BALL)
+    {
+        delete mCurrentPowerUp;
+        mCurrentPowerUp = nullptr;
+    }
+    else
+    {
+        delete mMultiBallPowerUp;
+        mMultiBallPowerUp = nullptr;
+    }
+}
+
+void PowerUpManager::reset()
+{
+    delete mCurrentPowerUp;
+    mCurrentPowerUp = nullptr;
+    delete mMultiBallPowerUp;
+    mMultiBallPowerUp = nullptr;
 }
