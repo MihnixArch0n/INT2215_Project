@@ -21,14 +21,31 @@ Ball::Ball()
     mPosY = SCREEN_HEIGHT * 0.9;
     mWidth = M_BALL_WIDTH;
     mHeight = M_BALL_HEIGHT;
-    mVelY = 1.5;
+    mSubType = BallType::NORMAL;
 }
+
+Ball::Ball(const Ball &other, int x, int y)
+{
+    mPosX = x;
+    mPosY = y;
+    mWidth = M_BALL_WIDTH;
+    mHeight = M_BALL_HEIGHT;
+
+    mVelX = other.mVelX;
+    mVelY = other.mVelY;
+
+    mSubType = other.mSubType;
+    mState = other.mState;
+
+    mObjectTexture = other.mObjectTexture;
+}
+
 
 void Ball::handleEvent(const SDL_Event &event)
 {
     if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE)
     {
-        mState = MOVING;
+        mState = BallState::MOVING;
         mVelX = 0;
         mVelY = -M_BALL_SPEED;
     }
@@ -37,12 +54,12 @@ void Ball::handleEvent(const SDL_Event &event)
 
 void Ball::update(int deltaTime, const Paddle& paddle)
 {
-    if (mState == START)
+    if (mState == BallState::START)
     {
         mPosX = paddle.getPosX() + (paddle.getWidth() - mWidth) / 2.0;
         mPosY = paddle.getPosY() - mHeight;
     }
-    else if (mState == MOVING)
+    else if (mState == BallState::MOVING)
     {
         mPosX += mVelX * deltaTime / 1000.0;
         mPosY += mVelY * deltaTime / 1000.0;
@@ -62,8 +79,12 @@ void Ball::update(int deltaTime, const Paddle& paddle)
             mPosY = 0;
             mVelY = -mVelY;
         }
-
-        if (mPosY > SCREEN_HEIGHT) mState = DEAD;
+        // if (mPosY + mHeight > SCREEN_HEIGHT)
+        // {
+        //     mPosY = SCREEN_HEIGHT - mHeight;
+        //     mVelY = -mVelY;
+        // }
+        if (mPosY > SCREEN_HEIGHT)mState = BallState::DEAD;
     }
 }
 

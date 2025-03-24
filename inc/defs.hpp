@@ -1,6 +1,7 @@
 #ifndef DEFS_HPP
 #define DEFS_HPP
 
+#include <variant>
 
 constexpr int SCREEN_WIDTH = 1280;
 constexpr int SCREEN_HEIGHT = 720;
@@ -12,7 +13,7 @@ enum class ObjectType
     BALL,
     PADDLE,
     BRICK,
-    DROP,
+    POWER_UP_DROP,
     TOTAL
 };
 
@@ -32,6 +33,24 @@ enum class BrickType
 {
     NORMAL,
     TOTAL
+};
+
+enum class PowerUpDropType
+{
+    MULTI_BALL,
+    FIRE_BALL,
+    TOTAL
+};
+
+using ObjectSubType = std::variant<BallType, PaddleType, BrickType, PowerUpDropType>;
+
+
+enum class ManagerType
+{
+    RESOURCE_MANAGER,
+    GAME_OBJECT_MANAGER,
+    POWER_UP_MANAGER,
+    COLLISION_MANAGER
 };
 
 

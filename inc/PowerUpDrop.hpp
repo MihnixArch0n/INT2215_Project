@@ -1,0 +1,31 @@
+#ifndef POWERUPDROP_HPP
+#define POWERUPDROP_HPP
+
+
+#include "defs.hpp"
+#include "GameObject.hpp"
+
+
+class PowerUpDrop : public GameObject
+{
+public:
+    explicit PowerUpDrop(ObjectSubType type);
+    ~PowerUpDrop() override = default;
+
+    void update(int deltaTime);
+    void onCollision(GameObject &other, int deltaTime) override;
+
+    [[nodiscard]] ObjectType getType() const override {return ObjectType::POWER_UP_DROP;}
+
+    [[nodiscard]] bool isAlive() const {return mIsAlive;}
+
+    constexpr static int DROP_SPEED = 100;
+    constexpr static int WIDTH = 32;
+    constexpr static int HEIGHT = 32;
+private:
+    bool mIsAlive = true;
+    double mVel = DROP_SPEED;
+};
+
+
+#endif //POWERUPDROP_HPP

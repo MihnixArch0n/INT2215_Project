@@ -10,7 +10,7 @@
 
 class Brick;
 
-enum BallState
+enum class BallState
 {
     START,
     MOVING,
@@ -21,6 +21,7 @@ class Ball : public GameObject
 {
 public:
     Ball();
+    Ball(const Ball& other, int x, int y);
     ~Ball() override = default;
 
     void handleEvent(const SDL_Event& event);
@@ -42,7 +43,7 @@ public:
     constexpr static int M_BALL_HEIGHT = 32;
 private:
     double mVelX = 0, mVelY = 0;
-    BallState mState = START;
+    BallState mState = BallState::START;
 };
 
 

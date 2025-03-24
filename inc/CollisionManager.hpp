@@ -10,8 +10,8 @@ public:
     ~CollisionManager() = delete;
 
     static void handleCollision(GameObject& obj1, GameObject& obj2, int deltaTime);
-private:
     static bool checkCollision(const GameObject& obj1, const GameObject& obj2);
+private:
 };
 
 

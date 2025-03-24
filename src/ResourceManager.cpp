@@ -8,19 +8,20 @@
 bool ResourceManager::loadResource(SDL_Renderer* renderer)
 {
     bool success = true;
-    int objNums = static_cast<int>(ObjectType::TOTAL);
-    mTextureList.resize(objNums);
+    mTextureList.resize(static_cast<int>(ObjectType::TOTAL));
     std::map<int, int> objMap =
     {
         {static_cast<int>(ObjectType::PADDLE), static_cast<int>(PaddleType::TOTAL)},
         {static_cast<int>(ObjectType::BALL), static_cast<int>(BallType::TOTAL)},
-        {static_cast<int>(ObjectType::BRICK), static_cast<int>(BrickType::TOTAL)}
+        {static_cast<int>(ObjectType::BRICK), static_cast<int>(BrickType::TOTAL)},
+        {static_cast<int>(ObjectType::POWER_UP_DROP), static_cast<int>(PowerUpDropType::TOTAL)}
     };
     std::map<int, std::string> objName =
     {
         {static_cast<int>(ObjectType::PADDLE), "paddles/Paddle_"},
         {static_cast<int>(ObjectType::BALL), "balls/Ball_"},
-        {static_cast<int>(ObjectType::BRICK), "bricks/Brick_"}
+        {static_cast<int>(ObjectType::BRICK), "bricks/Brick_"},
+        {static_cast<int>(ObjectType::POWER_UP_DROP), "power_ups/PowerUp_"}
     };
 
     std::string textureDir = "assets/img/";
@@ -33,7 +34,7 @@ bool ResourceManager::loadResource(SDL_Renderer* renderer)
             filePath += std::to_string(i+1) + ".png";
             if (!mTextureList[p.first][i].loadFromFile(renderer, filePath.c_str()))
             {
-                std::cerr << "Failed to load paddle texture" << std::endl;
+                std::cerr << "Failed to load texture" << std::endl;
                 return false;
             }
         }
@@ -70,7 +71,7 @@ bool ResourceManager::loadResource(SDL_Renderer* renderer)
     return success;
 }
 
-const MyTexture& ResourceManager::getTexture(ObjectType type, SubType subType) const
+const MyTexture& ResourceManager::getTexture(ObjectType type, ObjectSubType subType) const
 {
     int typeInt = static_cast<int>(type);
     int subTypeInt = -1;
@@ -80,5 +81,7 @@ const MyTexture& ResourceManager::getTexture(ObjectType type, SubType subType) c
         subTypeInt = static_cast<int>(std::get<PaddleType>(subType));
     else if (type == ObjectType::BRICK && std::holds_alternative<BrickType>(subType))
         subTypeInt = static_cast<int>(std::get<BrickType>(subType));
+    else if (type == ObjectType::POWER_UP_DROP && std::holds_alternative<PowerUpDropType>(subType))
+        subTypeInt = static_cast<int>(std::get<PowerUpDropType>(subType));
     return mTextureList[typeInt][subTypeInt];
 }

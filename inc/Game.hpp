@@ -1,14 +1,12 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
-#include <vector>
-#include <SDL.h>
 
 #include "RenderWindow.hpp"
-#include "Ball.hpp"
-#include "Paddle.hpp"
-#include "Brick.hpp"
+#include "GameObjectManager.hpp"
 #include "ResourceManager.hpp"
+#include "PowerUpManager.hpp"
+#include "Mediator.hpp"
 
 class Game
 {
@@ -28,10 +26,10 @@ private:
     int mLives = 3;
     int lastUpdateTime, currentTime;
     RenderWindow mRenderWindow;
-    Paddle mPaddle;
-    Ball mBall;
-    std::vector<Brick> mBricksList;
     ResourceManager mResourceManager;
+    PowerUpManager mPowerUpManager;
+    GameObjectManager mGameObjectManager;
+    Mediator mMediator;
 };
 
 #endif //GAME_HPP

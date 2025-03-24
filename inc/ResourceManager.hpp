@@ -3,7 +3,6 @@
 
 #include <SDL.h>
 #include <vector>
-#include <variant>
 
 #include "defs.hpp"
 #include "MyFont.hpp"
@@ -11,8 +10,6 @@
 #include "GameSound.hpp"
 #include "GameMusic.hpp"
 
-
-using SubType = std::variant<BallType, PaddleType, BrickType>;
 
 class ResourceManager
 {
@@ -24,7 +21,7 @@ public:
     [[nodiscard]] const MyFont& getFont() const {return mFont;}
     [[nodiscard]] const GameMusic& getMusic() const {return mMusic;}
     [[nodiscard]] const GameSound& getSound() const {return mSound;}
-    [[nodiscard]] const MyTexture& getTexture(ObjectType type, SubType subType) const;
+    [[nodiscard]] const MyTexture& getTexture(ObjectType type, ObjectSubType subType) const;
 private:
     std::vector<std::vector<MyTexture>> mTextureList;
     MyTexture mWonTexture;
