@@ -8,7 +8,7 @@
 
 #include "defs.hpp"
 #include "menu/Menu.hpp"
-#include "ResourceManager.hpp"
+#include "managers/ResourceManager.hpp"
 
 
 // TODO: Add Settings menu.

@@ -2,7 +2,7 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 
-#include "MyTexture.hpp"
+#include "game_resources/MyTexture.hpp"
 
 
 MyTexture::~MyTexture()

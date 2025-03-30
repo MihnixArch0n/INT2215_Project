@@ -2,7 +2,7 @@
 #define BRICK_HPP
 
 
-#include "GameObject.hpp"
+#include "game_objects/GameObject.hpp"
 
 class Ball;
 

@@ -3,7 +3,7 @@
 
 #include <SDL.h>
 
-#include "GameObject.hpp"
+#include "game_objects/GameObject.hpp"
 
 class Paddle : public GameObject
 {

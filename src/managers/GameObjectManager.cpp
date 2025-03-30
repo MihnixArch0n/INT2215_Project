@@ -1,6 +1,7 @@
-#include "GameObjectManager.hpp"
-#include "CollisionManager.hpp"
+#include "managers/GameObjectManager.hpp"
+#include "managers/CollisionManager.hpp"
 #include "Mediator.hpp"
+
 
 GameObjectManager::GameObjectManager(const ResourceManager* manager) : rResourceManager(*manager)
 {

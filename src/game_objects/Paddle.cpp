@@ -1,5 +1,5 @@
 #include "defs.hpp"
-#include "Paddle.hpp"
+#include "game_objects/Paddle.hpp"
 
 Paddle::Paddle()
 {

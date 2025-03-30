@@ -2,7 +2,7 @@
 #define GAMEOBJECT_HPP
 
 #include <SDL.h>
-#include "MyTexture.hpp"
+#include "game_resources/MyTexture.hpp"
 #include "defs.hpp"
 
 

@@ -4,7 +4,7 @@
 
 #include "defs.hpp"
 #include "PowerUp.hpp"
-#include "GameManager.hpp"
+#include "managers/GameManager.hpp"
 
 
 class PowerUpManager : public GameManager

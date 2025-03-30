@@ -6,10 +6,10 @@
 #include <vector>
 
 #include "ResourceManager.hpp"
-#include "Ball.hpp"
-#include "Paddle.hpp"
-#include "Brick.hpp"
-#include "PowerUpDrop.hpp"
+#include "game_objects/Ball.hpp"
+#include "game_objects/Paddle.hpp"
+#include "game_objects/Brick.hpp"
+#include "game_objects/PowerUpDrop.hpp"
 #include "GameManager.hpp"
 
 

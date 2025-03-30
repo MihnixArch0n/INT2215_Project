@@ -1,4 +1,4 @@
-#include "MyFont.hpp"
+#include "game_resources/MyFont.hpp"
 
 #include <iostream>
 

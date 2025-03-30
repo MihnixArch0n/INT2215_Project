@@ -1,4 +1,4 @@
-#include "GameObject.hpp"
+#include "game_objects/GameObject.hpp"
 
 GameObject::~GameObject() = default;
 

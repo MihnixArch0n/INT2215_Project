@@ -1,5 +1,5 @@
-#include "PowerUpDrop.hpp"
-#include "GameObject.hpp"
+#include "game_objects/PowerUpDrop.hpp"
+#include "game_objects/GameObject.hpp"
 #include "defs.hpp"
 
 

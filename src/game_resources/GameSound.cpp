@@ -1,4 +1,4 @@
-#include "GameSound.hpp"
+#include "game_resources/GameSound.hpp"
 
 #include <iostream>
 #include <ostream>

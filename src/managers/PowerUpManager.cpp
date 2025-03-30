@@ -1,4 +1,4 @@
-#include "PowerUpManager.hpp"
+#include "managers/PowerUpManager.hpp"
 #include "PowerUp.hpp"
 #include "Mediator.hpp"
 

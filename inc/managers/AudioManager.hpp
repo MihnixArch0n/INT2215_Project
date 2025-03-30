@@ -2,8 +2,8 @@
 #define AUDIOMANAGER_HPP
 
 
-#include "GameMusic.hpp"
-#include "GameSound.hpp"
+#include "game_resources/GameMusic.hpp"
+#include "game_resources/GameSound.hpp"
 
 
 class AudioManager

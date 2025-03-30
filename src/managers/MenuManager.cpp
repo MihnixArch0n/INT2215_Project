@@ -1,5 +1,5 @@
 #include <iostream>
-#include "MenuManager.hpp"
+#include "managers/MenuManager.hpp"
 #include "menu/StartMenu.hpp"
 #include "menu/EndMenu.hpp"
 #include "menu/InGameMenu.hpp"

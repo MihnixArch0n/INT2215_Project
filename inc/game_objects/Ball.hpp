@@ -4,8 +4,8 @@
 
 #include <vector>
 
-#include "GameObject.hpp"
-#include "Paddle.hpp"
+#include "game_objects/GameObject.hpp"
+#include "game_objects/Paddle.hpp"
 
 
 class Brick;

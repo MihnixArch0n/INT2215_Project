@@ -1,6 +1,6 @@
 #include "defs.hpp"
-#include "Brick.hpp"
-#include "Ball.hpp"
+#include "game_objects/Brick.hpp"
+#include "game_objects/Ball.hpp"
 
 
 Brick::Brick()

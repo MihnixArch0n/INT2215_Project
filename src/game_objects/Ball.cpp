@@ -1,9 +1,9 @@
 #include <cmath>
 
 #include "defs.hpp"
-#include "Ball.hpp"
-#include "Brick.hpp"
-#include "AudioManager.hpp"
+#include "game_objects/Ball.hpp"
+#include "game_objects/Brick.hpp"
+#include "managers/AudioManager.hpp"
 
 /**
  * Linear mapping to radian angle based on hit position.

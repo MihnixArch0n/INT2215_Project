@@ -8,10 +8,10 @@
 #include <set>
 
 #include "defs.hpp"
-#include "MyFont.hpp"
-#include "MyTexture.hpp"
-#include "GameSound.hpp"
-#include "GameMusic.hpp"
+#include "game_resources/MyFont.hpp"
+#include "game_resources/MyTexture.hpp"
+#include "game_resources/GameSound.hpp"
+#include "game_resources/GameMusic.hpp"
 
 
 class ResourceManager

@@ -1,8 +1,8 @@
 #include <iostream>
 #include <map>
 
-#include "ResourceManager.hpp"
-#include "GameObject.hpp"
+#include "managers/ResourceManager.hpp"
+#include "game_objects/GameObject.hpp"
 
 
 bool ResourceManager::loadResource(SDL_Renderer* renderer)

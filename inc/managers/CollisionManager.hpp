@@ -1,7 +1,8 @@
 #ifndef COLLISIONMANAGER_HPP
 #define COLLISIONMANAGER_HPP
 
-#include "GameObject.hpp"
+#include "game_objects/GameObject.hpp"
+
 
 class CollisionManager
 {
@@ -13,7 +14,6 @@ public:
     static bool checkCollision(const GameObject& obj1, const GameObject& obj2);
 private:
 };
-
 
 
 #endif //COLLISIONMANAGER_HPP

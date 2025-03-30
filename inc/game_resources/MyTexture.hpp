@@ -4,7 +4,7 @@
 
 #include <SDL.h>
 
-#include "MyFont.hpp"
+#include "game_resources/MyFont.hpp"
 
 class MyTexture
 {

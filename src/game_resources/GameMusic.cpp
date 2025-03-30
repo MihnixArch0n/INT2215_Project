@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "GameMusic.hpp"
+#include "game_resources/GameMusic.hpp"
 
 
 GameMusic::~GameMusic()

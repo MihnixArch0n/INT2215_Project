@@ -1,4 +1,5 @@
-#include "CollisionManager.hpp"
+#include "managers/CollisionManager.hpp"
+
 
 void CollisionManager::handleCollision(GameObject& obj1, GameObject& obj2, int deltaTime)
 {
