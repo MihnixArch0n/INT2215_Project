@@ -3,6 +3,9 @@
 
 #include <SDL.h>
 #include <vector>
+#include <string>
+#include <map>
+#include <set>
 
 #include "defs.hpp"
 #include "MyFont.hpp"
@@ -22,11 +25,13 @@ public:
     [[nodiscard]] const GameMusic& getMusic() const {return mMusic;}
     [[nodiscard]] const GameSound& getSound() const {return mSound;}
     [[nodiscard]] const MyTexture& getTexture(ObjectType type, ObjectSubType subType) const;
-private:
+    void addText(const std::string& text, SDL_Renderer *renderer);
+    [[nodiscard]] const MyTexture* getText(const std::string& text) const;
     std::vector<std::vector<MyTexture>> mTextureList;
     MyTexture mWonTexture;
     MyTexture mLostTexture;
-
+    std::set<std::string> mTextList;
+    std::map<std::string, MyTexture> mTextTextureList;
     MyFont mFont;
 
     GameSound mSound;

@@ -8,6 +8,16 @@ constexpr int SCREEN_HEIGHT = 720;
 constexpr char WINDOW_TITLE[] = "Brick Breaker";
 
 
+enum class GameState
+{
+    START,
+    PLAYING,
+    PAUSED,
+    SETTINGS,
+    END
+};
+
+
 enum class ObjectType
 {
     BALL,
@@ -52,6 +62,16 @@ enum class ManagerType
     GAME_OBJECT_MANAGER,
     POWER_UP_MANAGER,
     COLLISION_MANAGER
+};
+
+
+enum class ButtonType
+{
+    PLAY,
+    SETTINGS,
+    RESUME,
+    QUIT,
+    EXIT
 };
 
 

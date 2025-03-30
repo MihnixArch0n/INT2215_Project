@@ -1,0 +1,32 @@
+#ifndef MENU_HPP
+#define MENU_HPP
+
+
+#include <SDL.h>
+#include <vector>
+#include <memory>
+
+#include "ResourceManager.hpp"
+#include "button/Button.hpp"
+
+
+class Menu
+{
+public:
+    virtual ~Menu() = default;
+
+    virtual bool init(ResourceManager& manager, SDL_Renderer* renderer);
+    virtual void handleEvents(SDL_Event& event, GameState& gameState);
+    virtual void update(GameState& gameState);
+    void render(SDL_Renderer* renderer) const;
+
+
+    static constexpr SDL_Color BG_COLOR {0xE9, 0xF2, 0xCF, 0xFF};
+protected:
+    SDL_Rect mRect {0, 0, 500, 500};
+    bool hidden = false;
+    std::vector<std::unique_ptr<Button>> mButtonList;
+};
+
+
+#endif //MENU_HPP
