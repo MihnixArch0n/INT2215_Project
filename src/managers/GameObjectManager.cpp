@@ -47,7 +47,7 @@ void GameObjectManager::update(int deltaTime)
             CollisionManager::handleCollision(mBallList[i], mBricksList[j], deltaTime);
             if (!mBricksList[j].isAlive())
             {
-                spawnDrop(PowerUpDropType::FIRE_BALL,
+                spawnDrop(PowerUpDropType::MULTI_BALL,
                     mBricksList[j].getPosX(), mBricksList[j].getPosY());
                 mBricksList.erase(mBricksList.begin() + j);
             }
@@ -84,6 +84,7 @@ void GameObjectManager::render(SDL_Renderer* renderer) const
 
 void GameObjectManager::resetBallList()
 {
+    mBallList.clear();
     mBallList.emplace_back();
     mBallList[0].setObjectTexture(rResourceManager.getTexture(ObjectType::BALL,
         BallType::NORMAL));

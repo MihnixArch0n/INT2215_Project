@@ -1,6 +1,6 @@
 #include "Mediator.hpp"
-#include "GameObjectManager.hpp"
-#include "PowerUpManager.hpp"
+#include "managers/GameObjectManager.hpp"
+#include "managers/PowerUpManager.hpp"
 
 
 void Mediator::init(GameObjectManager *objManager, PowerUpManager *powerUpManager)

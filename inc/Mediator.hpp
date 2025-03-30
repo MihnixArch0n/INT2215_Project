@@ -5,7 +5,7 @@
 #include <string>
 
 #include "defs.hpp"
-#include "GameManager.hpp"
+#include "managers/GameManager.hpp"
 
 
 class GameManager;

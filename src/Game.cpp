@@ -2,12 +2,11 @@
 
 #include "defs.hpp"
 #include "Game.hpp"
-#include "ResourceManager.hpp"
-#include "CollisionManager.hpp"
-#include "AudioManager.hpp"
+#include "managers/ResourceManager.hpp"
+#include "managers/AudioManager.hpp"
 
 
-Game::Game() : mGameObjectManager(&mResourceManager)
+Game::Game()
 {
     lastUpdateTime = currentTime = 0;
 }
@@ -31,9 +30,9 @@ bool Game::init()
 
     AudioManager::getInstance().init(mResourceManager.getMusic(),
         mResourceManager.getSound());
-    mMediator.init(&mGameObjectManager, &mPowerUpManager);
-    mGameObjectManager.init(&mMediator);
-    mPowerUpManager.init(&mMediator);
+    mGameLevel = new GameLevel(&mResourceManager);
+    mGameLevel->init();
+    mMenuManager.init(mResourceManager, mRenderWindow.getRenderer());
     lastUpdateTime = SDL_GetTicks();
     return true;
 }
@@ -44,8 +43,9 @@ void Game::handleEvent()
     SDL_Event event;
     while (SDL_PollEvent(&event))
     {
-        if (event.type == SDL_QUIT) finished = true;
-        mGameObjectManager.handleEvent(event);
+        if (event.type == SDL_QUIT) mState = GameState::QUIT;
+        mMenuManager.handleEvents(event, mState);
+        if (mState == GameState::PLAYING) mGameLevel->handleEvent(event);
     }
 }
 
@@ -53,16 +53,16 @@ void Game::update()
 {
     currentTime = SDL_GetTicks();
     int deltaTime = currentTime - lastUpdateTime;
-    mGameObjectManager.update(deltaTime);
-    mPowerUpManager.update();
-    if (mGameObjectManager.ballListEmpty())
+    mMenuManager.update(mState);
+    if (mState == GameState::QUIT_TO_START || mGameLevel->hasFinished())
     {
-        --mLives;
-        mGameObjectManager.resetBallList();
-        mPowerUpManager.reset();
+        delete mGameLevel;
+        mGameLevel = new GameLevel(&mResourceManager);
+        mGameLevel->init();
     }
+    if (mState == GameState::QUIT_TO_START) mState = GameState::START;
+    if (mState == GameState::PLAYING) mGameLevel->update(deltaTime, mState);
 
-    if (hasFinished()) finished = true;
     lastUpdateTime = currentTime;
     // SDL_Delay(10);
 }
@@ -70,33 +70,18 @@ void Game::update()
 void Game::render() const
 {
     SDL_Renderer* renderer = mRenderWindow.getRenderer();
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderClear(renderer);
-    if (hasWon())
-    {
-        mResourceManager.getWonTexture().render(0, 0, mRenderWindow.getRenderer());
-        std::cout << "You won" << std::endl;
-        SDL_RenderPresent(renderer);
-        SDL_Delay(1000);
-    }
-    else if (hasLost())
-    {
-        mResourceManager.getLostTexture().render(0, 0, mRenderWindow.getRenderer());
-        std::cout << "You lost" << std::endl;
-        SDL_RenderPresent(renderer);
-        SDL_Delay(1000);
-    }
-    else
-    {
-        mGameObjectManager.render(renderer);
-        SDL_RenderPresent(renderer);
-    }
+    mMenuManager.render(renderer);
+    if (mState == GameState::PLAYING) mGameLevel->render(renderer);
+    SDL_RenderPresent(renderer);
 }
 
 void Game::loop()
 {
     if (init())
     {
-        while (!hasFinished())
+        while (mState != GameState::QUIT)
         {
             handleEvent();
             update();
@@ -105,8 +90,3 @@ void Game::loop()
     }
     else std::cerr << "Failed to init game" << std::endl;
 }
-
-bool Game::hasLost() const {return mLives <= 0;}
-// bool Game::hasWon() const {return mGameObjectManager.brickListEmpty();}
-bool Game::hasWon() const {return false;}
-bool Game::hasFinished() const {return hasLost() || hasWon() || finished;}

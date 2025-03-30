@@ -3,6 +3,6 @@
 
 void QuitButton::onClick(GameState &gameState)
 {
-    gameState = GameState::START;
+    gameState = GameState::QUIT_TO_START;
     resetButtonState();
 }

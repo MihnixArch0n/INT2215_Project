@@ -3,33 +3,31 @@
 
 
 #include "RenderWindow.hpp"
-#include "GameObjectManager.hpp"
-#include "ResourceManager.hpp"
-#include "PowerUpManager.hpp"
-#include "Mediator.hpp"
+#include "managers/ResourceManager.hpp"
+#include "managers/MenuManager.hpp"
+#include "GameLevel.hpp"
+
 
 class Game
 {
 public:
     Game();
 
-    [[nodiscard]] bool hasFinished() const;
-    [[nodiscard]] bool hasLost() const;
-    [[nodiscard]] bool hasWon() const;
     bool init();
     void handleEvent();
     void update();
     void render() const;
     void loop();
 private:
-    bool finished = false;
     int mLives = 3;
     int lastUpdateTime, currentTime;
+
+    GameState mState = GameState::START;
+
     RenderWindow mRenderWindow;
     ResourceManager mResourceManager;
-    PowerUpManager mPowerUpManager;
-    GameObjectManager mGameObjectManager;
-    Mediator mMediator;
+    GameLevel* mGameLevel = nullptr;
+    MenuManager mMenuManager;
 };
 
 #endif //GAME_HPP

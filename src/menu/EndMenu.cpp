@@ -7,6 +7,8 @@ bool EndMenu::init(ResourceManager &manager, SDL_Renderer *renderer)
 {
     // TODO: Add play again button.
     mButtonList.push_back(std::make_unique<QuitButton>());
+    mButtonList[0]->setWidth(150);
+    mButtonList[0]->setHeight(150);
     return Menu::init(manager, renderer);
 }
 
@@ -20,7 +22,7 @@ void EndMenu::update(GameState &gameState)
     if (gameState == GameState::END)
     {
         hidden = false;
-        Menu::update(gameState);
     }
     else hidden = true;
+    Menu::update(gameState);
 }

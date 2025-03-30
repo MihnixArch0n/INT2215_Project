@@ -14,7 +14,9 @@ enum class GameState
     PLAYING,
     PAUSED,
     SETTINGS,
-    END
+    QUIT_TO_START,
+    END,
+    QUIT
 };
 
 

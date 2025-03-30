@@ -6,8 +6,8 @@
 #include <string>
 
 #include "defs.hpp"
-#include "MyTexture.hpp"
-#include "ResourceManager.hpp"
+#include "game_resources/MyTexture.hpp"
+#include "managers/ResourceManager.hpp"
 
 
 class Button
@@ -27,6 +27,8 @@ public:
 
     void setPosX(int x) {mRect.x = x;}
     void setPosY(int y) {mRect.y = y;}
+    void setWidth(int w) {mRect.w = w;}
+    void setHeight(int h) {mRect.h = h;}
     [[nodiscard]] int getWidth() const {return mRect.w;}
     [[nodiscard]] int getHeight() const {return mRect.h;}
 
