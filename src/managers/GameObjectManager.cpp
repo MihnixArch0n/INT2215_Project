@@ -1,22 +1,22 @@
 #include "managers/GameObjectManager.hpp"
 #include "managers/CollisionManager.hpp"
-#include "Mediator.hpp"
+#include "game_objects/FireBall.hpp"
+#include "game_objects/NormalBall.hpp"
 
 
 GameObjectManager::GameObjectManager(const ResourceManager* manager) : rResourceManager(*manager)
 {
-    mBallList.resize(1);
+    mBallList.push_back(std::make_unique<NormalBall>());
     mBricksList.resize(5);
 }
 
-void GameObjectManager::init(Mediator* mediator)
+void GameObjectManager::init()
 {
-    pMediator = mediator;
     mPaddle.setObjectTexture(rResourceManager.getTexture(ObjectType::PADDLE,
         PaddleType::NORMAL));
     for (auto &ball : mBallList)
     {
-        ball.setObjectTexture(rResourceManager.getTexture(ObjectType::BALL,
+        ball->setObjectTexture(rResourceManager.getTexture(ObjectType::BALL,
             BallType::NORMAL));
     }
     for (int i = 0; i < 5; i++)
@@ -30,50 +30,69 @@ void GameObjectManager::init(Mediator* mediator)
 void GameObjectManager::handleEvent(const SDL_Event &event)
 {
     mPaddle.handleEvent(event);
-    for (auto &ball : mBallList) ball.handleEvent(event);
+    for (auto &ball : mBallList) ball->handleEvent(event);
 }
 
 void GameObjectManager::update(int deltaTime)
 {
     mPaddle.update(deltaTime);
-    for (auto &ball : mBallList) ball.update(deltaTime, mPaddle);
+    for (auto &ball : mBallList) ball->update(deltaTime, mPaddle);
     int ballsLeft = mBallList.size();
     for (int i = ballsLeft-1; i >= 0; --i)
     {
-        CollisionManager::handleCollision(mBallList[i], mPaddle, deltaTime);
+        CollisionManager::handleCollision(*mBallList[i], mPaddle, deltaTime);
         int bricksLeft = mBricksList.size();
         for (int j = bricksLeft-1; j >= 0; --j)
         {
-            CollisionManager::handleCollision(mBallList[i], mBricksList[j], deltaTime);
+            CollisionManager::handleCollision(*mBallList[i], mBricksList[j], deltaTime);
             if (!mBricksList[j].isAlive())
             {
-                spawnDrop(PowerUpDropType::MULTI_BALL,
+                spawnDrop(PowerUpDropType::FIRE_BALL,
                     mBricksList[j].getPosX(), mBricksList[j].getPosY());
                 mBricksList.erase(mBricksList.begin() + j);
             }
         }
-        if (mBallList[i].getState() == BallState::DEAD) mBallList.erase(mBallList.begin() + i);
+        if (mBallList[i]->getState() == BallState::EXPIRED)
+        {
+            changeBall(mBallList[i], BallType::NORMAL);
+        }
+        if (mBallList[i]->getState() == BallState::DEAD) mBallList.erase(mBallList.begin() + i);
     }
     for (auto &powerUpDrop : mPowerUpDropList)
     {
         powerUpDrop.update(deltaTime);
         CollisionManager::handleCollision(mPaddle, powerUpDrop, deltaTime);
-        if (CollisionManager::checkCollision(mPaddle, powerUpDrop))
+
+        if (powerUpDrop.getStatus() == PowerUpDropStatus::COLLECTED)
         {
             auto powerUpType = std::get<PowerUpDropType>(powerUpDrop.getSubType());
-            pMediator->notify(powerUpType, "collect");
+            int ballNum = mBallList.size();
+            if (powerUpType == PowerUpDropType::MULTI_BALL)
+            {
+                for (int i = 0; i < ballNum; ++i)
+                {
+                    const auto& cBall = *mBallList[i];
+                    addBall(cBall, cBall.getPosX() - 50, cBall.getPosY());
+                    addBall(cBall, cBall.getPosX() + 50, cBall.getPosY());
+                }
+            }
+            else if (powerUpType == PowerUpDropType::FIRE_BALL)
+            {
+                for (int i = 0; i < ballNum; ++i) changeBall(mBallList[i], BallType::FIRE);
+            }
         }
     }
     for (int i = mPowerUpDropList.size()-1; i >= 0; --i)
     {
-        if (!mPowerUpDropList[i].isAlive()) mPowerUpDropList.erase(mPowerUpDropList.begin() + i);
+        if (mPowerUpDropList[i].getStatus() != PowerUpDropStatus::ALIVE)
+            mPowerUpDropList.erase(mPowerUpDropList.begin() + i);
     }
 }
 
 void GameObjectManager::render(SDL_Renderer* renderer) const
 {
     mPaddle.render(renderer);
-    for (const auto &ball : mBallList) ball.render(renderer);
+    for (const auto &ball : mBallList) ball->render(renderer);
     for (const auto &brick : mBricksList) brick.render(renderer);
     for (const auto &powerUpDrop : mPowerUpDropList)
     {
@@ -85,29 +104,29 @@ void GameObjectManager::render(SDL_Renderer* renderer) const
 void GameObjectManager::resetBallList()
 {
     mBallList.clear();
-    mBallList.emplace_back();
-    mBallList[0].setObjectTexture(rResourceManager.getTexture(ObjectType::BALL,
+    mBallList.push_back(std::make_unique<NormalBall>());
+    mBallList[0]->setObjectTexture(rResourceManager.getTexture(ObjectType::BALL,
         BallType::NORMAL));
-    mBallList[0].setState(BallState::START);
+    mBallList[0]->setState(BallState::START);
 }
 
 void GameObjectManager::addBall(const Ball& ball, double x, double y)
 {
-    mBallList.emplace_back(ball, x, y);
+    mBallList.push_back(std::make_unique<Ball>(Ball(ball, x, y)));
 }
 
-void GameObjectManager::makeFireBall(int index)
+void GameObjectManager::changeBall(std::unique_ptr<Ball>& ball, BallType ballType)
 {
-    mBallList[index].setObjectTexture(rResourceManager.getTexture(ObjectType::BALL,
-        BallType::FIRE));
-    mBallList[index].setSubType(BallType::FIRE);
-}
-
-void GameObjectManager::makeNormalBall(int index)
-{
-    mBallList[index].setObjectTexture(rResourceManager.getTexture(ObjectType::BALL,
-        BallType::NORMAL));
-    mBallList[index].setSubType(BallType::NORMAL);
+    if (ballType == BallType::NORMAL)
+    {
+        ball = std::make_unique<NormalBall>(*ball);
+        ball->setObjectTexture(rResourceManager.getTexture(ObjectType::BALL, BallType::NORMAL));
+    }
+    else if (ballType == BallType::FIRE)
+    {
+        ball = std::make_unique<FireBall>(*ball);
+        ball->setObjectTexture(rResourceManager.getTexture(ObjectType::BALL, BallType::FIRE));
+    }
 }
 
 

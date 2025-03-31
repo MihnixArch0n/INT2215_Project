@@ -3,7 +3,7 @@
 
 
 #include "defs.hpp"
-#include "GameObject.hpp"
+#include "game_objects/GameObject.hpp"
 
 
 class PowerUpDrop : public GameObject
@@ -17,13 +17,13 @@ public:
 
     [[nodiscard]] ObjectType getType() const override {return ObjectType::POWER_UP_DROP;}
 
-    [[nodiscard]] bool isAlive() const {return mIsAlive;}
+    [[nodiscard]] PowerUpDropStatus getStatus() const {return mStatus;}
 
     constexpr static int DROP_SPEED = 100;
     constexpr static int WIDTH = 32;
     constexpr static int HEIGHT = 32;
 private:
-    bool mIsAlive = true;
+    PowerUpDropStatus mStatus = PowerUpDropStatus::ALIVE;
     double mVel = DROP_SPEED;
 };
 

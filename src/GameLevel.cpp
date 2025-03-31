@@ -2,16 +2,13 @@
 
 #include <iostream>
 
-#include "managers/PowerUpManager.hpp"
 
 GameLevel::GameLevel(const ResourceManager *manager) : mGameObjectManager(manager) {}
 
 
 void GameLevel::init()
 {
-    mGameObjectManager.init(&mMediator);
-    mPowerUpManager.init(&mMediator);
-    mMediator.init(&mGameObjectManager, &mPowerUpManager);
+    mGameObjectManager.init();
 }
 
 void GameLevel::handleEvent(SDL_Event &event)
@@ -24,13 +21,11 @@ void GameLevel::update(int deltaTime, GameState& gameState)
     if (!hasFinished())
     {
         mGameObjectManager.update(deltaTime);
-        mPowerUpManager.update();
 
         if (mGameObjectManager.ballListEmpty())
         {
             --mLives;
             mGameObjectManager.resetBallList();
-            mPowerUpManager.reset();
         }
         if (hasFinished() && gameState != GameState::QUIT) gameState = GameState::END;
     }

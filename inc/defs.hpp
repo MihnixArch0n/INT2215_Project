@@ -58,6 +58,14 @@ enum class PowerUpDropType
 using ObjectSubType = std::variant<BallType, PaddleType, BrickType, PowerUpDropType>;
 
 
+enum class PowerUpDropStatus
+{
+    ALIVE,
+    COLLECTED,
+    DEAD
+};
+
+
 enum class ManagerType
 {
     RESOURCE_MANAGER,

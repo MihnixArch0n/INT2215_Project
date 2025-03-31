@@ -1,6 +1,6 @@
+#include "defs.hpp"
 #include "game_objects/PowerUpDrop.hpp"
 #include "game_objects/GameObject.hpp"
-#include "defs.hpp"
 
 
 PowerUpDrop::PowerUpDrop(ObjectSubType type)
@@ -10,15 +10,17 @@ PowerUpDrop::PowerUpDrop(ObjectSubType type)
     mSubType = type;
 }
 
-
 void PowerUpDrop::update(int deltaTime)
 {
-    mPosY += mVel * deltaTime / 1000;
-    if (mPosY > SCREEN_WIDTH) mIsAlive = false;
+    if (mStatus == PowerUpDropStatus::ALIVE)
+    {
+        mPosY += mVel * deltaTime / 1000;
+        if (mPosY > SCREEN_WIDTH) mStatus = PowerUpDropStatus::DEAD;
+    }
 }
 
 void PowerUpDrop::onCollision(GameObject &other, int deltaTime)
 {
-    if (other.getType() == ObjectType::PADDLE) mIsAlive = false;
+    if (other.getType() == ObjectType::PADDLE) mStatus = PowerUpDropStatus::COLLECTED;
 }
 

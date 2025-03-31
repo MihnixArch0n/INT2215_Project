@@ -5,8 +5,6 @@
 #include <SDL.h>
 
 #include "managers/GameObjectManager.hpp"
-#include "managers/PowerUpManager.hpp"
-#include "Mediator.hpp"
 
 
 class GameLevel
@@ -32,8 +30,6 @@ private:
     int mLives = 3;
 
     GameObjectManager mGameObjectManager;
-    PowerUpManager mPowerUpManager;
-    Mediator mMediator;
 };
 
 

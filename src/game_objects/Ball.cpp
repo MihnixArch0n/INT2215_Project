@@ -24,20 +24,24 @@ Ball::Ball()
     mSubType = BallType::NORMAL;
 }
 
-Ball::Ball(const Ball &other, int x, int y)
+Ball::Ball(const Ball& other)
 {
-    mPosX = x;
-    mPosY = y;
+    mPosX = other.mPosX;
+    mPosY = other.mPosY;
     mWidth = M_BALL_WIDTH;
     mHeight = M_BALL_HEIGHT;
 
     mVelX = other.mVelX;
     mVelY = other.mVelY;
 
-    mSubType = other.mSubType;
-    mState = other.mState;
-
+    mState = BallState::MOVING;
     mObjectTexture = other.mObjectTexture;
+}
+
+Ball::Ball(const Ball &other, int x, int y) : Ball(other)
+{
+    mPosX = x;
+    mPosY = y;
 }
 
 

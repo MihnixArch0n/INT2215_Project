@@ -52,7 +52,8 @@ bool MyTexture::loadFromRenderedText(const char *text, const MyFont &font, SDL_R
 
 void MyTexture::render(SDL_Renderer *renderer, const SDL_Rect* dst) const
 {
-    SDL_RenderCopy(renderer, mTexture, nullptr, dst);
+    int x = SDL_RenderCopy(renderer, mTexture, nullptr, dst);
+    if (x < 0) std::cerr << "Failed to render texture: " << SDL_GetError() << std::endl;
 }
 
 void MyTexture::render(int x, int y, SDL_Renderer *renderer) const

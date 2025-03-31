@@ -14,6 +14,7 @@ enum class BallState
 {
     START,
     MOVING,
+    EXPIRED,
     DEAD
 };
 
@@ -21,11 +22,12 @@ class Ball : public GameObject
 {
 public:
     Ball();
+    Ball(const Ball& other);
     Ball(const Ball& other, int x, int y);
     ~Ball() override = default;
 
     void handleEvent(const SDL_Event& event);
-    void update(int deltaTime, const Paddle& paddle);
+    virtual void update(int deltaTime, const Paddle& paddle);
 
     void handleCollision(int deltaTime, const Paddle& paddle, const std::vector<Brick>& bricksList);
     void handleCollisionWithPaddle(int deltaTime, const Paddle& paddle);
@@ -41,7 +43,7 @@ public:
     constexpr static int M_BALL_SPEED = 450;
     constexpr static int M_BALL_WIDTH = 32;
     constexpr static int M_BALL_HEIGHT = 32;
-private:
+protected:
     double mVelX = 0, mVelY = 0;
     BallState mState = BallState::START;
 };
