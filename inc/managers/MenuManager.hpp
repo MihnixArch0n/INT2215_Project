@@ -9,9 +9,10 @@
 #include "defs.hpp"
 #include "menu/Menu.hpp"
 #include "managers/ResourceManager.hpp"
+#include "menu/SettingMenu.hpp"
 
 
-// TODO: Add Settings menu.
+// TODO: Complete Settings menu.
 
 class MenuManager
 {
@@ -22,8 +23,18 @@ public:
     void render(SDL_Renderer* renderer) const;
 private:
     std::vector<std::unique_ptr<Menu>> mMenuList;
-};
+    std::unique_ptr<Menu> mSettingMenu;
 
+    MenuGroupType mMenuGroup = MenuGroupType::NORMAL;
+
+    std::function<void()> setNormalGroup = [this]() {
+        this->mMenuGroup = MenuGroupType::NORMAL;
+    };
+
+    std::function<void()> setSettingGroup = [this]() {
+        this->mMenuGroup = MenuGroupType::SETTINGS;
+    };
+};
 
 
 #endif //MENUMANAGER_HPP

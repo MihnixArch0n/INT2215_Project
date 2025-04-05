@@ -5,10 +5,12 @@
 #include "button/QuitButton.hpp"
 
 
+InGameMenu::InGameMenu(std::function<void()> callback) : setSettingGroup(callback) {}
+
 bool InGameMenu::init(ResourceManager &manager, SDL_Renderer *renderer)
 {
     mButtonList.push_back(std::make_unique<ResumeButton>());
-    mButtonList.push_back(std::make_unique<SettingsButton>());
+    mButtonList.push_back(std::make_unique<SettingsButton>(setSettingGroup));
     mButtonList.push_back(std::make_unique<QuitButton>());
     return Menu::init(manager, renderer);
 }
@@ -28,10 +30,7 @@ void InGameMenu::handleEvents(SDL_Event &event, GameState& gameState)
 
 void InGameMenu::update(GameState &gameState)
 {
-    if (gameState == GameState::PAUSED)
-    {
-        hidden = false;
-    }
+    if (gameState == GameState::PAUSED) hidden = false;
     else hidden = true;
     Menu::update(gameState);
 }

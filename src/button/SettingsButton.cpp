@@ -1,8 +1,14 @@
 #include "button/SettingsButton.hpp"
 
 
+SettingsButton::SettingsButton(std::function<void()> callback) : goToSettingMenu(callback)
+{
+    mText = "Settings";
+}
+
 void SettingsButton::onClick(GameState &gameState)
 {
-    gameState = GameState::SETTINGS;
+    goToSettingMenu();
     resetButtonState();
 }
+

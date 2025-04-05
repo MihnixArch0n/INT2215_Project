@@ -5,10 +5,12 @@
 #include "button/ExitGameButton.hpp"
 
 
+StartMenu::StartMenu(std::function<void()> callback) : setSettingGroup(callback) {}
+
 bool StartMenu::init(ResourceManager &manager, SDL_Renderer *renderer)
 {
     mButtonList.push_back(std::make_unique<PlayButton>());
-    mButtonList.push_back(std::make_unique<SettingsButton>());
+    mButtonList.push_back(std::make_unique<SettingsButton>(setSettingGroup));
     mButtonList.push_back(std::make_unique<ExitGameButton>());
     return Menu::init(manager, renderer);
 }

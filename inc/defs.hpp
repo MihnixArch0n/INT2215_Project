@@ -80,9 +80,16 @@ enum class ButtonType
     PLAY,
     SETTINGS,
     RESUME,
+    BACK,
     QUIT,
     EXIT
 };
 
+
+enum class MenuGroupType
+{
+    NORMAL,
+    SETTINGS,
+};
 
 #endif //DEFS_HPP
