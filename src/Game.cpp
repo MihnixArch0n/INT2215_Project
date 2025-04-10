@@ -55,7 +55,7 @@ void Game::update()
     currentTime = SDL_GetTicks();
     int deltaTime = currentTime - lastUpdateTime;
     mMenuManager.update(mState);
-    if (mState == GameState::QUIT_TO_START || mGameLevel->hasFinished())
+    if (mState == GameState::QUIT_TO_START)
     {
         delete mGameLevel;
         mGameLevel = new GameLevel(&mResourceManager);
@@ -75,6 +75,13 @@ void Game::render() const
     SDL_RenderClear(renderer);
     mMenuManager.render(renderer);
     if (mState == GameState::PLAYING) mGameLevel->render(renderer);
+    if (mState == GameState::END)
+    {
+        if (mGameLevel->hasLost())
+            mResourceManager.getLostTexture().render(0, SCREEN_HEIGHT/2, renderer);
+        else if (mGameLevel->hasWon())
+            mResourceManager.getWonTexture().render(0, SCREEN_HEIGHT/2, renderer);
+    }
     SDL_RenderPresent(renderer);
 }
 

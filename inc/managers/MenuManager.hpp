@@ -12,8 +12,6 @@
 #include "menu/SettingMenu.hpp"
 
 
-// TODO: Complete Settings menu.
-
 class MenuManager
 {
 public:

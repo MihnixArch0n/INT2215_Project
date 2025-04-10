@@ -5,8 +5,6 @@
 #include "menu/Menu.hpp"
 
 
-// TODO: Add Win/Lose texture.
-
 class EndMenu : public Menu
 {
 public:

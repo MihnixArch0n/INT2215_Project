@@ -19,7 +19,6 @@ public:
     void render() const;
     void loop();
 private:
-    int mLives = 3;
     int lastUpdateTime, currentTime;
 
     GameState mState = GameState::START;
