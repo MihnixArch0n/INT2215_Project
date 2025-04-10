@@ -6,6 +6,7 @@
 #include <vector>
 #include <memory>
 
+#include "defs.hpp"
 #include "managers/ResourceManager.hpp"
 #include "button/Button.hpp"
 
@@ -23,9 +24,10 @@ public:
 
     static constexpr SDL_Color BG_COLOR {0xE9, 0xF2, 0xCF, 0xFF};
 protected:
-    SDL_Rect mRect {0, 0, 500, 500};
+    SDL_Rect mRect {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
     bool hidden = false;
     std::vector<std::unique_ptr<Button>> mButtonList;
+    constexpr static int PADDING = 10;
 };
 
 

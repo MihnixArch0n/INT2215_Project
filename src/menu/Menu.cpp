@@ -11,7 +11,7 @@ bool Menu::init(ResourceManager &manager, SDL_Renderer *renderer)
             std::cerr << "Failed to initialize button list." << std::endl;
             return false;
         }
-        mButtonList[i]->setPosY(i * mButtonList[i]->getHeight());
+        mButtonList[i]->setPosY(i * (mButtonList[i]->getHeight() + PADDING));
     }
     return true;
 }

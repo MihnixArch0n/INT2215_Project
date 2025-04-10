@@ -29,6 +29,8 @@ public:
     void setPosY(int y) {mRect.y = y;}
     void setWidth(int w) {mRect.w = w;}
     void setHeight(int h) {mRect.h = h;}
+    [[nodiscard]] int getPosX() const {return mRect.x;}
+    [[nodiscard]] int getPosY() const {return mRect.y;}
     [[nodiscard]] int getWidth() const {return mRect.w;}
     [[nodiscard]] int getHeight() const {return mRect.h;}
 

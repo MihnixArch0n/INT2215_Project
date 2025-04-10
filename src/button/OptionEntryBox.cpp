@@ -8,8 +8,10 @@ OptionEntryBox::OptionEntryBox(SettingType type) :
     mRightButton(ButtonType::OPTION_ENTRY_RIGHT),
     mType(type)
 {
-    if (type == SettingType::MUSIC_ON_OFF || type == SettingType::MUSIC_VOLUME) mName = "Music";
-    else mName = "Sound";
+    if (type == SettingType::MUSIC_ON_OFF) mName = "Music";
+    if (type == SettingType::MUSIC_VOLUME) mName = "Music Volume";
+    if (type == SettingType::SOUND_ON_OFF) mName = "Sound";
+    if (type == SettingType::SOUND_VOLUME) mName = "Sound Volume";
 
     if (type == SettingType::MUSIC_ON_OFF || type == SettingType::SOUND_ON_OFF)
     {
@@ -34,9 +36,11 @@ bool OptionEntryBox::init(ResourceManager &resManager, SDL_Renderer *renderer)
     mNameTexture = resManager.getText(mName);
     mLeftButton.init(resManager, renderer);
     mRightButton.init(resManager, renderer);
-    mLeftButton.setPosX(mRect.x + 100);
+
+    int w = mNameTexture->getWidth();
+    mLeftButton.setPosX(mRect.x + w + 2 * PADDING);
     mLeftButton.setPosY(mRect.y);
-    mRightButton.setPosX(mRect.x + 100 + mLeftButton.getWidth());
+    mRightButton.setPosX(mLeftButton.getPosX() + mLeftButton.getWidth() + PADDING);
     mRightButton.setPosY(mRect.y);
     for (const auto& option : mOptions)
     {
@@ -109,11 +113,13 @@ void OptionEntryBox::update()
     }
 }
 
-void OptionEntryBox::render(SDL_Renderer *renderer)
+void OptionEntryBox::render(SDL_Renderer *renderer) const
 {
+    int x = mRightButton.getPosX();
+    int w = mRightButton.getWidth();
     mLeftButton.render(renderer);
     mRightButton.render(renderer);
     mNameTexture->render(mRect.x, mRect.y, renderer);
-    mOptionsTextures[mSelectedOption]->render(mRect.x + 100 + 2 * mRightButton.getWidth(), mRect.y, renderer);
+    mOptionsTextures[mSelectedOption]->render(x + w + 2 * PADDING, mRect.y, renderer);
 }
 

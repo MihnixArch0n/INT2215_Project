@@ -16,14 +16,14 @@ public:
     bool init(ResourceManager& resManager, SDL_Renderer* renderer);
     void handleEvent(SDL_Event &event);
     void update();
-    void render(SDL_Renderer* renderer);
+    void render(SDL_Renderer* renderer) const;
 
     void setPosX(int posX) {mRect.x = posX;}
     void setPosY(int posY) {mRect.y = posY;}
     int getWidth() {return mRect.w;}
     int getHeight() {return mRect.h;}
 private:
-    SDL_Rect mRect {0, 0, 200, 40};
+    SDL_Rect mRect {0, 0, 500, 40};
     std::string mName;
     const MyTexture* mNameTexture = nullptr;
     OptionEntryButton mLeftButton;
@@ -32,6 +32,7 @@ private:
     std::vector<const MyTexture*> mOptionsTextures;
     int mSelectedOption = 0;
     SettingType mType;
+    constexpr static int PADDING = 10;
 };
 
 

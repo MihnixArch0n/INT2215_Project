@@ -40,7 +40,7 @@ bool ResourceManager::loadResource(SDL_Renderer* renderer)
         }
     }
 
-    if (mFont.loadFont("res/fonts/GohuFont14NerdFontMono-Regular.ttf", 42))
+    if (mFont.loadFont("res/fonts/GohuFont14NerdFontMono-Regular.ttf", 36))
     {
         if (!mWonTexture.loadFromRenderedText("You won", mFont, renderer))
         {

@@ -16,7 +16,7 @@ bool SettingMenu::init(ResourceManager &manager, SDL_Renderer *renderer)
     int i = 1;
     for (auto& option : mOptionEntries)
     {
-        option.setPosY(i * option.getHeight());
+        option.setPosY(i * (option.getHeight() + PADDING));
         option.init(manager, renderer);
         ++i;
     }

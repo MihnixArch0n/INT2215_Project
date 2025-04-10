@@ -23,7 +23,7 @@ bool MyTexture::loadFromFile(SDL_Renderer *renderer, const char *filePath)
         return false;
     }
     SDL_QueryTexture(mTexture, nullptr, nullptr,
-        &mTextureWidth, &mTextureHeight);
+        &mWidth, &mHeight);
     return true;
 }
 
@@ -43,8 +43,9 @@ bool MyTexture::loadFromRenderedText(const char *text, const MyFont &font, SDL_R
         std::cerr << "Failed to create texture: " << SDL_GetError() << std::endl;
         return false;
     }
-    mTextureWidth = textSurface->w;
-    mTextureHeight = textSurface->h;
+    SDL_FreeSurface(textSurface);
+    mWidth = textSurface->w;
+    mHeight = textSurface->h;
 
     return true;
 }
@@ -58,6 +59,6 @@ void MyTexture::render(SDL_Renderer *renderer, const SDL_Rect* dst) const
 
 void MyTexture::render(int x, int y, SDL_Renderer *renderer) const
 {
-    SDL_Rect dst = {x, y, mTextureWidth, mTextureHeight};
+    SDL_Rect dst = {x, y, mWidth, mHeight};
     SDL_RenderCopy(renderer, mTexture, nullptr, &dst);
 }

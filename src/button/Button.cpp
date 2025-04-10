@@ -11,6 +11,8 @@ bool Button::init(ResourceManager &resManager, SDL_Renderer* renderer)
         std::cerr << "Error: Could not load text resource" << std::endl;
         return false;
     }
+    mRect.w = mTexture->getWidth();
+    mRect.h = mTexture->getHeight();
     return true;
 }
 
