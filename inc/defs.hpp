@@ -81,6 +81,8 @@ enum class ButtonType
     SETTINGS,
     RESUME,
     BACK,
+    OPTION_ENTRY_LEFT,
+    OPTION_ENTRY_RIGHT,
     QUIT,
     EXIT
 };
@@ -90,6 +92,15 @@ enum class MenuGroupType
 {
     NORMAL,
     SETTINGS,
+};
+
+
+enum class SettingType
+{
+    MUSIC_ON_OFF,
+    MUSIC_VOLUME,
+    SOUND_ON_OFF,
+    SOUND_VOLUME
 };
 
 #endif //DEFS_HPP

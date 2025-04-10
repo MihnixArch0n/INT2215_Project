@@ -30,6 +30,7 @@ bool Game::init()
 
     AudioManager::getInstance().init(mResourceManager.getMusic(),
         mResourceManager.getSound());
+    AudioManager::getInstance().getMusic().play();
     mGameLevel = new GameLevel(&mResourceManager);
     mGameLevel->init();
     mMenuManager.init(mResourceManager, mRenderWindow.getRenderer());

@@ -25,6 +25,7 @@ public:
     [[nodiscard]] const GameMusic& getMusic() const {return mMusic;}
     [[nodiscard]] const GameSound& getSound() const {return mSound;}
     [[nodiscard]] const MyTexture& getTexture(ObjectType type, ObjectSubType subType) const;
+    [[nodiscard]] const MyTexture* getTexture(ButtonType type) const;
     void addText(const std::string& text, SDL_Renderer *renderer);
     [[nodiscard]] const MyTexture* getText(const std::string& text) const;
     std::vector<std::vector<MyTexture>> mTextureList;
@@ -36,6 +37,8 @@ public:
 
     GameSound mSound;
     GameMusic mMusic;
+
+    std::map<ButtonType, MyTexture> mButtonTextures;
 };
 
 

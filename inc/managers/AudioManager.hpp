@@ -17,6 +17,9 @@ public:
 
     [[nodiscard]] const GameMusic& getMusic() const {return *gMusic;}
     [[nodiscard]] const GameSound& getSound() const {return *gSound;}
+
+    void updateMusicVolume();
+    void updateSoundVolume();
 private:
     AudioManager() = default;
     const GameMusic* gMusic = nullptr;

@@ -14,6 +14,7 @@ public:
     bool loadSound(const char* filePath);
 
     void play() const;
+    [[nodiscard]] Mix_Chunk* getSound() const {return mSound;}
 private:
     Mix_Chunk* mSound = nullptr;
 };

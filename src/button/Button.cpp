@@ -36,14 +36,12 @@ void Button::update(GameState& gameState)
 
 void Button::handleEvent(SDL_Event &event)
 {
-    if (event.type == SDL_MOUSEMOTION)
-    {
-        int x, y;
-        SDL_GetMouseState(&x, &y);
-        SDL_Point mousePos {x, y};
-        if (SDL_PointInRect(&mousePos, &mRect)) hovered = true;
-        else hovered = false;
-    }
+    int x, y;
+    SDL_GetMouseState(&x, &y);
+    SDL_Point mousePos {x, y};
+    if (SDL_PointInRect(&mousePos, &mRect)) hovered = true;
+    else hovered = false;
+
     if (event.type == SDL_MOUSEBUTTONDOWN)
     {
         if (isHovered()) pressed = true;

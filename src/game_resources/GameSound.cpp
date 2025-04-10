@@ -1,7 +1,7 @@
 #include "game_resources/GameSound.hpp"
 
 #include <iostream>
-#include <ostream>
+#include "managers/ConfigManager.hpp"
 
 GameSound::~GameSound()
 {
@@ -29,5 +29,6 @@ bool GameSound::loadSound(const char *filePath)
 
 void GameSound::play() const
 {
-    Mix_PlayChannel(-1, mSound, 0);
+    if (ConfigManager::getInstance().getSoundStatus())
+        Mix_PlayChannel(-1, mSound, 0);
 }

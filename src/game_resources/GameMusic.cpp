@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "game_resources/GameMusic.hpp"
+#include "managers/ConfigManager.hpp"
 
 
 GameMusic::~GameMusic()
@@ -29,7 +30,7 @@ bool GameMusic::loadMusic(const char* filePath)
 
 void GameMusic::play() const
 {
-    Mix_PlayMusic(mMusic, -1);
+    if (!Mix_PlayingMusic() && ConfigManager::getInstance().getMusicStatus()) Mix_PlayMusic(mMusic, -1);
 }
 
 void GameMusic::stop() const

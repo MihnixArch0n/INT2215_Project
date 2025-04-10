@@ -18,7 +18,7 @@ public:
     virtual bool init(ResourceManager& manager, SDL_Renderer* renderer);
     virtual void handleEvents(SDL_Event& event, GameState& gameState);
     virtual void update(GameState& gameState);
-    void render(SDL_Renderer* renderer) const;
+    virtual void render(SDL_Renderer* renderer) const;
 
 
     static constexpr SDL_Color BG_COLOR {0xE9, 0xF2, 0xCF, 0xFF};
