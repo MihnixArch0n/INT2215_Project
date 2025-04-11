@@ -1,31 +1,32 @@
 #include "GameLevel.hpp"
 
-#include <iostream>
 
-
-GameLevel::GameLevel(const ResourceManager *manager) : mGameObjectManager(manager) {}
-
+GameLevel::GameLevel(ResourceManager& manager) : rResourceManager(manager)
+{
+}
 
 void GameLevel::init()
 {
-    mGameObjectManager.init();
+    mGameObjectManager = std::make_unique<GameObjectManager>(rResourceManager);
+    mGameObjectManager->init();
+    mLives = 3;
 }
 
 void GameLevel::handleEvent(SDL_Event &event)
 {
-    mGameObjectManager.handleEvent(event);
+    mGameObjectManager->handleEvent(event);
 }
 
 void GameLevel::update(int deltaTime, GameState& gameState)
 {
     if (!hasFinished())
     {
-        mGameObjectManager.update(deltaTime);
+        mGameObjectManager->update(deltaTime);
 
-        if (mGameObjectManager.ballListEmpty())
+        if (mGameObjectManager->ballListEmpty())
         {
             --mLives;
-            mGameObjectManager.resetBallList();
+            mGameObjectManager->resetBallList();
         }
         if (hasFinished() && gameState != GameState::QUIT) gameState = GameState::END;
     }
@@ -33,12 +34,13 @@ void GameLevel::update(int deltaTime, GameState& gameState)
 
 void GameLevel::render(SDL_Renderer *renderer) const
 {
-    mGameObjectManager.render(renderer);
+    mGameObjectManager->render(renderer);
 }
 
 
 void GameLevel::newLevel()
 {
+    init();
 }
 
 void GameLevel::loadLevel()

@@ -4,14 +4,14 @@
 #include "game_objects/NormalBall.hpp"
 
 
-GameObjectManager::GameObjectManager(const ResourceManager* manager) : rResourceManager(*manager)
+GameObjectManager::GameObjectManager(ResourceManager& manager) : rResourceManager(manager)
 {
-    mBallList.push_back(std::make_unique<NormalBall>());
-    mBricksList.resize(5);
 }
 
 void GameObjectManager::init()
 {
+    mBallList.push_back(std::make_unique<NormalBall>());
+    mBricksList.resize(5);
     mPaddle.setObjectTexture(rResourceManager.getTexture(ObjectType::PADDLE,
         PaddleType::NORMAL));
     for (auto &ball : mBallList)

@@ -83,6 +83,7 @@ enum class ButtonType
     BACK,
     OPTION_ENTRY_LEFT,
     OPTION_ENTRY_RIGHT,
+    PLAY_AGAIN,
     QUIT,
     EXIT
 };

@@ -2,6 +2,9 @@
 
 #include "defs.hpp"
 #include "Game.hpp"
+
+#include <managers/GameEventManager.hpp>
+
 #include "managers/ResourceManager.hpp"
 #include "managers/AudioManager.hpp"
 
@@ -31,7 +34,7 @@ bool Game::init()
     AudioManager::getInstance().init(mResourceManager.getMusic(),
         mResourceManager.getSound());
     AudioManager::getInstance().getMusic().play();
-    mGameLevel = new GameLevel(&mResourceManager);
+    mGameLevel = new GameLevel(mResourceManager);
     mGameLevel->init();
     mMenuManager.init(mResourceManager, mRenderWindow.getRenderer());
     lastUpdateTime = SDL_GetTicks();
@@ -48,6 +51,13 @@ void Game::handleEvent()
         mMenuManager.handleEvents(event, mState);
         if (mState == GameState::PLAYING) mGameLevel->handleEvent(event);
     }
+    while (!GameEventManager::getInstance().isEmpty())
+    {
+        if (GameEventManager::getInstance().topEvent() == "play_again")
+            mGameLevel->newLevel();
+
+        GameEventManager::getInstance().popEvent();
+    }
 }
 
 void Game::update()
@@ -58,7 +68,7 @@ void Game::update()
     if (mState == GameState::QUIT_TO_START)
     {
         delete mGameLevel;
-        mGameLevel = new GameLevel(&mResourceManager);
+        mGameLevel = new GameLevel(mResourceManager);
         mGameLevel->init();
     }
     if (mState == GameState::QUIT_TO_START) mState = GameState::START;

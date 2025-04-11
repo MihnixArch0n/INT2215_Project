@@ -16,7 +16,7 @@
 class GameObjectManager
 {
 public:
-    explicit GameObjectManager(const ResourceManager* manager);
+    explicit GameObjectManager(ResourceManager& manager);
 
     void init();
     void handleEvent(const SDL_Event& event);
@@ -38,7 +38,7 @@ private:
     std::vector<std::unique_ptr<Ball>> mBallList;
     std::vector<Brick> mBricksList;
     std::vector<PowerUpDrop> mPowerUpDropList;
-    const ResourceManager& rResourceManager;
+    ResourceManager& rResourceManager;
 };
 
 

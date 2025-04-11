@@ -1,12 +1,13 @@
 #include "menu/EndMenu.hpp"
 
 #include "button/QuitButton.hpp"
+#include "button/PlayAgainButton.hpp"
 
 
 bool EndMenu::init(ResourceManager &manager, SDL_Renderer *renderer)
 {
-    // TODO: Add play again button.
     mButtonList.push_back(std::make_unique<QuitButton>());
+    mButtonList.push_back(std::make_unique<PlayAgainButton>());
     return Menu::init(manager, renderer);
 }
 

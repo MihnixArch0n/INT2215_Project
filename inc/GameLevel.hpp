@@ -10,17 +10,15 @@
 class GameLevel
 {
 public:
-    explicit GameLevel(const ResourceManager* manager);
+    explicit GameLevel(ResourceManager& manager);
 
     void init();
     void handleEvent(SDL_Event& event);
     void update(int deltaTime, GameState& gameState);
     void render(SDL_Renderer* renderer) const;
-    void clear();
-    void reset();
 
     [[nodiscard]] bool hasLost() const {return mLives <= 0;}
-    [[nodiscard]] bool hasWon() const {return mGameObjectManager.brickListEmpty();}
+    [[nodiscard]] bool hasWon() const {return mGameObjectManager->brickListEmpty();}
     [[nodiscard]] bool hasFinished() const {return hasLost() || hasWon();}
 
     void newLevel();
@@ -29,7 +27,8 @@ public:
 private:
     int mLives = 3;
 
-    GameObjectManager mGameObjectManager;
+    std::unique_ptr<GameObjectManager> mGameObjectManager;
+    ResourceManager& rResourceManager;
 };
 
 
