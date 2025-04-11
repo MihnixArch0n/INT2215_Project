@@ -2,6 +2,9 @@
 #define GAMEOBJECT_HPP
 
 #include <SDL.h>
+#include <fstream>
+#include <managers/ResourceManager.hpp>
+
 #include "game_resources/MyTexture.hpp"
 #include "defs.hpp"
 
@@ -14,7 +17,7 @@ public:
     void render(SDL_Renderer* renderer) const;
     void render(int x, int y, SDL_Renderer* renderer) const;
 
-    void setObjectTexture(const MyTexture& texture) {mObjectTexture = &texture;}
+    void setObjectTexture(const ResourceManager& manager);
 
     [[nodiscard]] double getPosX() const;
     [[nodiscard]] double getPosY() const;
@@ -29,6 +32,9 @@ public:
     void setSubType(ObjectSubType subType) {mSubType = subType;}
 
     virtual void onCollision(GameObject& other, int deltaTime) = 0;
+
+    virtual void save(std::ofstream& saveFile) const;
+    virtual void load(std::ifstream& loadFile);
 protected:
     double mPosX = 0, mPosY = 0;
     int mWidth = 0, mHeight = 0;

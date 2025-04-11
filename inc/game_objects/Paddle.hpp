@@ -19,6 +19,8 @@ public:
     [[nodiscard]] ObjectType getType() const override {return ObjectType::PADDLE;}
     void onCollision(GameObject &other, int deltaTime) override {}
 
+    void save(std::ofstream &saveFile) const override;
+
     constexpr static int M_PADDLE_WIDTH = 100;
     constexpr static int M_PADDLE_HEIGHT = 30;
 private:

@@ -3,11 +3,10 @@
 #include "game_objects/GameObject.hpp"
 
 
-PowerUpDrop::PowerUpDrop(ObjectSubType type)
+PowerUpDrop::PowerUpDrop()
 {
     mWidth = WIDTH;
     mHeight = HEIGHT;
-    mSubType = type;
 }
 
 void PowerUpDrop::update(int deltaTime)
@@ -22,5 +21,23 @@ void PowerUpDrop::update(int deltaTime)
 void PowerUpDrop::onCollision(GameObject &other, int deltaTime)
 {
     if (other.getType() == ObjectType::PADDLE) mStatus = PowerUpDropStatus::COLLECTED;
+}
+
+void PowerUpDrop::save(std::ofstream &saveFile) const
+{
+    GameObject::save(saveFile);
+    saveFile << " " << static_cast<int>(std::get<PowerUpDropType>(mSubType));
+    saveFile << " " << static_cast<int>(mStatus);
+    saveFile << std::endl;
+}
+
+void PowerUpDrop::load(std::ifstream &loadFile)
+{
+    GameObject::load(loadFile);
+    int tmp;
+    loadFile >> tmp;
+    mSubType = static_cast<PowerUpDropType>(tmp);
+    loadFile >> tmp;
+    mStatus = static_cast<PowerUpDropStatus>(tmp);
 }
 

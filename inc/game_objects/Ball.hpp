@@ -40,6 +40,9 @@ public:
 
     void onCollision(GameObject &other, int deltaTime) override;
 
+    void save(std::ofstream &saveFile) const override;
+    void load(std::ifstream &loadFile) override;
+
     constexpr static int M_BALL_SPEED = 450;
     constexpr static int M_BALL_WIDTH = 32;
     constexpr static int M_BALL_HEIGHT = 32;

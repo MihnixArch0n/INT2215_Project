@@ -1,4 +1,8 @@
 #include "managers/GameObjectManager.hpp"
+
+#include <filesystem>
+#include <fstream>
+
 #include "managers/CollisionManager.hpp"
 #include "game_objects/FireBall.hpp"
 #include "game_objects/NormalBall.hpp"
@@ -12,17 +16,14 @@ void GameObjectManager::init()
 {
     mBallList.push_back(std::make_unique<NormalBall>());
     mBricksList.resize(5);
-    mPaddle.setObjectTexture(rResourceManager.getTexture(ObjectType::PADDLE,
-        PaddleType::NORMAL));
+    mPaddle.setObjectTexture(rResourceManager);
     for (auto &ball : mBallList)
     {
-        ball->setObjectTexture(rResourceManager.getTexture(ObjectType::BALL,
-            BallType::NORMAL));
+        ball->setObjectTexture(rResourceManager);
     }
     for (int i = 0; i < 5; i++)
     {
-        mBricksList[i].setObjectTexture(rResourceManager.getTexture(ObjectType::BRICK,
-            BrickType::NORMAL));
+        mBricksList[i].setObjectTexture(rResourceManager);
     }
 
 }
@@ -105,8 +106,7 @@ void GameObjectManager::resetBallList()
 {
     mBallList.clear();
     mBallList.push_back(std::make_unique<NormalBall>());
-    mBallList[0]->setObjectTexture(rResourceManager.getTexture(ObjectType::BALL,
-        BallType::NORMAL));
+    mBallList[0]->setObjectTexture(rResourceManager);
     mBallList[0]->setState(BallState::START);
 }
 
@@ -120,21 +120,87 @@ void GameObjectManager::changeBall(std::unique_ptr<Ball>& ball, BallType ballTyp
     if (ballType == BallType::NORMAL)
     {
         ball = std::make_unique<NormalBall>(*ball);
-        ball->setObjectTexture(rResourceManager.getTexture(ObjectType::BALL, BallType::NORMAL));
+        ball->setObjectTexture(rResourceManager);
     }
     else if (ballType == BallType::FIRE)
     {
         ball = std::make_unique<FireBall>(*ball);
-        ball->setObjectTexture(rResourceManager.getTexture(ObjectType::BALL, BallType::FIRE));
+        ball->setObjectTexture(rResourceManager);
     }
 }
 
 
 void GameObjectManager::spawnDrop(PowerUpDropType type, double x, double y)
 {
-    mPowerUpDropList.emplace_back(type);
-    mPowerUpDropList.back().setObjectTexture(rResourceManager.getTexture(
-        ObjectType::POWER_UP_DROP, type));
+    mPowerUpDropList.emplace_back();
+    mPowerUpDropList.back().setSubType(type);
+    mPowerUpDropList.back().setObjectTexture(rResourceManager);
     mPowerUpDropList.back().setPosX(x);
     mPowerUpDropList.back().setPosY(y);
+}
+
+void GameObjectManager::save()
+{
+    if (std::filesystem::exists("save/objects")) std::filesystem::create_directory("objects");
+
+    std::ofstream paddleFile("save/objects/paddle.txt");
+    mPaddle.save(paddleFile);
+    paddleFile.close();
+
+    std::ofstream ballFile("save/objects/ball.txt");
+    ballFile << mBallList.size() << std::endl;
+    for (const auto &ball : mBallList) ball->save(ballFile);
+    ballFile.close();
+
+    std::ofstream brickFile("save/objects/bricks.txt");
+    brickFile << mBricksList.size() << std::endl;
+    for (const auto &brick : mBricksList) brick.save(brickFile);
+    brickFile.close();
+
+    std::ofstream powerUpFile("save/objects/powerUp.txt");
+    powerUpFile << mPowerUpDropList.size() << std::endl;
+    for (const auto &powerUpDrop : mPowerUpDropList) powerUpDrop.save(powerUpFile);
+    powerUpFile.close();
+}
+
+void GameObjectManager::load()
+{
+    if (std::filesystem::exists("save/objects"))
+    {
+        std::ifstream paddleFile("save/objects/paddle.txt");
+        mPaddle.load(paddleFile);
+        paddleFile.close();
+        mPaddle.setObjectTexture(rResourceManager);
+
+        int n;
+
+        std::ifstream ballFile("save/objects/ball.txt");
+        ballFile >> n;
+        mBallList.resize(n);
+        for (auto &ball : mBallList)
+        {
+            ball->load(ballFile);
+            ball->setObjectTexture(rResourceManager);
+        }
+        ballFile.close();
+
+        std::ifstream brickFile("save/objects/bricks.txt");
+        brickFile >> n;
+        mBricksList.resize(n);
+        for (auto &brick : mBricksList)
+        {
+            brick.load(brickFile);
+            brick.setObjectTexture(rResourceManager);
+        }
+        brickFile.close();
+
+        std::ifstream powerUpFile("save/objects/powerUp.txt");
+        mPowerUpDropList.resize(n);
+        for (auto &powerUpDrop : mPowerUpDropList)
+        {
+            powerUpDrop.load(powerUpFile);
+            powerUpDrop.setObjectTexture(rResourceManager);
+        }
+        powerUpFile.close();
+    }
 }

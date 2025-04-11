@@ -1,5 +1,8 @@
 #include "GameLevel.hpp"
 
+#include <filesystem>
+#include <fstream>
+
 
 GameLevel::GameLevel(ResourceManager& manager) : rResourceManager(manager)
 {
@@ -51,5 +54,9 @@ void GameLevel::loadLevel()
 void GameLevel::saveLevel()
 {
     // TODO: Save current level to disk.
+    if (!std::filesystem::exists("save")) std::filesystem::create_directory("save");
+    std::ofstream saveFile("save/lives.txt");
+    if (saveFile.is_open()) saveFile << mLives;
+    saveFile.close();
 }
 

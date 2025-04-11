@@ -7,6 +7,8 @@ Paddle::Paddle()
     mPosY = SCREEN_HEIGHT * 0.9;
     mWidth = M_PADDLE_WIDTH;
     mHeight = M_PADDLE_HEIGHT;
+
+    mSubType = PaddleType::NORMAL;
 }
 
 
@@ -47,3 +49,8 @@ void Paddle::update(int deltaTime)
     if (mPosX + mWidth > SCREEN_WIDTH) mPosX = SCREEN_WIDTH - mWidth;
 }
 
+void Paddle::save(std::ofstream &saveFile) const
+{
+    GameObject::save(saveFile);
+    saveFile << std::endl;
+}

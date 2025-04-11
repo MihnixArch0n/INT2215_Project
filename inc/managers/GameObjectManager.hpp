@@ -33,6 +33,9 @@ public:
     void spawnDrop(PowerUpDropType type, double x, double y);
     void resetBallList();
 
+    void save();
+    void load();
+
 private:
     Paddle mPaddle;
     std::vector<std::unique_ptr<Ball>> mBallList;

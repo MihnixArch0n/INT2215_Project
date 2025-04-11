@@ -17,6 +17,9 @@ public:
     [[nodiscard]] ObjectType getType() const override {return ObjectType::BRICK;}
     void onCollision(GameObject &other, int deltaTime) override;
 
+    void save(std::ofstream &saveFile) const override;
+    void load(std::ifstream &loadFile) override;
+
     constexpr static int BRICK_WIDTH = 40;
     constexpr static int BRICK_HEIGHT = 20;
 private:

@@ -9,7 +9,7 @@
 class PowerUpDrop : public GameObject
 {
 public:
-    explicit PowerUpDrop(ObjectSubType type);
+    PowerUpDrop();
     ~PowerUpDrop() override = default;
 
     void update(int deltaTime);
@@ -18,6 +18,9 @@ public:
     [[nodiscard]] ObjectType getType() const override {return ObjectType::POWER_UP_DROP;}
 
     [[nodiscard]] PowerUpDropStatus getStatus() const {return mStatus;}
+
+    void save(std::ofstream &saveFile) const override;
+    void load(std::ifstream &loadFile) override;
 
     constexpr static int DROP_SPEED = 100;
     constexpr static int WIDTH = 32;

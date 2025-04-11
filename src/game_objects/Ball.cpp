@@ -168,3 +168,23 @@ void Ball::onCollision(GameObject& other, int deltaTime)
 
 BallState Ball::getState() const {return mState;}
 void Ball::setState(BallState state) {mState = state;}
+
+void Ball::save(std::ofstream &saveFile) const
+{
+    GameObject::save(saveFile);
+    saveFile << " " << mVelX << " " << mVelY;
+    saveFile << " " << static_cast<int>(std::get<BallType>(mSubType));
+    saveFile << " " << static_cast<int>(mState);
+    saveFile << std::endl;
+}
+
+void Ball::load(std::ifstream &loadFile)
+{
+    GameObject::load(loadFile);
+    loadFile >> mVelX >> mVelY;
+    int tmp;
+    loadFile >> tmp;
+    mSubType = static_cast<BallType>(tmp);
+    loadFile >> tmp;
+    mState = static_cast<BallState>(tmp);
+}
