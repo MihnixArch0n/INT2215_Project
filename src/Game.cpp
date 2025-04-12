@@ -51,10 +51,17 @@ void Game::handleEvent()
         mMenuManager.handleEvents(event, mState);
         if (mState == GameState::PLAYING) mGameLevel->handleEvent(event);
     }
+
     while (!GameEventManager::getInstance().isEmpty())
     {
-        if (GameEventManager::getInstance().topEvent() == "play_again")
-            mGameLevel->newLevel();
+        auto gameEvent = GameEventManager::getInstance().topEvent();
+        if (gameEvent == "play_again") mGameLevel->init();
+        else if (gameEvent == "save") mGameLevel->saveLevel();
+        else if (gameEvent == "load")
+        {
+            mGameLevel->loadLevel();
+            mState = GameState::PLAYING;
+        }
 
         GameEventManager::getInstance().popEvent();
     }

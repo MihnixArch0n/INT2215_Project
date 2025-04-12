@@ -84,6 +84,8 @@ enum class ButtonType
     OPTION_ENTRY_LEFT,
     OPTION_ENTRY_RIGHT,
     PLAY_AGAIN,
+    SAVE,
+    LOAD,
     QUIT,
     EXIT
 };

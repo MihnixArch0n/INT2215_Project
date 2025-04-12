@@ -24,6 +24,12 @@ Ball::Ball()
     mSubType = BallType::NORMAL;
 }
 
+Ball::Ball(BallType type) : Ball()
+{
+    mSubType = type;
+    if (type == BallType::FIRE) mPowerUp = std::make_unique<PowerUp>(PowerUpDropType::FIRE_BALL);
+}
+
 Ball::Ball(const Ball& other)
 {
     mPosX = other.mPosX;
@@ -34,8 +40,24 @@ Ball::Ball(const Ball& other)
     mVelX = other.mVelX;
     mVelY = other.mVelY;
 
-    mState = BallState::MOVING;
+    mState = other.mState;
     mObjectTexture = other.mObjectTexture;
+    if (other.mPowerUp != nullptr) mPowerUp = std::make_unique<PowerUp>(*other.mPowerUp);
+}
+
+Ball::Ball(const Ball& other, BallType type) : Ball(other)
+{
+    if (type == BallType::NORMAL)
+    {
+        mSubType = BallType::NORMAL;
+        mPowerUp = nullptr;
+        if (mState == BallState::EXPIRED) mState = BallState::MOVING;
+    }
+    else if (type == BallType::FIRE)
+    {
+        mSubType = BallType::FIRE;
+        mPowerUp = std::make_unique<PowerUp>(PowerUpDropType::FIRE_BALL);
+    }
 }
 
 Ball::Ball(const Ball &other, int x, int y) : Ball(other)
@@ -88,7 +110,16 @@ void Ball::update(int deltaTime, const Paddle& paddle)
         //     mPosY = SCREEN_HEIGHT - mHeight;
         //     mVelY = -mVelY;
         // }
-        if (mPosY > SCREEN_HEIGHT)mState = BallState::DEAD;
+        if (mPosY > SCREEN_HEIGHT) mState = BallState::DEAD;
+
+        if (mPowerUp != nullptr)
+        {
+            mPowerUp->update(deltaTime);
+            if (mPowerUp->getStatus() == PowerUpStatus::DEACTIVATED)
+            {
+                mState = BallState::EXPIRED;
+            }
+        }
     }
 }
 

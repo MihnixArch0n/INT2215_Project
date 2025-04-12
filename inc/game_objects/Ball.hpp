@@ -3,9 +3,11 @@
 
 
 #include <vector>
+#include <memory>
 
 #include "game_objects/GameObject.hpp"
 #include "game_objects/Paddle.hpp"
+#include "PowerUp.hpp"
 
 
 class Brick;
@@ -22,7 +24,9 @@ class Ball : public GameObject
 {
 public:
     Ball();
+    explicit Ball(BallType type);
     Ball(const Ball& other);
+    Ball(const Ball& other, BallType type);
     Ball(const Ball& other, int x, int y);
     ~Ball() override = default;
 
@@ -49,6 +53,7 @@ public:
 protected:
     double mVelX = 0, mVelY = 0;
     BallState mState = BallState::START;
+    std::unique_ptr<PowerUp> mPowerUp;
 };
 
 

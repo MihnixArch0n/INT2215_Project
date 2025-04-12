@@ -4,8 +4,6 @@
 #include <fstream>
 
 #include "managers/CollisionManager.hpp"
-#include "game_objects/FireBall.hpp"
-#include "game_objects/NormalBall.hpp"
 
 
 GameObjectManager::GameObjectManager(ResourceManager& manager) : rResourceManager(manager)
@@ -14,7 +12,7 @@ GameObjectManager::GameObjectManager(ResourceManager& manager) : rResourceManage
 
 void GameObjectManager::init()
 {
-    mBallList.push_back(std::make_unique<NormalBall>());
+    mBallList.push_back(std::make_unique<Ball>());
     mBricksList.resize(5);
     mPaddle.setObjectTexture(rResourceManager);
     for (auto &ball : mBallList)
@@ -105,7 +103,7 @@ void GameObjectManager::render(SDL_Renderer* renderer) const
 void GameObjectManager::resetBallList()
 {
     mBallList.clear();
-    mBallList.push_back(std::make_unique<NormalBall>());
+    mBallList.push_back(std::make_unique<Ball>());
     mBallList[0]->setObjectTexture(rResourceManager);
     mBallList[0]->setState(BallState::START);
 }
@@ -117,16 +115,8 @@ void GameObjectManager::addBall(const Ball& ball, double x, double y)
 
 void GameObjectManager::changeBall(std::unique_ptr<Ball>& ball, BallType ballType)
 {
-    if (ballType == BallType::NORMAL)
-    {
-        ball = std::make_unique<NormalBall>(*ball);
-        ball->setObjectTexture(rResourceManager);
-    }
-    else if (ballType == BallType::FIRE)
-    {
-        ball = std::make_unique<FireBall>(*ball);
-        ball->setObjectTexture(rResourceManager);
-    }
+    ball = std::make_unique<Ball>(*ball, ballType);
+    ball->setObjectTexture(rResourceManager);
 }
 
 
@@ -141,7 +131,7 @@ void GameObjectManager::spawnDrop(PowerUpDropType type, double x, double y)
 
 void GameObjectManager::save()
 {
-    if (std::filesystem::exists("save/objects")) std::filesystem::create_directory("objects");
+    std::filesystem::create_directory("save/objects");
 
     std::ofstream paddleFile("save/objects/paddle.txt");
     mPaddle.save(paddleFile);
@@ -195,6 +185,7 @@ void GameObjectManager::load()
         brickFile.close();
 
         std::ifstream powerUpFile("save/objects/powerUp.txt");
+        powerUpFile >> n;
         mPowerUpDropList.resize(n);
         for (auto &powerUpDrop : mPowerUpDropList)
         {

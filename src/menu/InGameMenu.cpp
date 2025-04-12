@@ -1,6 +1,8 @@
 #include "menu/InGameMenu.hpp"
 
+
 #include "button/ResumeButton.hpp"
+#include "button/SaveButton.hpp"
 #include "button/SettingsButton.hpp"
 #include "button/QuitButton.hpp"
 
@@ -10,6 +12,7 @@ InGameMenu::InGameMenu(std::function<void()> callback) : setSettingGroup(callbac
 bool InGameMenu::init(ResourceManager &manager, SDL_Renderer *renderer)
 {
     mButtonList.push_back(std::make_unique<ResumeButton>());
+    mButtonList.push_back(std::make_unique<SaveButton>());
     mButtonList.push_back(std::make_unique<SettingsButton>(setSettingGroup));
     mButtonList.push_back(std::make_unique<QuitButton>());
     return Menu::init(manager, renderer);

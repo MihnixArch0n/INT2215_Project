@@ -43,9 +43,9 @@ bool MyTexture::loadFromRenderedText(const char *text, const MyFont &font, SDL_R
         std::cerr << "Failed to create texture: " << SDL_GetError() << std::endl;
         return false;
     }
-    SDL_FreeSurface(textSurface);
     mWidth = textSurface->w;
     mHeight = textSurface->h;
+    SDL_FreeSurface(textSurface);
 
     return true;
 }

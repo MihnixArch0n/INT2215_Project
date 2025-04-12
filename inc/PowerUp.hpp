@@ -2,8 +2,6 @@
 #define POWERUP_HPP
 
 
-#include <SDL.h>
-
 #include "defs.hpp"
 
 
@@ -17,13 +15,14 @@ class PowerUp
 {
 public:
     explicit PowerUp(PowerUpDropType type);
+    PowerUp(const PowerUp& other);
     void update(int deltaTime);
 
     [[nodiscard]] PowerUpDropType getType() const {return mType;}
     [[nodiscard]] PowerUpStatus getStatus() const {return mStatus;}
     void setType(PowerUpDropType type) {mType = type;}
     void setStatus(PowerUpStatus status) {mStatus = status;}
-protected:
+private:
     double mDuration = 0;
     int mElapsedTime = 0;
     PowerUpStatus mStatus = PowerUpStatus::ACTIVATED;

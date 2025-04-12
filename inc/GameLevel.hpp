@@ -21,7 +21,6 @@ public:
     [[nodiscard]] bool hasWon() const {return mGameObjectManager->brickListEmpty();}
     [[nodiscard]] bool hasFinished() const {return hasLost() || hasWon();}
 
-    void newLevel();
     void saveLevel();
     void loadLevel();
 private:
