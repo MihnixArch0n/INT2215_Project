@@ -19,8 +19,12 @@ public:
     void toogleSound(bool opt) {soundStatus = opt;}
     void setMusicVolume(int vol) {musicVolume = vol;}
     void setSoundVolume(int vol) {soundVolume = vol;}
+
+    void save();
+    void load();
 private:
-    ConfigManager() = default;
+    ConfigManager();
+    ~ConfigManager();
 
     bool musicStatus = true;
     bool soundStatus = true;

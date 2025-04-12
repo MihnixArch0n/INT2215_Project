@@ -6,6 +6,9 @@ void AudioManager::init(const GameMusic& music, const GameSound& sound)
 {
     gMusic = &music;
     gSound = &sound;
+
+    updateMusicVolume();
+    updateSoundVolume();
 }
 
 AudioManager& AudioManager::getInstance()
