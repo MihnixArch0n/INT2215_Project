@@ -7,8 +7,11 @@ constexpr int SCREEN_WIDTH = 800;
 constexpr int SCREEN_HEIGHT = 600;
 constexpr char WINDOW_TITLE[] = "Brick Breaker";
 
-constexpr int LEVEL_WIDTH = SCREEN_WIDTH - 90;
+constexpr int LEVEL_WIDTH = SCREEN_WIDTH - 100;
 constexpr int LEVEL_HEIGHT = SCREEN_HEIGHT;
+
+constexpr int BRICK_ROW = 5;
+constexpr int BRICK_COLUMN = 10;
 
 
 enum class GameState
@@ -47,7 +50,9 @@ enum class PaddleType
 
 enum class BrickType
 {
-    NORMAL,
+    EASY,
+    MEDIUM,
+    HARD,
     TOTAL
 };
 

@@ -2,6 +2,7 @@
 
 #include <filesystem>
 #include <fstream>
+#include <iostream>
 
 #include "managers/CollisionManager.hpp"
 
@@ -12,16 +13,25 @@ GameObjectManager::GameObjectManager(ResourceManager& manager) : rResourceManage
 
 void GameObjectManager::init()
 {
-    mBallList.push_back(std::make_unique<Ball>());
-    mBricksList.resize(5);
     mPaddle.setObjectTexture(rResourceManager);
+
+    mBallList.push_back(std::make_unique<Ball>());
+
     for (auto &ball : mBallList)
     {
         ball->setObjectTexture(rResourceManager);
     }
-    for (int i = 0; i < 5; i++)
+
+    for (int i = 0; i < BRICK_ROW; ++i)
     {
-        mBricksList[i].setObjectTexture(rResourceManager);
+        mBricksList.emplace_back();
+        for (int j = 0; j < BRICK_COLUMN; ++j)
+        {
+            mBricksList[i].emplace_back();
+            mBricksList[i][j].setPosY(i * Brick::BRICK_HEIGHT);
+            mBricksList[i][j].setPosX(j * Brick::BRICK_WIDTH);
+            mBricksList[i][j].init(rResourceManager);
+        }
     }
 
 }
@@ -35,28 +45,27 @@ void GameObjectManager::handleEvent(const SDL_Event &event)
 void GameObjectManager::update(int deltaTime)
 {
     mPaddle.update(deltaTime);
-    for (auto &ball : mBallList) ball->update(deltaTime, mPaddle);
-    int ballsLeft = mBallList.size();
-    for (int i = ballsLeft-1; i >= 0; --i)
+
+    for (auto &brickRow : mBricksList)
     {
-        CollisionManager::handleCollision(*mBallList[i], mPaddle, deltaTime);
-        int bricksLeft = mBricksList.size();
-        for (int j = bricksLeft-1; j >= 0; --j)
-        {
-            CollisionManager::handleCollision(*mBallList[i], mBricksList[j], deltaTime);
-            if (!mBricksList[j].isAlive())
-            {
-                spawnDrop(PowerUpDropType::FIRE_BALL,
-                    mBricksList[j].getPosX(), mBricksList[j].getPosY());
-                mBricksList.erase(mBricksList.begin() + j);
-            }
-        }
-        if (mBallList[i]->getState() == BallState::EXPIRED)
-        {
-            changeBall(mBallList[i], BallType::NORMAL);
-        }
-        if (mBallList[i]->getState() == BallState::DEAD) mBallList.erase(mBallList.begin() + i);
+        for (auto &brick : brickRow) brick.update(deltaTime, rResourceManager);
     }
+
+    for (auto &ball : mBallList)
+    {
+        ball->update(deltaTime, mPaddle);
+
+        CollisionManager::handleCollision(*ball, mPaddle, deltaTime);
+
+        for (auto &brickRow : mBricksList)
+        {
+            for (auto &brick : brickRow)
+                CollisionManager::handleCollision(*ball, brick, deltaTime);
+        }
+
+        if (ball->getState() == BallState::EXPIRED) changeBall(ball, BallType::NORMAL);
+    }
+
     for (auto &powerUpDrop : mPowerUpDropList)
     {
         powerUpDrop.update(deltaTime);
@@ -81,23 +90,45 @@ void GameObjectManager::update(int deltaTime)
             }
         }
     }
+
     for (int i = mPowerUpDropList.size()-1; i >= 0; --i)
     {
         if (mPowerUpDropList[i].getStatus() != PowerUpDropStatus::ALIVE)
             mPowerUpDropList.erase(mPowerUpDropList.begin() + i);
+    }
+
+    for (int i = mBallList.size()-1; i >= 0; --i)
+    {
+        if (mBallList[i]->getState() == BallState::DEAD)
+            mBallList.erase(mBallList.begin() + i);
+    }
+
+    for (int i = 0; i < BRICK_ROW; ++i)
+    {
+        for (int j = mBricksList[i].size()-1; j >= 0; --j)
+        {
+            if (!mBricksList[i][j].isAlive())
+            {
+                spawnDrop(PowerUpDropType::FIRE_BALL, mBricksList[i][j].getPosX(),
+                    mBricksList[i][j].getPosY());
+                mBricksList[i].erase(mBricksList[i].begin() + j);
+            }
+        }
     }
 }
 
 void GameObjectManager::render(SDL_Renderer* renderer) const
 {
     mPaddle.render(renderer);
+
     for (const auto &ball : mBallList) ball->render(renderer);
-    for (const auto &brick : mBricksList) brick.render(renderer);
-    for (const auto &powerUpDrop : mPowerUpDropList)
+
+    for (const auto &brickRow : mBricksList)
     {
-        SDL_GetTicks();
-        powerUpDrop.render(renderer);
+        for (const auto &brick : brickRow) brick.render(renderer);
     }
+
+    for (const auto &powerUpDrop : mPowerUpDropList) powerUpDrop.render(renderer);
 }
 
 void GameObjectManager::resetBallList()
@@ -143,8 +174,11 @@ void GameObjectManager::save()
     ballFile.close();
 
     std::ofstream brickFile("save/objects/bricks.txt");
-    brickFile << mBricksList.size() << std::endl;
-    for (const auto &brick : mBricksList) brick.save(brickFile);
+    for (const auto &brickRow : mBricksList)
+    {
+        brickFile << brickRow.size() << std::endl;
+        for (const auto &brick : brickRow) brick.save(brickFile);
+    }
     brickFile.close();
 
     std::ofstream powerUpFile("save/objects/powerUp.txt");
@@ -175,12 +209,16 @@ void GameObjectManager::load()
         ballFile.close();
 
         std::ifstream brickFile("save/objects/bricks.txt");
-        brickFile >> n;
-        mBricksList.resize(n);
-        for (auto &brick : mBricksList)
+        mBricksList.resize(BRICK_ROW);
+        for (auto &brickRow : mBricksList)
         {
-            brick.load(brickFile);
-            brick.setObjectTexture(rResourceManager);
+            brickFile >> n;
+            brickRow.resize(n);
+            for (auto &brick : brickRow)
+            {
+                brick.load(brickFile);
+                brick.setObjectTexture(rResourceManager);
+            }
         }
         brickFile.close();
 

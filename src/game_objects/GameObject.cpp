@@ -26,7 +26,6 @@ void GameObject::setObjectTexture(const ResourceManager &manager)
     mObjectTexture = &manager.getTexture(getType(), getSubType());
 }
 
-
 void GameObject::save(std::ofstream& saveFile) const
 {
     saveFile << mPosX << " " << mPosY;

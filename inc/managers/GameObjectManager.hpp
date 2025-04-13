@@ -39,7 +39,7 @@ public:
 private:
     Paddle mPaddle;
     std::vector<std::unique_ptr<Ball>> mBallList;
-    std::vector<Brick> mBricksList;
+    std::vector<std::vector<Brick>> mBricksList;
     std::vector<PowerUpDrop> mPowerUpDropList;
     ResourceManager& rResourceManager;
 };

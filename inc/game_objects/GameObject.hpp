@@ -17,7 +17,9 @@ public:
     void render(SDL_Renderer* renderer) const;
     void render(int x, int y, SDL_Renderer* renderer) const;
 
-    void setObjectTexture(const ResourceManager& manager);
+    virtual void init(ResourceManager& manager) {}
+
+    virtual void setObjectTexture(const ResourceManager& manager);
 
     [[nodiscard]] double getPosX() const;
     [[nodiscard]] double getPosY() const;

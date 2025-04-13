@@ -7,20 +7,21 @@
 
 bool ResourceManager::loadResource(SDL_Renderer* renderer)
 {
+    pRenderer = renderer;
     bool success = true;
     mTextureList.resize(static_cast<int>(ObjectType::TOTAL));
     std::map<int, int> objMap =
     {
         {static_cast<int>(ObjectType::PADDLE), static_cast<int>(PaddleType::TOTAL)},
         {static_cast<int>(ObjectType::BALL), static_cast<int>(BallType::TOTAL)},
-        {static_cast<int>(ObjectType::BRICK), static_cast<int>(BrickType::TOTAL)},
+        // {static_cast<int>(ObjectType::BRICK), static_cast<int>(BrickType::TOTAL)},
         {static_cast<int>(ObjectType::POWER_UP_DROP), static_cast<int>(PowerUpDropType::TOTAL)}
     };
     std::map<int, std::string> objName =
     {
         {static_cast<int>(ObjectType::PADDLE), "paddles/Paddle_"},
         {static_cast<int>(ObjectType::BALL), "balls/Ball_"},
-        {static_cast<int>(ObjectType::BRICK), "bricks/Brick_"},
+        // {static_cast<int>(ObjectType::BRICK), "bricks/Brick_"},
         {static_cast<int>(ObjectType::POWER_UP_DROP), "power_ups/PowerUp_"}
     };
 
@@ -115,4 +116,23 @@ const MyTexture* ResourceManager::getText(const std::string &text) const
     auto it = mTextTextureList.find(text);
     if (it == mTextTextureList.end()) return nullptr;
     return &(it->second);
+}
+
+void ResourceManager::addTexture(ObjectType type, ObjectSubType subType, const std::string &filePath)
+{
+    if (mObjectTextures[type].find(subType) == mObjectTextures[type].end())
+    {
+        bool tmp = !mObjectTextures[type][subType].loadFromFile(pRenderer, filePath.c_str());
+        if (tmp) std::cerr << "Failed to load " << filePath << std::endl;
+    }
+}
+
+const MyTexture* ResourceManager::getObjectTexture(ObjectType type, ObjectSubType subType) const
+{
+    auto it1 = mObjectTextures.find(type);
+    if (it1 == mObjectTextures.end()) return nullptr;
+
+    auto it2 = it1->second.find(subType);
+    if (it2 == it1->second.end()) return nullptr;
+    return &(it2->second);
 }

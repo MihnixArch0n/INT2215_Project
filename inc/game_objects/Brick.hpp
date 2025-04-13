@@ -10,9 +10,17 @@ class Brick : public GameObject
 {
 public:
     Brick();
+    Brick(int x, int y, BrickType type = BrickType::EASY);
+    explicit Brick(BrickType type) {mSubType = type;}
     ~Brick() override = default;
 
-    [[nodiscard]] bool isAlive() const;
+    void init(ResourceManager &manager) override;
+
+    void setObjectTexture(const ResourceManager &manager) override;
+
+    [[nodiscard]] bool isAlive() const {return lives > 0;}
+
+    void update(int deltaTime, const ResourceManager& manager);
 
     [[nodiscard]] ObjectType getType() const override {return ObjectType::BRICK;}
     void onCollision(GameObject &other, int deltaTime) override;
@@ -20,10 +28,13 @@ public:
     void save(std::ofstream &saveFile) const override;
     void load(std::ifstream &loadFile) override;
 
-    constexpr static int BRICK_WIDTH = 40;
-    constexpr static int BRICK_HEIGHT = 20;
+    constexpr static int BRICK_WIDTH = 70;
+    constexpr static int BRICK_HEIGHT = 33;
+    constexpr static int COLLISION_COOLDOWN = 200;
 private:
     bool alive = true;
+    int lives = 1;
+    int timeSinceLastCooldown = 0;
 };
 
 

@@ -26,8 +26,15 @@ public:
     [[nodiscard]] const GameSound& getSound() const {return mSound;}
     [[nodiscard]] const MyTexture& getTexture(ObjectType type, ObjectSubType subType) const;
     [[nodiscard]] const MyTexture* getTexture(ButtonType type) const;
+
+    void addTexture(ObjectType type, ObjectSubType subType,
+        const std::string& filePath);
+    [[nodiscard]] const MyTexture* getObjectTexture(ObjectType type, ObjectSubType subType) const;
+
     void addText(const std::string& text, SDL_Renderer *renderer);
     [[nodiscard]] const MyTexture* getText(const std::string& text) const;
+
+private:
     std::vector<std::vector<MyTexture>> mTextureList;
     MyTexture mWonTexture;
     MyTexture mLostTexture;
@@ -39,6 +46,8 @@ public:
     GameMusic mMusic;
 
     std::map<ButtonType, MyTexture> mButtonTextures;
+    std::map<ObjectType, std::map<ObjectSubType, MyTexture>> mObjectTextures;
+    SDL_Renderer* pRenderer = nullptr;
 };
 
 
