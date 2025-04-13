@@ -12,7 +12,7 @@ class GameLevel
 public:
     explicit GameLevel(ResourceManager& manager);
 
-    void init();
+    void init(SDL_Renderer* renderer);
     void handleEvent(SDL_Event& event);
     void update(int deltaTime, GameState& gameState);
     void render(SDL_Renderer* renderer) const;
@@ -28,6 +28,8 @@ private:
 
     std::unique_ptr<GameObjectManager> mGameObjectManager;
     ResourceManager& rResourceManager;
+
+    const MyTexture* liveTexture = nullptr;
 };
 
 

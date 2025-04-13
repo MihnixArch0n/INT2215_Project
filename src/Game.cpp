@@ -35,7 +35,7 @@ bool Game::init()
         mResourceManager.getSound());
     AudioManager::getInstance().getMusic().play();
     mGameLevel = new GameLevel(mResourceManager);
-    mGameLevel->init();
+    mGameLevel->init(mRenderWindow.getRenderer());
     mMenuManager.init(mResourceManager, mRenderWindow.getRenderer());
     lastUpdateTime = SDL_GetTicks();
     return true;
@@ -55,7 +55,7 @@ void Game::handleEvent()
     while (!GameEventManager::getInstance().isEmpty())
     {
         auto gameEvent = GameEventManager::getInstance().topEvent();
-        if (gameEvent == "play_again") mGameLevel->init();
+        if (gameEvent == "play_again") mGameLevel->init(mRenderWindow.getRenderer());
         else if (gameEvent == "save") mGameLevel->saveLevel();
         else if (gameEvent == "load")
         {
@@ -76,7 +76,7 @@ void Game::update()
     {
         delete mGameLevel;
         mGameLevel = new GameLevel(mResourceManager);
-        mGameLevel->init();
+        mGameLevel->init(mRenderWindow.getRenderer());
     }
     if (mState == GameState::QUIT_TO_START) mState = GameState::START;
     if (mState == GameState::PLAYING) mGameLevel->update(deltaTime, mState);

@@ -8,11 +8,13 @@ GameLevel::GameLevel(ResourceManager& manager) : rResourceManager(manager)
 {
 }
 
-void GameLevel::init()
+void GameLevel::init(SDL_Renderer* renderer)
 {
     mGameObjectManager = std::make_unique<GameObjectManager>(rResourceManager);
     mGameObjectManager->init();
     mLives = 3;
+    rResourceManager.addText("Live", renderer);
+    liveTexture = rResourceManager.getText("Live");
 }
 
 void GameLevel::handleEvent(SDL_Event &event)
@@ -38,6 +40,11 @@ void GameLevel::update(int deltaTime, GameState& gameState)
 void GameLevel::render(SDL_Renderer *renderer) const
 {
     mGameObjectManager->render(renderer);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_RenderDrawLine(renderer, LEVEL_WIDTH, 0, LEVEL_WIDTH, LEVEL_HEIGHT);
+    liveTexture->render(LEVEL_WIDTH, 0, renderer);
+    auto live = "0" + std::to_string(mLives);
+    rResourceManager.getText(live)->render(LEVEL_WIDTH, liveTexture->getHeight(), renderer);
 }
 
 void GameLevel::loadLevel()

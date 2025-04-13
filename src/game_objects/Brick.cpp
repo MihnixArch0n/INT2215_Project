@@ -5,8 +5,8 @@
 
 Brick::Brick()
 {
-    mPosX = rand() % (SCREEN_WIDTH - BRICK_WIDTH);
-    mPosY = rand() % (SCREEN_HEIGHT / 2 - BRICK_HEIGHT);
+    mPosX = rand() % (LEVEL_WIDTH - BRICK_WIDTH);
+    mPosY = rand() % (LEVEL_HEIGHT / 2 - BRICK_HEIGHT);
     mWidth = BRICK_WIDTH;
     mHeight = BRICK_HEIGHT;
 

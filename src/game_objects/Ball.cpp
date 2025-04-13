@@ -18,7 +18,7 @@ Ball::Ball()
 {
     // mPosX = mPosY = 0;
     mPosX = 0;
-    mPosY = SCREEN_HEIGHT * 0.9;
+    mPosY = LEVEL_HEIGHT * 0.9;
     mWidth = M_BALL_WIDTH;
     mHeight = M_BALL_HEIGHT;
     mSubType = BallType::NORMAL;
@@ -95,9 +95,9 @@ void Ball::update(int deltaTime, const Paddle& paddle)
             mPosX = 0;
             mVelX = -mVelX;
         }
-        if (mPosX + mWidth > SCREEN_WIDTH)
+        if (mPosX + mWidth > LEVEL_WIDTH)
         {
-            mPosX = SCREEN_WIDTH - mWidth;
+            mPosX = LEVEL_WIDTH - mWidth;
             mVelX = -mVelX;
         }
         if (mPosY < 0)
@@ -105,12 +105,12 @@ void Ball::update(int deltaTime, const Paddle& paddle)
             mPosY = 0;
             mVelY = -mVelY;
         }
-        // if (mPosY + mHeight > SCREEN_HEIGHT)
+        // if (mPosY + mHeight > LEVEL_HEIGHT)
         // {
-        //     mPosY = SCREEN_HEIGHT - mHeight;
+        //     mPosY = LEVEL_HEIGHT - mHeight;
         //     mVelY = -mVelY;
         // }
-        if (mPosY > SCREEN_HEIGHT) mState = BallState::DEAD;
+        if (mPosY > LEVEL_HEIGHT) mState = BallState::DEAD;
 
         if (mPowerUp != nullptr)
         {

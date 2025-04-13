@@ -7,6 +7,9 @@ constexpr int SCREEN_WIDTH = 800;
 constexpr int SCREEN_HEIGHT = 600;
 constexpr char WINDOW_TITLE[] = "Brick Breaker";
 
+constexpr int LEVEL_WIDTH = SCREEN_WIDTH - 90;
+constexpr int LEVEL_HEIGHT = SCREEN_HEIGHT;
+
 
 enum class GameState
 {

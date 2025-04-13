@@ -4,7 +4,7 @@
 Paddle::Paddle()
 {
     mPosX = 300;
-    mPosY = SCREEN_HEIGHT * 0.9;
+    mPosY = LEVEL_HEIGHT * 0.9;
     mWidth = M_PADDLE_WIDTH;
     mHeight = M_PADDLE_HEIGHT;
 
@@ -46,7 +46,7 @@ void Paddle::update(int deltaTime)
 {
     mPosX += mVel * deltaTime / 1000.0;
     if (mPosX < 0) mPosX = 0;
-    if (mPosX + mWidth > SCREEN_WIDTH) mPosX = SCREEN_WIDTH - mWidth;
+    if (mPosX + mWidth > LEVEL_WIDTH) mPosX = LEVEL_WIDTH - mWidth;
 }
 
 void Paddle::save(std::ofstream &saveFile) const
