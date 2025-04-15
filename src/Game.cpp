@@ -31,6 +31,9 @@ bool Game::init()
         return false;
     }
 
+    Ball::init(mResourceManager);
+    Brick::init(mResourceManager);
+
     AudioManager::getInstance().init(mResourceManager.getMusic(),
         mResourceManager.getSound());
     AudioManager::getInstance().getMusic().play();

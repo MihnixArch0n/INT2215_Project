@@ -17,10 +17,7 @@ void GameObjectManager::init()
 
     mBallList.push_back(std::make_unique<Ball>());
 
-    for (auto &ball : mBallList)
-    {
-        ball->setObjectTexture(rResourceManager);
-    }
+    for (auto &ball : mBallList) ball->setTexture(rResourceManager);
 
     for (int i = 0; i < BRICK_ROW; ++i)
     {
@@ -30,7 +27,7 @@ void GameObjectManager::init()
             mBricksList[i].emplace_back();
             mBricksList[i][j].setPosY(i * Brick::BRICK_HEIGHT);
             mBricksList[i][j].setPosX(j * Brick::BRICK_WIDTH);
-            mBricksList[i][j].init(rResourceManager);
+            mBricksList[i][j].setTexture(rResourceManager);
         }
     }
 
@@ -135,7 +132,7 @@ void GameObjectManager::resetBallList()
 {
     mBallList.clear();
     mBallList.push_back(std::make_unique<Ball>());
-    mBallList[0]->setObjectTexture(rResourceManager);
+    mBallList[0]->setTexture(rResourceManager);
     mBallList[0]->setState(BallState::START);
 }
 
@@ -147,7 +144,7 @@ void GameObjectManager::addBall(const Ball& ball, double x, double y)
 void GameObjectManager::changeBall(std::unique_ptr<Ball>& ball, BallType ballType)
 {
     ball = std::make_unique<Ball>(*ball, ballType);
-    ball->setObjectTexture(rResourceManager);
+    ball->setTexture(rResourceManager);
 }
 
 
@@ -204,7 +201,7 @@ void GameObjectManager::load()
         for (auto &ball : mBallList)
         {
             ball->load(ballFile);
-            ball->setObjectTexture(rResourceManager);
+            ball->setTexture(rResourceManager);
         }
         ballFile.close();
 
@@ -217,7 +214,7 @@ void GameObjectManager::load()
             for (auto &brick : brickRow)
             {
                 brick.load(brickFile);
-                brick.setObjectTexture(rResourceManager);
+                brick.setTexture(rResourceManager);
             }
         }
         brickFile.close();

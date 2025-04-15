@@ -14,9 +14,7 @@ public:
     explicit Brick(BrickType type) {mSubType = type;}
     ~Brick() override = default;
 
-    void init(ResourceManager &manager) override;
-
-    void setObjectTexture(const ResourceManager &manager) override;
+    static void init(ResourceManager &manager);
 
     [[nodiscard]] bool isAlive() const {return lives > 0;}
 
@@ -30,7 +28,7 @@ public:
 
     constexpr static int BRICK_WIDTH = 70;
     constexpr static int BRICK_HEIGHT = 33;
-    constexpr static int COLLISION_COOLDOWN = 200;
+    constexpr static int COLLISION_COOLDOWN = 160;
 private:
     bool alive = true;
     int lives = 1;

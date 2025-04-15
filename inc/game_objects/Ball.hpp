@@ -30,12 +30,11 @@ public:
     Ball(const Ball& other, int x, int y);
     ~Ball() override = default;
 
+    static void init(ResourceManager &manager);
+    void setObjectTexture(const ResourceManager &manager) override;
+
     void handleEvent(const SDL_Event& event);
     virtual void update(int deltaTime, const Paddle& paddle);
-
-    void handleCollision(int deltaTime, const Paddle& paddle, const std::vector<Brick>& bricksList);
-    void handleCollisionWithPaddle(int deltaTime, const Paddle& paddle);
-    void handleCollisionWithBricks(int deltaTime, const std::vector<Brick>& bricksList);
 
     [[nodiscard]] BallState getState() const;
     void setState(BallState state);
@@ -47,9 +46,9 @@ public:
     void save(std::ofstream &saveFile) const override;
     void load(std::ifstream &loadFile) override;
 
-    constexpr static int M_BALL_SPEED = 450;
-    constexpr static int M_BALL_WIDTH = 32;
-    constexpr static int M_BALL_HEIGHT = 32;
+    constexpr static int BALL_SPEED = 400;
+    constexpr static int BALL_WIDTH = 24;
+    constexpr static int BALL_HEIGHT = 24;
 protected:
     double mVelX = 0, mVelY = 0;
     BallState mState = BallState::START;

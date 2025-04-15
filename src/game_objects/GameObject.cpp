@@ -1,7 +1,5 @@
 #include "game_objects/GameObject.hpp"
 
-GameObject::~GameObject() = default;
-
 
 void GameObject::render(SDL_Renderer *renderer) const
 {
@@ -25,6 +23,12 @@ void GameObject::setObjectTexture(const ResourceManager &manager)
 {
     mObjectTexture = &manager.getTexture(getType(), getSubType());
 }
+
+void GameObject::setTexture(const ResourceManager &manager)
+{
+    mObjectTexture = manager.getObjectTexture(getType(), getSubType());
+}
+
 
 void GameObject::save(std::ofstream& saveFile) const
 {

@@ -8,8 +8,8 @@
 /**
  * Linear mapping to radian angle based on hit position.
 */
-constexpr double HIT_POS_START = -(Paddle::M_PADDLE_WIDTH - Ball::M_BALL_WIDTH) / 2.0;
-constexpr double HIT_POS_END = (Paddle::M_PADDLE_WIDTH - Ball::M_BALL_WIDTH) / 2.0;
+constexpr double HIT_POS_START = -(Paddle::M_PADDLE_WIDTH - Ball::BALL_WIDTH) / 2.0;
+constexpr double HIT_POS_END = (Paddle::M_PADDLE_WIDTH - Ball::BALL_WIDTH) / 2.0;
 constexpr double RAD_ANGLE_START = 3 * M_PI_4;
 constexpr double RAD_ANGLE_END = M_PI_4;
 
@@ -19,8 +19,8 @@ Ball::Ball()
     // mPosX = mPosY = 0;
     mPosX = 0;
     mPosY = LEVEL_HEIGHT * 0.9;
-    mWidth = M_BALL_WIDTH;
-    mHeight = M_BALL_HEIGHT;
+    mWidth = BALL_WIDTH;
+    mHeight = BALL_HEIGHT;
     mSubType = BallType::NORMAL;
 }
 
@@ -34,8 +34,8 @@ Ball::Ball(const Ball& other)
 {
     mPosX = other.mPosX;
     mPosY = other.mPosY;
-    mWidth = M_BALL_WIDTH;
-    mHeight = M_BALL_HEIGHT;
+    mWidth = BALL_WIDTH;
+    mHeight = BALL_HEIGHT;
 
     mVelX = other.mVelX;
     mVelY = other.mVelY;
@@ -67,13 +67,28 @@ Ball::Ball(const Ball &other, int x, int y) : Ball(other)
 }
 
 
+void Ball::init(ResourceManager &manager)
+{
+    auto type = ObjectType::BALL;
+    std::string resPath = "assets/img/balls";
+    manager.addTexture(type, BallType::NORMAL, resPath + "/NormalBall.png");
+    manager.addTexture(type, BallType::FIRE, resPath + "/FireBall.png");
+}
+
+void Ball::setObjectTexture(const ResourceManager &manager)
+{
+    mObjectTexture = manager.getObjectTexture(getType(), mSubType);
+}
+
+
+
 void Ball::handleEvent(const SDL_Event &event)
 {
     if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE)
     {
         mState = BallState::MOVING;
         mVelX = 0;
-        mVelY = -M_BALL_SPEED;
+        mVelY = -BALL_SPEED;
     }
 }
 
@@ -140,8 +155,8 @@ void Ball::onCollision(GameObject& other, int deltaTime)
             double angle = (ballCenterX - paddleCenterX - HIT_POS_START)
                 / (HIT_POS_END - HIT_POS_START);
             angle = angle * (RAD_ANGLE_END - RAD_ANGLE_START) + RAD_ANGLE_START;
-            mVelX = M_BALL_SPEED * cos(angle);
-            mVelY = -M_BALL_SPEED * sin(angle);
+            mVelX = BALL_SPEED * cos(angle);
+            mVelY = -BALL_SPEED * sin(angle);
         }
         else if (checkPosY > other.getPosY() + other.getHeight())
         {
@@ -149,8 +164,8 @@ void Ball::onCollision(GameObject& other, int deltaTime)
             double angle = (ballCenterX - paddleCenterX - HIT_POS_START)
                 / (HIT_POS_END - HIT_POS_START);
             angle = angle * (RAD_ANGLE_END - RAD_ANGLE_START) + RAD_ANGLE_START;
-            mVelX = M_BALL_SPEED * cos(angle);
-            mVelY = M_BALL_SPEED * sin(angle);
+            mVelX = BALL_SPEED * cos(angle);
+            mVelY = BALL_SPEED * sin(angle);
         }
         else if (checkPosX + mWidth < other.getPosX())
         {

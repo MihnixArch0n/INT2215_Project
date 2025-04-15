@@ -31,24 +31,17 @@ Brick::Brick(int x, int y, BrickType type) : Brick()
 
 void Brick::init(ResourceManager &manager)
 {
+    auto type = ObjectType::BRICK;
     std::string resPath = "assets/img/bricks";
-    if (std::get<BrickType>(mSubType) == BrickType::EASY) resPath += "/EasyBrick.png";
-    else if (std::get<BrickType>(mSubType) == BrickType::MEDIUM) resPath += "/MediumBrick.png";
-    else if (std::get<BrickType>(mSubType) == BrickType::HARD) resPath += "/HardBrick.png";
-
-    manager.addTexture(getType(), mSubType, resPath);
-    setObjectTexture(manager);
-}
-
-void Brick::setObjectTexture(const ResourceManager &manager)
-{
-    mObjectTexture = manager.getObjectTexture(getType(), mSubType);
+    manager.addTexture(type, BrickType::EASY, resPath + "/EasyBrick.png");
+    manager.addTexture(type, BrickType::MEDIUM, resPath + "/MediumBrick.png");
+    manager.addTexture(type, BrickType::HARD, resPath + "/HardBrick.png");
 }
 
 void Brick::update(int deltaTime, const ResourceManager &manager)
 {
     timeSinceLastCooldown += deltaTime;
-    setObjectTexture(manager);
+    setTexture(manager);
 }
 
 

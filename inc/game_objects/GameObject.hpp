@@ -13,13 +13,14 @@ class GameObject
 {
 public:
     GameObject() = default;
-    virtual ~GameObject() = 0;
+    GameObject(double x, double y) : mPosX(x), mPosY(y) {}
+    virtual ~GameObject() = default;
+
     void render(SDL_Renderer* renderer) const;
     void render(int x, int y, SDL_Renderer* renderer) const;
 
-    virtual void init(ResourceManager& manager) {}
-
     virtual void setObjectTexture(const ResourceManager& manager);
+    void setTexture(const ResourceManager& manager);
 
     [[nodiscard]] double getPosX() const;
     [[nodiscard]] double getPosY() const;
