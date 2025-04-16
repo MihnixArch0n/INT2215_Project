@@ -32,6 +32,8 @@ public:
 private:
     int lives = 1;
     int timeSinceLastCooldown = 0;
+
+    std::vector<double> probabilities {0.5, 0.3, 0.2};
 };
 
 
