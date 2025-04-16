@@ -81,27 +81,34 @@ void Ball::update(int deltaTime, const Paddle& paddle)
     {
         mPosX += mVelX * deltaTime / 1000.0;
         mPosY += mVelY * deltaTime / 1000.0;
+        bool collidedWithWall = false;
 
         if (mPosX < 0)
         {
             mPosX = 0;
             mVelX = -mVelX;
+            collidedWithWall = true;
         }
         if (mPosX + mWidth > LEVEL_WIDTH)
         {
             mPosX = LEVEL_WIDTH - mWidth;
             mVelX = -mVelX;
+            collidedWithWall = true;
         }
         if (mPosY < 0)
         {
             mPosY = 0;
             mVelY = -mVelY;
+            collidedWithWall = true;
         }
         // if (mPosY + mHeight > LEVEL_HEIGHT)
         // {
         //     mPosY = LEVEL_HEIGHT - mHeight;
         //     mVelY = -mVelY;
         // }
+
+        if (collidedWithWall) AudioManager::getInstance().getSound().play();
+
         if (mPosY > LEVEL_HEIGHT) mState = BallState::DEAD;
     }
 }
