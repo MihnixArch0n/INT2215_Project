@@ -56,14 +56,14 @@ enum class BrickType
     TOTAL
 };
 
-enum class PowerUpDropType
+enum class PowerUpType
 {
     MULTI_BALL,
     FIRE_BALL,
     TOTAL
 };
 
-using ObjectSubType = std::variant<BallType, PaddleType, BrickType, PowerUpDropType>;
+using ObjectSubType = std::variant<BallType, PaddleType, BrickType, PowerUpType>;
 
 
 enum class PowerUpDropStatus

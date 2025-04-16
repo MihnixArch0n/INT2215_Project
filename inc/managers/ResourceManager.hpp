@@ -24,11 +24,9 @@ public:
     [[nodiscard]] const MyFont& getFont() const {return mFont;}
     [[nodiscard]] const GameMusic& getMusic() const {return mMusic;}
     [[nodiscard]] const GameSound& getSound() const {return mSound;}
-    [[nodiscard]] const MyTexture& getTexture(ObjectType type, ObjectSubType subType) const;
     [[nodiscard]] const MyTexture* getTexture(ButtonType type) const;
 
-    void addTexture(ObjectType type, ObjectSubType subType,
-        const std::string& filePath);
+    void addTexture(ObjectType type, ObjectSubType subType, const std::string& filePath);
     [[nodiscard]] const MyTexture* getObjectTexture(ObjectType type, ObjectSubType subType) const;
 
     void addText(const std::string& text, SDL_Renderer *renderer);

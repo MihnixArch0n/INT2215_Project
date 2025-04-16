@@ -1,10 +1,10 @@
 #include "PowerUp.hpp"
 
-PowerUp::PowerUp(PowerUpDropType type)
+PowerUp::PowerUp(PowerUpType type)
 {
     mType = type;
-    if (type == PowerUpDropType::MULTI_BALL) mDuration = -1;
-    else if (type == PowerUpDropType::FIRE_BALL) mDuration = 15 * 1000;
+    if (type == PowerUpType::MULTI_BALL) mDuration = -1;
+    else if (type == PowerUpType::FIRE_BALL) mDuration = 15 * 1000;
 }
 
 PowerUp::PowerUp(const PowerUp &other)

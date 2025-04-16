@@ -19,10 +19,6 @@ double GameObject::getPosY() const {return mPosY;}
 int GameObject::getWidth() const {return mWidth;}
 int GameObject::getHeight() const {return mHeight;}
 
-void GameObject::setObjectTexture(const ResourceManager &manager)
-{
-    mObjectTexture = &manager.getTexture(getType(), getSubType());
-}
 
 void GameObject::setTexture(const ResourceManager &manager)
 {

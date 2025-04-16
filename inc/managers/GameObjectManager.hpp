@@ -30,7 +30,7 @@ public:
     [[nodiscard]] bool brickListEmpty() const {return mBricksList.empty();}
 
 
-    void spawnDrop(PowerUpDropType type, double x, double y);
+    void spawnDrop(PowerUpType type, double x, double y);
     void resetBallList();
 
     void save();

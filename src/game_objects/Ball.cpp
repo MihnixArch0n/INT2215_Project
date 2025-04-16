@@ -27,7 +27,7 @@ Ball::Ball()
 Ball::Ball(BallType type) : Ball()
 {
     mSubType = type;
-    if (type == BallType::FIRE) mPowerUp = std::make_unique<PowerUp>(PowerUpDropType::FIRE_BALL);
+    if (type == BallType::FIRE) mPowerUp = std::make_unique<PowerUp>(PowerUpType::FIRE_BALL);
 }
 
 Ball::Ball(const Ball& other)
@@ -56,7 +56,7 @@ Ball::Ball(const Ball& other, BallType type) : Ball(other)
     else if (type == BallType::FIRE)
     {
         mSubType = BallType::FIRE;
-        mPowerUp = std::make_unique<PowerUp>(PowerUpDropType::FIRE_BALL);
+        mPowerUp = std::make_unique<PowerUp>(PowerUpType::FIRE_BALL);
     }
 }
 
@@ -74,12 +74,6 @@ void Ball::init(ResourceManager &manager)
     manager.addTexture(type, BallType::NORMAL, resPath + "/NormalBall.png");
     manager.addTexture(type, BallType::FIRE, resPath + "/FireBall.png");
 }
-
-void Ball::setObjectTexture(const ResourceManager &manager)
-{
-    mObjectTexture = manager.getObjectTexture(getType(), mSubType);
-}
-
 
 
 void Ball::handleEvent(const SDL_Event &event)

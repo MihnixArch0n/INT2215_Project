@@ -12,6 +12,8 @@ public:
     PowerUpDrop();
     ~PowerUpDrop() override = default;
 
+    static void init(ResourceManager& manager);
+
     void update(int deltaTime);
     void onCollision(GameObject &other, int deltaTime) override;
 
@@ -23,8 +25,8 @@ public:
     void load(std::ifstream &loadFile) override;
 
     constexpr static int DROP_SPEED = 100;
-    constexpr static int WIDTH = 32;
-    constexpr static int HEIGHT = 32;
+    constexpr static int WIDTH = 36;
+    constexpr static int HEIGHT = 36;
 private:
     PowerUpDropStatus mStatus = PowerUpDropStatus::ALIVE;
     double mVel = DROP_SPEED;

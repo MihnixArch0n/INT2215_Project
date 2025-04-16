@@ -31,7 +31,6 @@ public:
     ~Ball() override = default;
 
     static void init(ResourceManager &manager);
-    void setObjectTexture(const ResourceManager &manager) override;
 
     void handleEvent(const SDL_Event& event);
     virtual void update(int deltaTime, const Paddle& paddle);

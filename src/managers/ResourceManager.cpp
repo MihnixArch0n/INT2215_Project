@@ -9,31 +9,7 @@ bool ResourceManager::loadResource(SDL_Renderer* renderer)
 {
     pRenderer = renderer;
     bool success = true;
-    mTextureList.resize(static_cast<int>(ObjectType::TOTAL));
-    std::map<int, int> objMap =
-    {
-        {static_cast<int>(ObjectType::POWER_UP_DROP), static_cast<int>(PowerUpDropType::TOTAL)}
-    };
-    std::map<int, std::string> objName =
-    {
-        {static_cast<int>(ObjectType::POWER_UP_DROP), "power_ups/PowerUp_"}
-    };
 
-    std::string textureDir = "assets/img/";
-    for (const auto &p : objMap)
-    {
-        mTextureList[p.first].resize(p.second);
-        for (int i = 0; i < (p.second); ++i)
-        {
-            std::string filePath = textureDir + objName[p.first];
-            filePath += std::to_string(i+1) + ".png";
-            if (!mTextureList[p.first][i].loadFromFile(renderer, filePath.c_str()))
-            {
-                std::cerr << "Failed to load texture" << std::endl;
-                return false;
-            }
-        }
-    }
 
     if (mFont.loadFont("res/fonts/GohuFont14NerdFontMono-Regular.ttf", 36))
     {
@@ -76,20 +52,6 @@ bool ResourceManager::loadResource(SDL_Renderer* renderer)
     return success;
 }
 
-const MyTexture& ResourceManager::getTexture(ObjectType type, ObjectSubType subType) const
-{
-    int typeInt = static_cast<int>(type);
-    int subTypeInt = -1;
-    if (type == ObjectType::BALL && std::holds_alternative<BallType>(subType))
-        subTypeInt = static_cast<int>(std::get<BallType>(subType));
-    else if (type == ObjectType::PADDLE && std::holds_alternative<PaddleType>(subType))
-        subTypeInt = static_cast<int>(std::get<PaddleType>(subType));
-    else if (type == ObjectType::BRICK && std::holds_alternative<BrickType>(subType))
-        subTypeInt = static_cast<int>(std::get<BrickType>(subType));
-    else if (type == ObjectType::POWER_UP_DROP && std::holds_alternative<PowerUpDropType>(subType))
-        subTypeInt = static_cast<int>(std::get<PowerUpDropType>(subType));
-    return mTextureList[typeInt][subTypeInt];
-}
 
 const MyTexture* ResourceManager::getTexture(ButtonType type) const
 {

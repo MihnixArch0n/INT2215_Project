@@ -70,9 +70,9 @@ void GameObjectManager::update(int deltaTime)
 
         if (powerUpDrop.getStatus() == PowerUpDropStatus::COLLECTED)
         {
-            auto powerUpType = std::get<PowerUpDropType>(powerUpDrop.getSubType());
+            auto powerUpType = std::get<PowerUpType>(powerUpDrop.getSubType());
             int ballNum = mBallList.size();
-            if (powerUpType == PowerUpDropType::MULTI_BALL)
+            if (powerUpType == PowerUpType::MULTI_BALL)
             {
                 for (int i = 0; i < ballNum; ++i)
                 {
@@ -81,7 +81,7 @@ void GameObjectManager::update(int deltaTime)
                     addBall(cBall, cBall.getPosX() + 50, cBall.getPosY());
                 }
             }
-            else if (powerUpType == PowerUpDropType::FIRE_BALL)
+            else if (powerUpType == PowerUpType::FIRE_BALL)
             {
                 for (int i = 0; i < ballNum; ++i) changeBall(mBallList[i], BallType::FIRE);
             }
@@ -106,7 +106,7 @@ void GameObjectManager::update(int deltaTime)
         {
             if (!mBricksList[i][j].isAlive())
             {
-                spawnDrop(PowerUpDropType::FIRE_BALL, mBricksList[i][j].getPosX(),
+                spawnDrop(PowerUpType::FIRE_BALL, mBricksList[i][j].getPosX(),
                     mBricksList[i][j].getPosY());
                 mBricksList[i].erase(mBricksList[i].begin() + j);
             }
@@ -148,11 +148,11 @@ void GameObjectManager::changeBall(std::unique_ptr<Ball>& ball, BallType ballTyp
 }
 
 
-void GameObjectManager::spawnDrop(PowerUpDropType type, double x, double y)
+void GameObjectManager::spawnDrop(PowerUpType type, double x, double y)
 {
     mPowerUpDropList.emplace_back();
     mPowerUpDropList.back().setSubType(type);
-    mPowerUpDropList.back().setObjectTexture(rResourceManager);
+    mPowerUpDropList.back().setTexture(rResourceManager);
     mPowerUpDropList.back().setPosX(x);
     mPowerUpDropList.back().setPosY(y);
 }
@@ -225,7 +225,7 @@ void GameObjectManager::load()
         for (auto &powerUpDrop : mPowerUpDropList)
         {
             powerUpDrop.load(powerUpFile);
-            powerUpDrop.setObjectTexture(rResourceManager);
+            powerUpDrop.setTexture(rResourceManager);
         }
         powerUpFile.close();
     }
