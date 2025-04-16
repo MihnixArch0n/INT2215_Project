@@ -36,8 +36,7 @@ bool Game::init()
     Paddle::init(mResourceManager);
     PowerUpDrop::init(mResourceManager);
 
-    AudioManager::getInstance().init(mResourceManager.getMusic(),
-        mResourceManager.getSound());
+    AudioManager::getInstance().init(mResourceManager);
     AudioManager::getInstance().getMusic().play();
     mGameLevel = new GameLevel(mResourceManager);
     mGameLevel->init(mRenderWindow.getRenderer());

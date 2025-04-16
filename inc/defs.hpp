@@ -114,4 +114,11 @@ enum class SettingType
     SOUND_VOLUME
 };
 
+
+enum class SoundType
+{
+    HIT,
+    COLLECT
+};
+
 #endif //DEFS_HPP

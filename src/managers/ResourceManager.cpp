@@ -30,11 +30,6 @@ bool ResourceManager::loadResource(SDL_Renderer* renderer)
         success = false;
     }
 
-    if (!mSound.loadSound("assets/audio/sound/hit02.mp3.flac"))
-    {
-        std::cerr << "Failed to load sound" << std::endl;
-        success = false;
-    }
     if (!mMusic.loadMusic("assets/audio/music/best-game-console-301284.mp3"))
     {
         std::cerr << "Failed to load music" << std::endl;
@@ -91,4 +86,20 @@ const MyTexture* ResourceManager::getObjectTexture(ObjectType type, ObjectSubTyp
     auto it2 = it1->second.find(subType);
     if (it2 == it1->second.end()) return nullptr;
     return &(it2->second);
+}
+
+void ResourceManager::addSound(SoundType soundType, const std::string &filePath)
+{
+    if (mSoundList.find(soundType) == mSoundList.end())
+    {
+        bool res = !mSoundList[soundType].loadSound(filePath.c_str());
+        if (res) std::cerr << "Failed to sound " << filePath << std::endl;
+    }
+}
+
+const GameSound* ResourceManager::getSound(SoundType type) const
+{
+    auto it = mSoundList.find(type);
+    if (it == mSoundList.end()) return nullptr;
+    return &(it->second);
 }

@@ -2,6 +2,10 @@
 #define AUDIOMANAGER_HPP
 
 
+#include <map>
+
+#include "defs.hpp"
+#include "ResourceManager.hpp"
 #include "game_resources/GameMusic.hpp"
 #include "game_resources/GameSound.hpp"
 
@@ -13,17 +17,17 @@ public:
     AudioManager& operator=(const AudioManager&) = delete;
 
     static AudioManager& getInstance();
-    void init(const GameMusic& music, const GameSound& sound);
+    void init(ResourceManager& manager);
 
     [[nodiscard]] const GameMusic& getMusic() const {return *gMusic;}
-    [[nodiscard]] const GameSound& getSound() const {return *gSound;}
+    [[nodiscard]] const GameSound* getSound(SoundType type) const;
 
     void updateMusicVolume();
     void updateSoundVolume();
 private:
     AudioManager() = default;
     const GameMusic* gMusic = nullptr;
-    const GameSound* gSound = nullptr;
+    std::map<SoundType, const GameSound*> gSoundMap;
 };
 
 

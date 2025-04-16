@@ -21,9 +21,13 @@ public:
 
     [[nodiscard]] const MyTexture& getWonTexture() const {return mWonTexture;}
     [[nodiscard]] const MyTexture& getLostTexture() const {return mLostTexture;}
+
     [[nodiscard]] const MyFont& getFont() const {return mFont;}
+
     [[nodiscard]] const GameMusic& getMusic() const {return mMusic;}
-    [[nodiscard]] const GameSound& getSound() const {return mSound;}
+    void addSound(SoundType soundType, const std::string& filePath);
+    [[nodiscard]] const GameSound* getSound(SoundType type) const;
+
     [[nodiscard]] const MyTexture* getTexture(ButtonType type) const;
 
     void addTexture(ObjectType type, ObjectSubType subType, const std::string& filePath);
@@ -40,7 +44,7 @@ private:
     std::map<std::string, MyTexture> mTextTextureList;
     MyFont mFont;
 
-    GameSound mSound;
+    std::map<SoundType, GameSound> mSoundList;
     GameMusic mMusic;
 
     std::map<ButtonType, MyTexture> mButtonTextures;

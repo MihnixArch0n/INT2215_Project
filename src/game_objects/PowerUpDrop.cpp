@@ -1,6 +1,7 @@
 #include "defs.hpp"
 #include "game_objects/PowerUpDrop.hpp"
 #include "game_objects/GameObject.hpp"
+#include "managers/AudioManager.hpp"
 
 
 PowerUpDrop::PowerUpDrop()
@@ -30,7 +31,11 @@ void PowerUpDrop::update(int deltaTime)
 
 void PowerUpDrop::onCollision(GameObject &other, int deltaTime)
 {
-    if (other.getType() == ObjectType::PADDLE) mStatus = PowerUpDropStatus::COLLECTED;
+    if (other.getType() == ObjectType::PADDLE)
+    {
+        mStatus = PowerUpDropStatus::COLLECTED;
+        AudioManager::getInstance().getSound(SoundType::COLLECT)->play();
+    }
 }
 
 void PowerUpDrop::save(std::ofstream &saveFile) const

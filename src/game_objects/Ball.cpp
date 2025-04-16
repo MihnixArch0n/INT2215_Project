@@ -107,7 +107,7 @@ void Ball::update(int deltaTime, const Paddle& paddle)
         //     mVelY = -mVelY;
         // }
 
-        if (collidedWithWall) AudioManager::getInstance().getSound().play();
+        if (collidedWithWall) AudioManager::getInstance().getSound(SoundType::HIT)->play();
 
         if (mPosY > LEVEL_HEIGHT) mState = BallState::DEAD;
     }
@@ -153,7 +153,7 @@ void Ball::onCollision(GameObject& other, int deltaTime)
             mVelX = -mVelX;
         }
 
-        AudioManager::getInstance().getSound().play();
+        AudioManager::getInstance().getSound(SoundType::HIT)->play();
     }
 
     if (other.getType() == ObjectType::BRICK)
@@ -182,7 +182,7 @@ void Ball::onCollision(GameObject& other, int deltaTime)
             }
         }
 
-        AudioManager::getInstance().getSound().play();
+        AudioManager::getInstance().getSound(SoundType::HIT)->play();
     }
 }
 
