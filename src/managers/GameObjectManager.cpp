@@ -1,5 +1,6 @@
 #include "managers/GameObjectManager.hpp"
 
+#include <algorithm>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -41,11 +42,14 @@ void GameObjectManager::handleEvent(const SDL_Event &event)
 
 void GameObjectManager::update(int deltaTime)
 {
-    for (int i = mPowerUpDropList.size()-1; i >= 0; --i)
-    {
-        if (mPowerUpDropList[i].getStatus() != PowerUpDropStatus::ALIVE)
-            mPowerUpDropList.erase(mPowerUpDropList.begin() + i);
-    }
+
+    mPowerUpDropList.erase(
+        std::remove_if(
+            mPowerUpDropList.begin(),mPowerUpDropList.end(),
+            [](const PowerUpDrop& p) {
+                return p.getStatus() != PowerUpDropStatus::ALIVE;
+            }),
+        mPowerUpDropList.end());
 
     mPaddle.update(deltaTime);
 
@@ -66,7 +70,6 @@ void GameObjectManager::update(int deltaTime)
                 CollisionManager::handleCollision(*ball, brick, deltaTime);
         }
 
-        // if (ball->getState() == BallState::EXPIRED) changeBall(ball, BallType::NORMAL);
     }
 
     for (auto &powerUpDrop : mPowerUpDropList)
@@ -75,11 +78,12 @@ void GameObjectManager::update(int deltaTime)
         CollisionManager::handleCollision(mPaddle, powerUpDrop, deltaTime);
     }
 
-    for (int i = mBallList.size()-1; i >= 0; --i)
-    {
-        if (mBallList[i]->getState() == BallState::DEAD)
-            mBallList.erase(mBallList.begin() + i);
-    }
+    mBallList.erase(
+        std::remove_if(mBallList.begin(), mBallList.end(),
+            [](const std::unique_ptr<Ball>& ball) {
+                return ball->getState() == BallState::DEAD;
+            }),
+        mBallList.end());
 
     for (int i = 0; i < BRICK_ROW; ++i)
     {
@@ -93,6 +97,7 @@ void GameObjectManager::update(int deltaTime)
             }
         }
     }
+
 }
 
 void GameObjectManager::render(SDL_Renderer* renderer) const
@@ -122,9 +127,8 @@ void GameObjectManager::addBall(const Ball& ball, double x, double y)
     mBallList.push_back(std::make_unique<Ball>(Ball(ball, x, y)));
 }
 
-void GameObjectManager::changeBall(std::unique_ptr<Ball>& ball, BallType ballType)
+void GameObjectManager::changeBall(const std::unique_ptr<Ball>& ball, BallType ballType) const
 {
-    // ball = std::make_unique<Ball>(*ball, ballType);
     ball->setSubType(ballType);
     ball->setTexture(rResourceManager);
 }
@@ -173,7 +177,7 @@ void GameObjectManager::spawnDrop(PowerUpType type, double x, double y)
     mPowerUpDropList.back().setPosY(y);
 }
 
-void GameObjectManager::save()
+void GameObjectManager::save() const
 {
     std::filesystem::create_directory("save/objects");
 

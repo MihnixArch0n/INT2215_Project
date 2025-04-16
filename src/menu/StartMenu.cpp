@@ -1,8 +1,6 @@
 #include "menu/StartMenu.hpp"
 
-#include <iostream>
-#include <ostream>
-
+#include <utility>
 
 #include "button/PlayButton.hpp"
 #include "button/LoadButton.hpp"
@@ -10,7 +8,7 @@
 #include "button/ExitGameButton.hpp"
 
 
-StartMenu::StartMenu(std::function<void()> callback) : setSettingGroup(callback) {}
+StartMenu::StartMenu(std::function<void()> callback) : setSettingGroup(std::move(callback)) {}
 
 bool StartMenu::init(ResourceManager &manager, SDL_Renderer *renderer)
 {

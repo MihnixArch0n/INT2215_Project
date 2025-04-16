@@ -20,7 +20,7 @@ public:
     void setMusicVolume(int vol) {musicVolume = vol;}
     void setSoundVolume(int vol) {soundVolume = vol;}
 
-    void save();
+    void save() const;
     void load();
 private:
     ConfigManager();

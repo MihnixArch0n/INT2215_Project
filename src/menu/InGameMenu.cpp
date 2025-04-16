@@ -1,5 +1,7 @@
 #include "menu/InGameMenu.hpp"
 
+#include <utility>
+
 
 #include "button/ResumeButton.hpp"
 #include "button/SaveButton.hpp"
@@ -7,7 +9,7 @@
 #include "button/QuitButton.hpp"
 
 
-InGameMenu::InGameMenu(std::function<void()> callback) : setSettingGroup(callback) {}
+InGameMenu::InGameMenu(std::function<void()> callback) : setSettingGroup(std::move(callback)) {}
 
 bool InGameMenu::init(ResourceManager &manager, SDL_Renderer *renderer)
 {

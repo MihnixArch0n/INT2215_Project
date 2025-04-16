@@ -3,8 +3,7 @@
 #include "defs.hpp"
 #include "Game.hpp"
 
-#include <managers/GameEventManager.hpp>
-
+#include "managers/GameEventManager.hpp"
 #include "managers/ResourceManager.hpp"
 #include "managers/AudioManager.hpp"
 
@@ -41,7 +40,7 @@ bool Game::init()
     mGameLevel = new GameLevel(mResourceManager);
     mGameLevel->init(mRenderWindow.getRenderer());
     mMenuManager.init(mResourceManager, mRenderWindow.getRenderer());
-    lastUpdateTime = SDL_GetTicks();
+    lastUpdateTime = static_cast<int>(SDL_GetTicks());
     return true;
 }
 
@@ -73,7 +72,7 @@ void Game::handleEvent()
 
 void Game::update()
 {
-    currentTime = SDL_GetTicks();
+    currentTime = static_cast<int>(SDL_GetTicks());
     int deltaTime = currentTime - lastUpdateTime;
     mMenuManager.update(mState);
     if (mState == GameState::QUIT_TO_START)

@@ -23,7 +23,7 @@ public:
     [[nodiscard]] const GameSound* getSound(SoundType type) const;
 
     void updateMusicVolume();
-    void updateSoundVolume();
+    void updateSoundVolume() const;
 private:
     AudioManager() = default;
     const GameMusic* gMusic = nullptr;

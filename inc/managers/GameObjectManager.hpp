@@ -24,7 +24,7 @@ public:
     void render(SDL_Renderer* renderer) const;
 
     void addBall(const Ball& ball, double x = 0, double y = 0);
-    void changeBall(std::unique_ptr<Ball>& ball, BallType ballType);
+    void changeBall(const std::unique_ptr<Ball>& ball, BallType ballType) const;
 
     [[nodiscard]] bool ballListEmpty() const {return mBallList.empty();}
     [[nodiscard]] bool brickListEmpty() const {return mBricksList.empty();}
@@ -36,7 +36,7 @@ public:
     void spawnDrop(PowerUpType type, double x, double y);
     void resetBallList();
 
-    void save();
+    void save() const;
     void load();
 
 private:

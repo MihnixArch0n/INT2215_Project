@@ -13,7 +13,7 @@ public:
     explicit GameLevel(ResourceManager& manager);
 
     void init(SDL_Renderer* renderer);
-    void handleEvent(SDL_Event& event);
+    void handleEvent(const SDL_Event& event) const;
     void update(int deltaTime, GameState& gameState);
     void render(SDL_Renderer* renderer) const;
 
@@ -21,7 +21,7 @@ public:
     [[nodiscard]] bool hasWon() const {return mGameObjectManager->brickListEmpty();}
     [[nodiscard]] bool hasFinished() const {return hasLost() || hasWon();}
 
-    void saveLevel();
+    void saveLevel() const;
     void loadLevel();
 private:
     int mLives = 3;

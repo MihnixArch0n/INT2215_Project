@@ -24,14 +24,14 @@ AudioManager& AudioManager::getInstance()
 void AudioManager::updateMusicVolume()
 {
     int newVol = ConfigManager::getInstance().getMusicVolume();
-    newVol = (newVol * 10.0 / 100) * MIX_MAX_VOLUME;
+    newVol = static_cast<int>((newVol * 10.0 / 100) * MIX_MAX_VOLUME);
     Mix_VolumeMusic(newVol);
 }
 
-void AudioManager::updateSoundVolume()
+void AudioManager::updateSoundVolume() const
 {
     int newVol = ConfigManager::getInstance().getSoundVolume();
-    newVol = (newVol * 10.0 / 100) * MIX_MAX_VOLUME;
+    newVol = static_cast<int>((newVol * 10.0 / 100) * MIX_MAX_VOLUME);
     for (const auto &pair : gSoundMap) Mix_VolumeChunk(pair.second->getSound(), newVol);
 }
 

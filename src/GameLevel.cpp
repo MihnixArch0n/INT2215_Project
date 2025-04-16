@@ -17,7 +17,7 @@ void GameLevel::init(SDL_Renderer* renderer)
     liveTexture = rResourceManager.getText("Live");
 }
 
-void GameLevel::handleEvent(SDL_Event &event)
+void GameLevel::handleEvent(const SDL_Event &event) const
 {
     mGameObjectManager->handleEvent(event);
 }
@@ -76,7 +76,7 @@ void GameLevel::loadLevel()
     }
 }
 
-void GameLevel::saveLevel()
+void GameLevel::saveLevel() const
 {
     std::filesystem::create_directory("save");
     std::ofstream saveFile("save/lives.txt");

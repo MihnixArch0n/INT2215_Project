@@ -69,12 +69,13 @@ const MyTexture* ResourceManager::getText(const std::string &text) const
     return &(it->second);
 }
 
-void ResourceManager::addTexture(ObjectType type, ObjectSubType subType, const std::string &filePath)
+void ResourceManager::addTexture(ObjectType type, ObjectSubType subType,
+    const std::string &filePath)
 {
     if (mObjectTextures[type].find(subType) == mObjectTextures[type].end())
     {
-        bool tmp = !mObjectTextures[type][subType].loadFromFile(pRenderer, filePath.c_str());
-        if (tmp) std::cerr << "Failed to load " << filePath << std::endl;
+        if (!mObjectTextures[type][subType].loadFromFile(pRenderer, filePath.c_str()))
+            std::cerr << "Failed to load " << filePath << std::endl;
     }
 }
 
@@ -92,8 +93,8 @@ void ResourceManager::addSound(SoundType soundType, const std::string &filePath)
 {
     if (mSoundList.find(soundType) == mSoundList.end())
     {
-        bool res = !mSoundList[soundType].loadSound(filePath.c_str());
-        if (res) std::cerr << "Failed to sound " << filePath << std::endl;
+        if (!mSoundList[soundType].loadSound(filePath.c_str()))
+            std::cerr << "Failed to sound " << filePath << std::endl;
     }
 }
 

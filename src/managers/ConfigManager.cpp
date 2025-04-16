@@ -21,7 +21,7 @@ ConfigManager &ConfigManager::getInstance()
     return instance;
 }
 
-void ConfigManager::save()
+void ConfigManager::save() const
 {
     std::filesystem::create_directory("res/conf");
 
