@@ -1,4 +1,5 @@
 #include "defs.hpp"
+#include "my_utils.hpp"
 #include "game_objects/PowerUpDrop.hpp"
 #include "game_objects/GameObject.hpp"
 #include "managers/AudioManager.hpp"
@@ -24,7 +25,7 @@ void PowerUpDrop::update(int deltaTime)
 {
     if (mStatus == PowerUpDropStatus::ALIVE)
     {
-        mPosY += mVel * deltaTime / 1000;
+        mPosY += mVel * my_utils::to_seconds(deltaTime);
         if (mPosY > LEVEL_HEIGHT) mStatus = PowerUpDropStatus::DEAD;
     }
 }

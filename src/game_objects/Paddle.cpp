@@ -1,4 +1,5 @@
 #include "defs.hpp"
+#include "my_utils.hpp"
 #include "game_objects/Paddle.hpp"
 
 
@@ -52,7 +53,7 @@ void Paddle::handleEvent(const SDL_Event& e)
 
 void Paddle::update(int deltaTime)
 {
-    mPosX += mVel * deltaTime / 1000.0;
+    mPosX += mVel * my_utils::to_seconds(deltaTime);
     if (mPosX < 0) mPosX = 0;
     if (mPosX + mWidth > LEVEL_WIDTH) mPosX = LEVEL_WIDTH - mWidth;
 }

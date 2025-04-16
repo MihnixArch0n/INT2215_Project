@@ -11,6 +11,7 @@ enum class PowerUpStatus
     DEACTIVATED,
 };
 
+
 class PowerUp
 {
 public:
@@ -24,7 +25,7 @@ public:
     void setStatus(PowerUpStatus status) {mStatus = status;}
 private:
     double mDuration = 0;
-    int mElapsedTime = 0;
+    double mElapsedTime = 0;
     PowerUpStatus mStatus = PowerUpStatus::ACTIVATED;
     PowerUpType mType;
 };

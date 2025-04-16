@@ -1,6 +1,7 @@
 #include <cmath>
 
 #include "defs.hpp"
+#include "my_utils.hpp"
 #include "game_objects/Ball.hpp"
 #include "game_objects/Brick.hpp"
 #include "managers/AudioManager.hpp"
@@ -79,8 +80,8 @@ void Ball::update(int deltaTime, const Paddle& paddle)
     }
     else if (mState == BallState::MOVING)
     {
-        mPosX += mVelX * deltaTime / 1000.0;
-        mPosY += mVelY * deltaTime / 1000.0;
+        mPosX += mVelX * my_utils::to_seconds(deltaTime);
+        mPosY += mVelY * my_utils::to_seconds(deltaTime);
         bool collidedWithWall = false;
 
         if (mPosX < 0)
@@ -116,8 +117,8 @@ void Ball::update(int deltaTime, const Paddle& paddle)
 
 void Ball::onCollision(GameObject& other, int deltaTime)
 {
-    double checkPosY = mPosY - mVelY * deltaTime / 1000.0;
-    double checkPosX = mPosX - mVelX * deltaTime / 1000.0;
+    double checkPosY = mPosY - mVelY * my_utils::to_seconds(deltaTime);
+    double checkPosX = mPosX - mVelX * my_utils::to_seconds(deltaTime);
 
     if (other.getType() == ObjectType::PADDLE)
     {
