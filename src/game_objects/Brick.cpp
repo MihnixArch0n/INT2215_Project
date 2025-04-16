@@ -61,12 +61,18 @@ void Brick::onCollision(GameObject &other, int deltaTime)
 void Brick::save(std::ofstream &saveFile) const
 {
     GameObject::save(saveFile);
-    saveFile << " " << alive;
+    saveFile << " " << static_cast<int>(std::get<BrickType>(mSubType));
+    saveFile << " " << lives;
+    saveFile << " " << timeSinceLastCooldown;
     saveFile << std::endl;
 }
 
 void Brick::load(std::ifstream &loadFile)
 {
     GameObject::load(loadFile);
-    loadFile >> alive;
+    int tmp;
+    loadFile >> tmp;
+    mSubType = static_cast<BrickType>(tmp);
+    loadFile >> lives;
+    loadFile >> timeSinceLastCooldown;
 }

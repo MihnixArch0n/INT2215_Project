@@ -30,7 +30,6 @@ public:
     constexpr static int BRICK_HEIGHT = 33;
     constexpr static int COLLISION_COOLDOWN = 160;
 private:
-    bool alive = true;
     int lives = 1;
     int timeSinceLastCooldown = 0;
 };
