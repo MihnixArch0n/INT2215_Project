@@ -27,6 +27,7 @@ private:
     int mLives = 3;
 
     std::unique_ptr<GameObjectManager> mGameObjectManager;
+    std::unique_ptr<PowerUp> mCurrentPowerUp;
     ResourceManager& rResourceManager;
 
     const MyTexture* liveTexture = nullptr;

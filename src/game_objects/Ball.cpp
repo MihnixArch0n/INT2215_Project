@@ -27,7 +27,6 @@ Ball::Ball()
 Ball::Ball(BallType type) : Ball()
 {
     mSubType = type;
-    if (type == BallType::FIRE) mPowerUp = std::make_unique<PowerUp>(PowerUpType::FIRE_BALL);
 }
 
 Ball::Ball(const Ball& other)
@@ -42,22 +41,6 @@ Ball::Ball(const Ball& other)
 
     mState = other.mState;
     mObjectTexture = other.mObjectTexture;
-    if (other.mPowerUp != nullptr) mPowerUp = std::make_unique<PowerUp>(*other.mPowerUp);
-}
-
-Ball::Ball(const Ball& other, BallType type) : Ball(other)
-{
-    if (type == BallType::NORMAL)
-    {
-        mSubType = BallType::NORMAL;
-        mPowerUp = nullptr;
-        if (mState == BallState::EXPIRED) mState = BallState::MOVING;
-    }
-    else if (type == BallType::FIRE)
-    {
-        mSubType = BallType::FIRE;
-        mPowerUp = std::make_unique<PowerUp>(PowerUpType::FIRE_BALL);
-    }
 }
 
 Ball::Ball(const Ball &other, int x, int y) : Ball(other)
@@ -120,15 +103,6 @@ void Ball::update(int deltaTime, const Paddle& paddle)
         //     mVelY = -mVelY;
         // }
         if (mPosY > LEVEL_HEIGHT) mState = BallState::DEAD;
-
-        if (mPowerUp != nullptr)
-        {
-            mPowerUp->update(deltaTime);
-            if (mPowerUp->getStatus() == PowerUpStatus::DEACTIVATED)
-            {
-                mState = BallState::EXPIRED;
-            }
-        }
     }
 }
 

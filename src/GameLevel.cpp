@@ -28,6 +28,23 @@ void GameLevel::update(int deltaTime, GameState& gameState)
     {
         mGameObjectManager->update(deltaTime);
 
+        if (mCurrentPowerUp != nullptr)
+        {
+            mCurrentPowerUp->update(deltaTime);
+
+            if (mCurrentPowerUp->getStatus() == PowerUpStatus::DEACTIVATED)
+            {
+                mGameObjectManager->removePowerUp();
+                mCurrentPowerUp.reset();
+            }
+        }
+        auto collectedPowerUp = mGameObjectManager->getCollectedPowerUp();
+        if (collectedPowerUp != PowerUpType::TOTAL)
+        {
+            mCurrentPowerUp = std::make_unique<PowerUp>(collectedPowerUp);
+            mGameObjectManager->applyPowerUp(collectedPowerUp);
+        }
+
         if (mGameObjectManager->ballListEmpty())
         {
             --mLives;

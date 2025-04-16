@@ -29,6 +29,9 @@ public:
     [[nodiscard]] bool ballListEmpty() const {return mBallList.empty();}
     [[nodiscard]] bool brickListEmpty() const {return mBricksList.empty();}
 
+    PowerUpType getCollectedPowerUp() const;
+    void applyPowerUp(PowerUpType type);
+    void removePowerUp();
 
     void spawnDrop(PowerUpType type, double x, double y);
     void resetBallList();

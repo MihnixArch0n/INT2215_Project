@@ -41,6 +41,12 @@ void GameObjectManager::handleEvent(const SDL_Event &event)
 
 void GameObjectManager::update(int deltaTime)
 {
+    for (int i = mPowerUpDropList.size()-1; i >= 0; --i)
+    {
+        if (mPowerUpDropList[i].getStatus() != PowerUpDropStatus::ALIVE)
+            mPowerUpDropList.erase(mPowerUpDropList.begin() + i);
+    }
+
     mPaddle.update(deltaTime);
 
     for (auto &brickRow : mBricksList)
@@ -60,38 +66,13 @@ void GameObjectManager::update(int deltaTime)
                 CollisionManager::handleCollision(*ball, brick, deltaTime);
         }
 
-        if (ball->getState() == BallState::EXPIRED) changeBall(ball, BallType::NORMAL);
+        // if (ball->getState() == BallState::EXPIRED) changeBall(ball, BallType::NORMAL);
     }
 
     for (auto &powerUpDrop : mPowerUpDropList)
     {
         powerUpDrop.update(deltaTime);
         CollisionManager::handleCollision(mPaddle, powerUpDrop, deltaTime);
-
-        if (powerUpDrop.getStatus() == PowerUpDropStatus::COLLECTED)
-        {
-            auto powerUpType = std::get<PowerUpType>(powerUpDrop.getSubType());
-            int ballNum = mBallList.size();
-            if (powerUpType == PowerUpType::MULTI_BALL)
-            {
-                for (int i = 0; i < ballNum; ++i)
-                {
-                    const auto& cBall = *mBallList[i];
-                    addBall(cBall, cBall.getPosX() - 50, cBall.getPosY());
-                    addBall(cBall, cBall.getPosX() + 50, cBall.getPosY());
-                }
-            }
-            else if (powerUpType == PowerUpType::FIRE_BALL)
-            {
-                for (int i = 0; i < ballNum; ++i) changeBall(mBallList[i], BallType::FIRE);
-            }
-        }
-    }
-
-    for (int i = mPowerUpDropList.size()-1; i >= 0; --i)
-    {
-        if (mPowerUpDropList[i].getStatus() != PowerUpDropStatus::ALIVE)
-            mPowerUpDropList.erase(mPowerUpDropList.begin() + i);
     }
 
     for (int i = mBallList.size()-1; i >= 0; --i)
@@ -143,8 +124,43 @@ void GameObjectManager::addBall(const Ball& ball, double x, double y)
 
 void GameObjectManager::changeBall(std::unique_ptr<Ball>& ball, BallType ballType)
 {
-    ball = std::make_unique<Ball>(*ball, ballType);
+    // ball = std::make_unique<Ball>(*ball, ballType);
+    ball->setSubType(ballType);
     ball->setTexture(rResourceManager);
+}
+
+PowerUpType GameObjectManager::getCollectedPowerUp() const
+{
+    for (const auto &powerUpDrop : mPowerUpDropList)
+    {
+        if (powerUpDrop.getStatus() == PowerUpDropStatus::COLLECTED)
+            return std::get<PowerUpType>(powerUpDrop.getSubType());
+    }
+    return PowerUpType::TOTAL;
+}
+
+void GameObjectManager::applyPowerUp(PowerUpType type)
+{
+    if (type == PowerUpType::MULTI_BALL)
+    {
+        for (auto &ball : mBallList)
+        {
+            double x = ball->getPosX();
+            double y = ball->getPosY();
+
+            addBall(*ball, x - 50, y);
+            addBall(*ball, x + 50, y);
+        }
+    }
+    else if (type == PowerUpType::FIRE_BALL)
+    {
+        for (auto &ball : mBallList) changeBall(ball, BallType::FIRE);
+    }
+}
+
+void GameObjectManager::removePowerUp()
+{
+    for (auto &ball : mBallList) changeBall(ball, BallType::NORMAL);
 }
 
 
