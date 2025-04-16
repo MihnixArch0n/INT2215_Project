@@ -13,7 +13,7 @@ GameObjectManager::GameObjectManager(ResourceManager& manager) : rResourceManage
 
 void GameObjectManager::init()
 {
-    mPaddle.setObjectTexture(rResourceManager);
+    mPaddle.setTexture(rResourceManager);
 
     mBallList.push_back(std::make_unique<Ball>());
 
@@ -118,12 +118,12 @@ void GameObjectManager::render(SDL_Renderer* renderer) const
 {
     mPaddle.render(renderer);
 
-    for (const auto &ball : mBallList) ball->render(renderer);
-
     for (const auto &brickRow : mBricksList)
     {
         for (const auto &brick : brickRow) brick.render(renderer);
     }
+
+    for (const auto &ball : mBallList) ball->render(renderer);
 
     for (const auto &powerUpDrop : mPowerUpDropList) powerUpDrop.render(renderer);
 }
@@ -191,7 +191,7 @@ void GameObjectManager::load()
         std::ifstream paddleFile("save/objects/paddle.txt");
         mPaddle.load(paddleFile);
         paddleFile.close();
-        mPaddle.setObjectTexture(rResourceManager);
+        mPaddle.setTexture(rResourceManager);
 
         int n;
 

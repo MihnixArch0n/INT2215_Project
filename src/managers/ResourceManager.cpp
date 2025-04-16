@@ -12,12 +12,10 @@ bool ResourceManager::loadResource(SDL_Renderer* renderer)
     mTextureList.resize(static_cast<int>(ObjectType::TOTAL));
     std::map<int, int> objMap =
     {
-        {static_cast<int>(ObjectType::PADDLE), static_cast<int>(PaddleType::TOTAL)},
         {static_cast<int>(ObjectType::POWER_UP_DROP), static_cast<int>(PowerUpDropType::TOTAL)}
     };
     std::map<int, std::string> objName =
     {
-        {static_cast<int>(ObjectType::PADDLE), "paddles/Paddle_"},
         {static_cast<int>(ObjectType::POWER_UP_DROP), "power_ups/PowerUp_"}
     };
 

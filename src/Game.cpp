@@ -33,6 +33,7 @@ bool Game::init()
 
     Ball::init(mResourceManager);
     Brick::init(mResourceManager);
+    Paddle::init(mResourceManager);
 
     AudioManager::getInstance().init(mResourceManager.getMusic(),
         mResourceManager.getSound());

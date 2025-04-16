@@ -8,8 +8,8 @@
 /**
  * Linear mapping to radian angle based on hit position.
 */
-constexpr double HIT_POS_START = -(Paddle::M_PADDLE_WIDTH - Ball::BALL_WIDTH) / 2.0;
-constexpr double HIT_POS_END = (Paddle::M_PADDLE_WIDTH - Ball::BALL_WIDTH) / 2.0;
+constexpr double HIT_POS_START = -(Paddle::PADDLE_WIDTH - Ball::BALL_WIDTH) / 2.0;
+constexpr double HIT_POS_END = (Paddle::PADDLE_WIDTH - Ball::BALL_WIDTH) / 2.0;
 constexpr double RAD_ANGLE_START = 3 * M_PI_4;
 constexpr double RAD_ANGLE_END = M_PI_4;
 

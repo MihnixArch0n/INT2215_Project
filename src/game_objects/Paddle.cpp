@@ -1,16 +1,24 @@
 #include "defs.hpp"
 #include "game_objects/Paddle.hpp"
 
+
 Paddle::Paddle()
 {
     mPosX = 300;
     mPosY = LEVEL_HEIGHT * 0.9;
-    mWidth = M_PADDLE_WIDTH;
-    mHeight = M_PADDLE_HEIGHT;
+    mWidth = PADDLE_WIDTH;
+    mHeight = PADDLE_HEIGHT;
 
     mSubType = PaddleType::NORMAL;
 }
 
+void Paddle::init(ResourceManager &manager)
+{
+    auto type = ObjectType::PADDLE;
+    std::string resPath = "assets/img/paddles/Paddle.png";
+
+    manager.addTexture(type, PaddleType::NORMAL, resPath);
+}
 
 void Paddle::handleEvent(const SDL_Event& e)
 {
@@ -19,10 +27,10 @@ void Paddle::handleEvent(const SDL_Event& e)
         switch (e.key.keysym.sym)
         {
             case SDLK_LEFT:
-                mVel -= M_PADDLE_SPEED;
+                mVel -= PADDLE_SPEED;
                 break;
             case SDLK_RIGHT:
-                mVel += M_PADDLE_SPEED;
+                mVel += PADDLE_SPEED;
                 break;
             default: break;
         }
@@ -32,10 +40,10 @@ void Paddle::handleEvent(const SDL_Event& e)
         switch (e.key.keysym.sym)
         {
             case SDLK_LEFT:
-                mVel += M_PADDLE_SPEED;
+                mVel += PADDLE_SPEED;
             break;
             case SDLK_RIGHT:
-                mVel -= M_PADDLE_SPEED;
+                mVel -= PADDLE_SPEED;
             break;
             default: break;
         }
