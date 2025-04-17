@@ -98,7 +98,7 @@ void GameObjectManager::update(int deltaTime)
                     auto powerUpType = static_cast<PowerUpType>(
                         my_utils::uniform_random(
                             0,
-                            static_cast<int>(PowerUpType::TOTAL)
+                            static_cast<int>(PowerUpType::TOTAL) - 1
                         )
                     );
                     spawnDrop(powerUpType, mBricksList[i][j].getPosX(),
@@ -262,3 +262,13 @@ void GameObjectManager::load()
         powerUpFile.close();
     }
 }
+
+bool GameObjectManager::brickListEmpty() const
+{
+    for (const auto& brickRow : mBricksList)
+    {
+        if (!brickRow.empty()) return false;
+    }
+    return true;
+}
+

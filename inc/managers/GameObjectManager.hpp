@@ -27,7 +27,7 @@ public:
     void changeBall(const std::unique_ptr<Ball>& ball, BallType ballType) const;
 
     [[nodiscard]] bool ballListEmpty() const {return mBallList.empty();}
-    [[nodiscard]] bool brickListEmpty() const {return mBricksList.empty();}
+    [[nodiscard]] bool brickListEmpty() const;
 
     PowerUpType getCollectedPowerUp() const;
     void applyPowerUp(PowerUpType type);
