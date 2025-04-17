@@ -25,11 +25,6 @@ Ball::Ball()
     mSubType = BallType::NORMAL;
 }
 
-Ball::Ball(BallType type) : Ball()
-{
-    mSubType = type;
-}
-
 Ball::Ball(const Ball& other)
 {
     mPosX = other.mPosX;

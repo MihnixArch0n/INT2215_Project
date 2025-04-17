@@ -3,7 +3,7 @@
 
 void GameObject::render(SDL_Renderer *renderer) const
 {
-    SDL_Rect dst {mPosX, mPosY, mWidth, mHeight};
+    SDL_Rect dst {static_cast<int>(mPosX), static_cast<int>(mPosY), mWidth, mHeight};
     mObjectTexture->render(renderer, &dst);
 }
 

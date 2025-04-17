@@ -6,6 +6,8 @@
 #include "my_utils.hpp"
 
 
+std::vector brickTypeProbabilities {0.5, 0.3, 0.2};
+
 std::map<BrickType, std::vector<double>> powerUpDropProbability {
         {BrickType::EASY, {0.9, 0.1}},
         {BrickType::MEDIUM, {0.6, 0.4}},
@@ -18,19 +20,11 @@ Brick::Brick()
     mWidth = BRICK_WIDTH;
     mHeight = BRICK_HEIGHT;
 
-    int tmp = my_utils::weighted_random(probabilities);
+    int tmp = my_utils::weighted_random(brickTypeProbabilities);
     mSubType = static_cast<BrickType>(tmp);
     lives = tmp + 1;
     if (lives <= 0) std::cerr << "brick " << this << " live not set properly";
     drop = my_utils::weighted_random(powerUpDropProbability.at(static_cast<BrickType>(tmp)));
-}
-
-Brick::Brick(int x, int y, BrickType type) : Brick()
-{
-    mPosX = x;
-    mPosY = y;
-    mSubType = type;
-    lives = static_cast<int>(type);
 }
 
 

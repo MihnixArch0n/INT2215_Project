@@ -2,9 +2,6 @@
 #define BALL_HPP
 
 
-#include <vector>
-#include <memory>
-
 #include "game_objects/GameObject.hpp"
 #include "game_objects/Paddle.hpp"
 #include "PowerUp.hpp"
@@ -24,7 +21,6 @@ class Ball : public GameObject
 {
 public:
     Ball();
-    explicit Ball(BallType type);
     Ball(const Ball& other);
     Ball(const Ball& other, double x, double y);
     ~Ball() override = default;
@@ -32,7 +28,7 @@ public:
     static void init(ResourceManager &manager);
 
     void handleEvent(const SDL_Event& event);
-    virtual void update(int deltaTime, const Paddle& paddle);
+    void update(int deltaTime, const Paddle& paddle);
 
     [[nodiscard]] BallState getState() const;
     void setState(BallState state);

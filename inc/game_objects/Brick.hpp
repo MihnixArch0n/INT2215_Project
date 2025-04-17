@@ -9,8 +9,6 @@ class Brick : public GameObject
 {
 public:
     Brick();
-    Brick(int x, int y, BrickType type = BrickType::EASY);
-    explicit Brick(BrickType type) {mSubType = type;}
     ~Brick() override = default;
 
     static void init(ResourceManager &manager);
@@ -22,18 +20,18 @@ public:
     [[nodiscard]] ObjectType getType() const override {return ObjectType::BRICK;}
     void onCollision(GameObject &other, int deltaTime) override;
 
+    [[nodiscard]] bool hasDrop() const {return drop;}
+
     void save(std::ofstream &saveFile) const override;
     void load(std::ifstream &loadFile) override;
 
     constexpr static int BRICK_WIDTH = 70;
     constexpr static int BRICK_HEIGHT = 33;
     constexpr static int COLLISION_COOLDOWN = 160;
-    bool hasDrop() {return drop;}
 private:
     int lives = 1;
     int timeSinceLastCooldown = 0;
     bool drop;
-    std::vector<double> probabilities {0.5, 0.3, 0.2};
 };
 
 
