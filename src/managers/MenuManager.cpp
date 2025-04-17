@@ -26,7 +26,7 @@ bool MenuManager::init(ResourceManager &resourceManager, SDL_Renderer* renderer)
     return true;
 }
 
-void MenuManager::handleEvents(SDL_Event &event, GameState& gameState)
+void MenuManager::handleEvents(SDL_Event &event, GameState& gameState) const
 {
     if (mMenuGroup == MenuGroupType::SETTINGS) mSettingMenu->handleEvents(event, gameState);
     else
@@ -35,7 +35,7 @@ void MenuManager::handleEvents(SDL_Event &event, GameState& gameState)
     }
 }
 
-void MenuManager::update(GameState& gameState)
+void MenuManager::update(GameState& gameState) const
 {
     if (mMenuGroup == MenuGroupType::SETTINGS) mSettingMenu->update(gameState);
     else

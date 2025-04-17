@@ -16,8 +16,8 @@ class MenuManager
 {
 public:
     bool init(ResourceManager& resourceManager, SDL_Renderer* renderer);
-    void handleEvents(SDL_Event& event, GameState& gameState);
-    void update(GameState& gameState);
+    void handleEvents(SDL_Event& event, GameState& gameState) const;
+    void update(GameState& gameState) const;
     void render(SDL_Renderer* renderer) const;
 private:
     std::vector<std::unique_ptr<Menu>> mMenuList;

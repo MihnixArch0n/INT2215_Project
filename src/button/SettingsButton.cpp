@@ -1,7 +1,10 @@
 #include "button/SettingsButton.hpp"
 
+#include <utility>
 
-SettingsButton::SettingsButton(std::function<void()> callback) : goToSettingMenu(callback)
+
+SettingsButton::SettingsButton(std::function<void()> callback) :
+    goToSettingMenu(std::move(callback))
 {
     mText = "Settings";
 }

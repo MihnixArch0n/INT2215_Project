@@ -16,8 +16,8 @@ public:
     bool loadFromFile(SDL_Renderer* renderer, const char *filePath);
     bool loadFromRenderedText(const char* text, const MyFont& font, SDL_Renderer* renderer);
 
-    int getWidth() const {return mWidth;}
-    int getHeight() const {return mHeight;}
+    [[nodiscard]] int getWidth() const {return mWidth;}
+    [[nodiscard]] int getHeight() const {return mHeight;}
 private:
     int mWidth = 0, mHeight = 0;
     SDL_Texture *mTexture = nullptr;

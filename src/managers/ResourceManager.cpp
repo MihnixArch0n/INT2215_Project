@@ -57,9 +57,9 @@ const MyTexture* ResourceManager::getTexture(ButtonType type) const
 
 void ResourceManager::addText(const std::string &text, SDL_Renderer *renderer)
 {
-    mTextList.insert(text);
-    mTextTextureList.emplace(text, MyTexture());
-    mTextTextureList[text].loadFromRenderedText(text.c_str(), mFont, renderer);
+    auto it = mTextTextureList.find(text);
+    if (it == mTextTextureList.end())
+        mTextTextureList[text].loadFromRenderedText(text.c_str(), mFont, renderer);
 }
 
 const MyTexture* ResourceManager::getText(const std::string &text) const

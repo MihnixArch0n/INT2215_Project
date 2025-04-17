@@ -1,6 +1,9 @@
 #include "button/BackButton.hpp"
 
-BackButton::BackButton(std::function<void()> callback) : backToNormalMenu(callback)
+#include <utility>
+
+BackButton::BackButton(std::function<void()> callback) :
+    backToNormalMenu(std::move(callback))
 {
     mText = "Back";
 }

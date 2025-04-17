@@ -11,7 +11,7 @@ class BackButton : public Button
 public:
     explicit BackButton(std::function<void()> callback);
 
-    ButtonType getType() const override {return ButtonType::BACK;}
+    [[nodiscard]] ButtonType getType() const override {return ButtonType::BACK;}
 
     void onClick(GameState &gameState) override;
 private:

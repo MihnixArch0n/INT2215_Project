@@ -37,10 +37,8 @@ public:
     [[nodiscard]] const MyTexture* getText(const std::string& text) const;
 
 private:
-    std::vector<std::vector<MyTexture>> mTextureList;
     MyTexture mWonTexture;
     MyTexture mLostTexture;
-    std::set<std::string> mTextList;
     std::map<std::string, MyTexture> mTextTextureList;
     MyFont mFont;
 

@@ -22,7 +22,9 @@ public:
     [[nodiscard]] const GameMusic& getMusic() const {return *gMusic;}
     [[nodiscard]] const GameSound* getSound(SoundType type) const;
 
-    void updateMusicVolume();
+    static void stopMusic() {GameMusic::stop();}
+
+    static void updateMusicVolume();
     void updateSoundVolume() const;
 private:
     AudioManager() = default;

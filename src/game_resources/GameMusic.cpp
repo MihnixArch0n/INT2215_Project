@@ -33,17 +33,17 @@ void GameMusic::play() const
     if (!Mix_PlayingMusic() && ConfigManager::getInstance().getMusicStatus()) Mix_PlayMusic(mMusic, -1);
 }
 
-void GameMusic::stop() const
+void GameMusic::stop()
 {
     Mix_HaltMusic();
 }
 
-void GameMusic::pause() const
+void GameMusic::pause()
 {
     Mix_PauseMusic();
 }
 
-void GameMusic::resume() const
+void GameMusic::resume()
 {
     Mix_ResumeMusic();
 }

@@ -17,7 +17,7 @@ public:
     void pushEvent(const std::string& eventName) {eventQueue.push(eventName);}
     void popEvent() {eventQueue.pop();}
     [[nodiscard]] const std::string& topEvent() const {return eventQueue.front();}
-    bool isEmpty() const {return eventQueue.empty();}
+    [[nodiscard]] bool isEmpty() const {return eventQueue.empty();}
 private:
     GameEventManager() = default;
     std::queue<std::string> eventQueue;

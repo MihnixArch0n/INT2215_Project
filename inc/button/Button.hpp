@@ -17,7 +17,7 @@ public:
     virtual ~Button() = default;
 
     virtual bool init(ResourceManager& resManager, SDL_Renderer* renderer);
-    void handleEvent(SDL_Event &event);
+    void handleEvent(const SDL_Event &event);
     virtual void update(GameState& gameState);
     void render(SDL_Renderer* renderer) const;
 

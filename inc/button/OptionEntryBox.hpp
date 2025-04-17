@@ -20,8 +20,8 @@ public:
 
     void setPosX(int posX) {mRect.x = posX;}
     void setPosY(int posY) {mRect.y = posY;}
-    int getWidth() {return mRect.w;}
-    int getHeight() {return mRect.h;}
+    [[nodiscard]] int getWidth() const {return mRect.w;}
+    [[nodiscard]] int getHeight() const {return mRect.h;}
 private:
     SDL_Rect mRect {0, 0, 500, 40};
     std::string mName;

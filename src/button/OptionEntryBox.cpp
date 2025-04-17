@@ -25,9 +25,9 @@ OptionEntryBox::OptionEntryBox(SettingType type) :
             t += c;
             mOptions.push_back(t);
         }
-        mOptions.push_back("10");
+        mOptions.emplace_back("10");
     }
-    mSelectedOption = mOptions.size() - 1;
+    mSelectedOption = static_cast<int>(mOptions.size()) - 1;
 }
 
 bool OptionEntryBox::init(ResourceManager &resManager, SDL_Renderer *renderer)
@@ -80,21 +80,22 @@ void OptionEntryBox::update()
         mSelectedOption = ConfigManager::getInstance().getSoundVolume();
     }
 
+    int size = static_cast<int>(mOptions.size());
     if (mLeftButton.isPressed())
     {
-        mSelectedOption = (mSelectedOption - 1 + mOptions.size()) % mOptions.size();
+        mSelectedOption = (mSelectedOption - 1 + size) % size;
         mLeftButton.resetButtonState();
     }
     else if (mRightButton.isPressed())
     {
-        mSelectedOption = (mSelectedOption + 1) % mOptions.size();
+        mSelectedOption = (mSelectedOption + 1) % size;
         mRightButton.resetButtonState();
     }
 
     if (mType == SettingType::MUSIC_ON_OFF)
     {
         if (mOptions[mSelectedOption] == "on") AudioManager::getInstance().getMusic().play();
-        else if (mOptions[mSelectedOption] == "off") AudioManager::getInstance().getMusic().stop();
+        else if (mOptions[mSelectedOption] == "off") AudioManager::stopMusic();
         ConfigManager::getInstance().toogleMusic(mSelectedOption);
     }
     else if (mType == SettingType::SOUND_ON_OFF)
@@ -104,7 +105,7 @@ void OptionEntryBox::update()
     else if (mType == SettingType::MUSIC_VOLUME)
     {
         ConfigManager::getInstance().setMusicVolume(mSelectedOption);
-        AudioManager::getInstance().updateMusicVolume();
+        AudioManager::updateMusicVolume();
     }
     else if (mType == SettingType::SOUND_VOLUME)
     {

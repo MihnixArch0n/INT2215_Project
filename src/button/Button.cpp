@@ -36,7 +36,7 @@ void Button::update(GameState& gameState)
     else mBgColor = &NORMAL_COLOR;
 }
 
-void Button::handleEvent(SDL_Event &event)
+void Button::handleEvent(const SDL_Event &event)
 {
     int x, y;
     SDL_GetMouseState(&x, &y);
