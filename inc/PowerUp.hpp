@@ -2,6 +2,8 @@
 #define POWERUP_HPP
 
 
+#include <fstream>
+
 #include "defs.hpp"
 
 
@@ -23,6 +25,12 @@ public:
     [[nodiscard]] PowerUpStatus getStatus() const {return mStatus;}
     void setType(PowerUpType type) {mType = type;}
     void setStatus(PowerUpStatus status) {mStatus = status;}
+
+    [[nodiscard]] double getElapsedTime() const {return mElapsedTime;}
+    void setElapsedTime(double time) {mElapsedTime = time;}
+
+    void save(std::ofstream& saveFile);
+    void load(std::ifstream& loadFile);
 private:
     double mDuration = 0;
     double mElapsedTime = 0;

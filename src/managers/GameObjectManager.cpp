@@ -9,6 +9,9 @@
 #include "managers/CollisionManager.hpp"
 
 
+constexpr int BALL_SEP = 20;
+
+
 GameObjectManager::GameObjectManager(ResourceManager& manager) : rResourceManager(manager)
 {
 }
@@ -164,8 +167,8 @@ void GameObjectManager::applyPowerUp(PowerUpType type)
             double x = mBallList[i]->getPosX();
             double y = mBallList[i]->getPosY();
 
-            addBall(*mBallList[i], x - 50, y);
-            addBall(*mBallList[i], x + 50, y);
+            addBall(*mBallList[i], x - BALL_SEP, y);
+            addBall(*mBallList[i], x + BALL_SEP, y);
         }
     }
     else if (type == PowerUpType::FIRE_BALL)

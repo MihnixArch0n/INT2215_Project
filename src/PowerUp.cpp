@@ -26,3 +26,20 @@ void PowerUp::update(int deltaTime)
         if (mElapsedTime > mDuration) mStatus = PowerUpStatus::DEACTIVATED;
     }
 }
+
+void PowerUp::save(std::ofstream &saveFile)
+{
+    saveFile << static_cast<int>(mType);
+    saveFile << " " << mDuration;
+    saveFile << " " << mElapsedTime;
+    saveFile << std::endl;
+}
+
+void PowerUp::load(std::ifstream &loadFile)
+{
+    int tmp;
+    loadFile >> tmp;
+    mType = static_cast<PowerUpType>(tmp);
+    loadFile >> mDuration;
+    loadFile >> mElapsedTime;
+}

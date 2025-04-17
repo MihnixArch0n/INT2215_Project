@@ -68,9 +68,16 @@ void GameLevel::loadLevel()
 {
     if (std::filesystem::exists("save"))
     {
-        std::ifstream saveFile("save/lives");
-        saveFile >> mLives;
-        saveFile.close();
+        std::ifstream loadFile("save/level.txt");
+        loadFile >> mLives;
+        int tmp;
+        loadFile >> tmp;
+        if (tmp == 1)
+        {
+            mCurrentPowerUp = std::make_unique<PowerUp>(PowerUpType::TOTAL);
+            mCurrentPowerUp->load(loadFile);
+        }
+        loadFile.close();
 
         mGameObjectManager->load();
     }
@@ -79,8 +86,17 @@ void GameLevel::loadLevel()
 void GameLevel::saveLevel() const
 {
     std::filesystem::create_directory("save");
-    std::ofstream saveFile("save/lives.txt");
-    if (saveFile.is_open()) saveFile << mLives;
+    std::ofstream saveFile("save/level.txt");
+    if (saveFile.is_open())
+    {
+        saveFile << mLives << std::endl;
+        if (mCurrentPowerUp != nullptr)
+        {
+            saveFile << 1 << " ";
+            mCurrentPowerUp->save(saveFile);
+        }
+        else saveFile << "0" << std::endl;
+    }
     saveFile.close();
 
     mGameObjectManager->save();
