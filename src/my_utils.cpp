@@ -19,4 +19,13 @@ namespace my_utils
             probabilities.end());
         return distribution(genTwisterEngine);
     }
+
+    int uniform_random(int min, int max)
+    {
+        static std::random_device rd;
+        static std::mt19937 genTwisterEngine(rd());
+
+        std::uniform_int_distribution<> distribution(min, max);
+        return distribution(genTwisterEngine);
+    }
 }

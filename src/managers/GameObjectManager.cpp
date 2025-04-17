@@ -5,6 +5,7 @@
 #include <fstream>
 #include <iostream>
 
+#include "my_utils.hpp"
 #include "managers/CollisionManager.hpp"
 
 
@@ -91,8 +92,18 @@ void GameObjectManager::update(int deltaTime)
         {
             if (!mBricksList[i][j].isAlive())
             {
-                spawnDrop(PowerUpType::FIRE_BALL, mBricksList[i][j].getPosX(),
-                    mBricksList[i][j].getPosY());
+                auto brickType = std::get<BrickType>(mBricksList[i][j].getSubType());
+                if (mBricksList[i][j].hasDrop())
+                {
+                    auto powerUpType = static_cast<PowerUpType>(
+                        my_utils::uniform_random(
+                            0,
+                            static_cast<int>(PowerUpType::TOTAL)
+                        )
+                    );
+                    spawnDrop(powerUpType, mBricksList[i][j].getPosX(),
+                        mBricksList[i][j].getPosY());
+                }
                 mBricksList[i].erase(mBricksList[i].begin() + j);
             }
         }
@@ -147,13 +158,14 @@ void GameObjectManager::applyPowerUp(PowerUpType type)
 {
     if (type == PowerUpType::MULTI_BALL)
     {
-        for (auto &ball : mBallList)
+        size_t n = mBallList.size();
+        for (size_t i = 0; i < n; ++i)
         {
-            double x = ball->getPosX();
-            double y = ball->getPosY();
+            double x = mBallList[i]->getPosX();
+            double y = mBallList[i]->getPosY();
 
-            addBall(*ball, x - 50, y);
-            addBall(*ball, x + 50, y);
+            addBall(*mBallList[i], x - 50, y);
+            addBall(*mBallList[i], x + 50, y);
         }
     }
     else if (type == PowerUpType::FIRE_BALL)

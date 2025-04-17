@@ -11,6 +11,8 @@ namespace my_utils
 
 
     int weighted_random(const std::vector<double>& probabilities);
+
+    int uniform_random(int min, int max);
 }
 
 #endif //MY_UTILS_HPP

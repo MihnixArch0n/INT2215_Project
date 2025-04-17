@@ -4,7 +4,6 @@
 
 #include "game_objects/GameObject.hpp"
 
-class Ball;
 
 class Brick : public GameObject
 {
@@ -29,10 +28,11 @@ public:
     constexpr static int BRICK_WIDTH = 70;
     constexpr static int BRICK_HEIGHT = 33;
     constexpr static int COLLISION_COOLDOWN = 160;
+    bool hasDrop() {return drop;}
 private:
     int lives = 1;
     int timeSinceLastCooldown = 0;
-
+    bool drop;
     std::vector<double> probabilities {0.5, 0.3, 0.2};
 };
 
