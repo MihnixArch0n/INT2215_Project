@@ -26,7 +26,7 @@ public:
     Ball();
     explicit Ball(BallType type);
     Ball(const Ball& other);
-    Ball(const Ball& other, int x, int y);
+    Ball(const Ball& other, double x, double y);
     ~Ball() override = default;
 
     static void init(ResourceManager &manager);

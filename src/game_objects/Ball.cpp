@@ -41,10 +41,11 @@ Ball::Ball(const Ball& other)
     mVelY = other.mVelY;
 
     mState = other.mState;
+    mSubType = other.mSubType;
     mObjectTexture = other.mObjectTexture;
 }
 
-Ball::Ball(const Ball &other, int x, int y) : Ball(other)
+Ball::Ball(const Ball &other, double x, double y) : Ball(other)
 {
     mPosX = x;
     mPosY = y;

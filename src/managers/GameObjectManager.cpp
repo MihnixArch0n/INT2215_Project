@@ -174,9 +174,10 @@ void GameObjectManager::applyPowerUp(PowerUpType type)
     }
 }
 
-void GameObjectManager::removePowerUp()
+void GameObjectManager::removePowerUp(PowerUpType type)
 {
-    for (auto &ball : mBallList) changeBall(ball, BallType::NORMAL);
+    if (type == PowerUpType::FIRE_BALL)
+        for (auto &ball : mBallList) changeBall(ball, BallType::NORMAL);
 }
 
 

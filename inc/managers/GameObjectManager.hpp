@@ -31,7 +31,7 @@ public:
 
     PowerUpType getCollectedPowerUp() const;
     void applyPowerUp(PowerUpType type);
-    void removePowerUp();
+    void removePowerUp(PowerUpType type);
 
     void spawnDrop(PowerUpType type, double x, double y);
     void resetBallList();

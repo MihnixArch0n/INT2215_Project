@@ -34,7 +34,7 @@ void GameLevel::update(int deltaTime, GameState& gameState)
 
             if (mCurrentPowerUp->getStatus() == PowerUpStatus::DEACTIVATED)
             {
-                mGameObjectManager->removePowerUp();
+                mGameObjectManager->removePowerUp(mCurrentPowerUp->getType());
                 mCurrentPowerUp.reset();
             }
         }
