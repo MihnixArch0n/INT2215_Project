@@ -25,7 +25,7 @@ private:
 
     RenderWindow mRenderWindow;
     ResourceManager mResourceManager;
-    GameLevel* mGameLevel = nullptr;
+    GameLevel mGameLevel;
     MenuManager mMenuManager;
 };
 

@@ -89,27 +89,21 @@ void GameObjectManager::update(int deltaTime)
             }),
         mBallList.end());
 
-    for (int i = 0; i < BRICK_ROW; ++i)
+    for (auto &brickRow : mBricksList)
     {
-        for (int j = mBricksList[i].size()-1; j >= 0; --j)
-        {
-            if (!mBricksList[i][j].isAlive())
-            {
-                auto brickType = std::get<BrickType>(mBricksList[i][j].getSubType());
-                if (mBricksList[i][j].hasDrop())
-                {
-                    auto powerUpType = static_cast<PowerUpType>(
-                        my_utils::uniform_random(
-                            0,
-                            static_cast<int>(PowerUpType::TOTAL) - 1
-                        )
-                    );
-                    spawnDrop(powerUpType, mBricksList[i][j].getPosX(),
-                        mBricksList[i][j].getPosY());
+        auto it = std::remove_if(
+            brickRow.begin(), brickRow.end(),
+            [this](const auto &brick) {
+                if (!brick.isAlive()) {
+                    if (brick.hasDrop())
+                        spawnDrop(brick.getPosX(), brick.getPosY());
+                    return true;
                 }
-                mBricksList[i].erase(mBricksList[i].begin() + j);
+                return false;
             }
-        }
+        );
+
+        brickRow.erase(it, brickRow.end());
     }
 
 }
@@ -177,16 +171,20 @@ void GameObjectManager::applyPowerUp(PowerUpType type)
     }
 }
 
-void GameObjectManager::removePowerUp(PowerUpType type)
+void GameObjectManager::removePowerUp(PowerUpType type) const
 {
     if (type == PowerUpType::FIRE_BALL)
         for (auto &ball : mBallList) changeBall(ball, BallType::NORMAL);
 }
 
 
-void GameObjectManager::spawnDrop(PowerUpType type, double x, double y)
+void GameObjectManager::spawnDrop(double x, double y)
 {
     mPowerUpDropList.emplace_back();
+    auto type = static_cast<PowerUpType>(my_utils::uniform_random(
+        0,
+        static_cast<int>(PowerUpType::TOTAL) - 1)
+    );
     mPowerUpDropList.back().setSubType(type);
     mPowerUpDropList.back().setTexture(rResourceManager);
     mPowerUpDropList.back().setPosX(x);
@@ -269,10 +267,10 @@ void GameObjectManager::load()
 
 bool GameObjectManager::brickListEmpty() const
 {
-    for (const auto& brickRow : mBricksList)
-    {
-        if (!brickRow.empty()) return false;
-    }
-    return true;
+    return std::all_of(mBricksList.begin(), mBricksList.end(),
+        [](auto& brickRow) {
+            return brickRow.empty();
+        }
+    );
 }
 

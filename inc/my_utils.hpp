@@ -9,7 +9,6 @@ namespace my_utils
 {
     double to_seconds(int milliseconds);
 
-
     int weighted_random(const std::vector<double>& probabilities);
 
     int uniform_random(int min, int max);
